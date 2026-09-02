@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.7...v1.0.0) (2026-09-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **kotlin:** generate against Jackson 3 and Spring Boot 4 ([#29](https://github.com/ESA-Blueshell/discord-client/issues/29))
+
+### Features
+
+* **kotlin:** generate against Jackson 3 and Spring Boot 4 ([#29](https://github.com/ESA-Blueshell/discord-client/issues/29)) ([3d15e9a](https://github.com/ESA-Blueshell/discord-client/commit/3d15e9a51dd75b5564190fad6f212038cb4a01f1))
+
 ## [0.2.7](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.6...v0.2.7) (2026-09-02)
 
 
