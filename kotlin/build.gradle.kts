@@ -12,7 +12,12 @@ plugins {
 // ESA-Blueshell/website (Spring Boot 4.1.x, Java 25) so the published artefact
 // drops into its primary consumer without a dependency conflict.
 val springVersion = "7.0.9"
-val jacksonVersion = "2.22.2"
+// Jackson 3 lives under tools.jackson.*. Only the annotations stayed at
+// com.fasterxml.jackson.annotation, which the generated DTOs use; their
+// version is managed by the Jackson 3 BOM rather than pinned here, because
+// the two version lines do not track each other (the BOM at 3.1.0 wants
+// annotations 2.x, and 2.22.2 was never published).
+val jacksonVersion = "3.1.0"
 val javaToolchain = 25
 
 kotlin {
@@ -103,7 +108,11 @@ val generateClient = tasks.register<GenerateTask>("generateClient") {
             "sourceFolder" to "src/main/kotlin",
             "serializationLibrary" to "jackson",
             "dateLibrary" to "java8",
-            "useSpringBoot3" to "true",
+            // Spring Boot 4 / Jackson 3, matching the primary consumer
+            // (ESA-Blueshell/website) so this client shares its mapper stack
+            // instead of dragging a second Jackson major onto the classpath.
+            "useSpringBoot4" to "true",
+            "useJackson3" to "true",
             "enumPropertyNaming" to "UPPERCASE",
         ),
     )
@@ -140,11 +149,13 @@ dependencies {
     api("org.springframework:spring-web:$springVersion")
     api("org.springframework:spring-core:$springVersion")
 
-    api(platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
+    api(platform("tools.jackson:jackson-bom:$jacksonVersion"))
     api("com.fasterxml.jackson.core:jackson-annotations")
-    api("com.fasterxml.jackson.core:jackson-databind")
-    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    api("com.fasterxml.jackson.module:jackson-module-kotlin")
+    api("tools.jackson.core:jackson-core")
+    api("tools.jackson.core:jackson-databind")
+    // java.time support is built into the Jackson 3 databind; the separate
+    // jsr310 datatype module Jackson 2 needed no longer exists.
+    api("tools.jackson.module:jackson-module-kotlin")
 
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.3")

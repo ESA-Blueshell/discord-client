@@ -83,11 +83,9 @@ needed to tell a rate limit from a permission problem.
 
 > [!TIP]
 > Use `DiscordClient.create(...)`, not the generated `DiscordApi(baseUrl)`
-> constructor. That constructor wires no authentication at all, and registers
-> its JSON converter *behind* Spring's own — so it sends an explicit `null` for
-> every field you did not set. On a Discord `PATCH` a null means "clear this
-> field", so updating a member's nickname through it would also wipe their
-> roles. `DiscordClient` fixes both.
+> constructor. That constructor wires no authentication at all, so every call
+> through it returns 401. `DiscordClient` adds the bearer token and otherwise
+> mirrors its converter setup.
 >
 > `DiscordClient.using(restClient)` wraps a `RestClient` you have configured
 > yourself, if your application routes all outbound calls through its own
@@ -98,6 +96,16 @@ needed to tell a rate limit from a permission problem.
 > and treating one as a number silently truncates it. The `after` pagination
 > cursor changed from `integer` to `string` upstream — see
 > [docs/versioning.md](docs/versioning.md).
+
+### Jackson
+
+Both clients are generated against **Jackson 3** (`tools.jackson.*`) and Spring
+Boot 4, matching ESA-Blueshell/website. Only the annotations remain on the
+Jackson 2 coordinate (`com.fasterxml.jackson.annotation`), which is where
+Jackson 3 left them; their version comes from the Jackson 3 BOM.
+
+A consumer on Jackson 3 can therefore share one mapper stack with this client
+instead of carrying two Jackson majors on the classpath.
 
 ## How it stays current
 
