@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/ESA-Blueshell/discord-client/compare/v1.1.0...v1.1.1) (2026-09-02)
+
+
+### Bug Fixes
+
+* **typescript:** make the built package loadable as ESM ([#36](https://github.com/ESA-Blueshell/discord-client/issues/36)) ([f124951](https://github.com/ESA-Blueshell/discord-client/commit/f124951c24e781778d20cb29062561e2714ba597))
+
 ## [1.1.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.0.1...v1.1.0) (2026-09-02)
 
 
