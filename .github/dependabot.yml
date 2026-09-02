@@ -100,6 +100,8 @@ updates:
         patterns: ['*']
 
   # ── GitHub Actions ───────────────────────────────────────────────────────
+  # Note: nothing in CI exercises release.yml, so an Actions major that breaks
+  # releasing goes in green. release-please-action v5.0.0 did exactly that.
   # Actions are pinned by commit SHA in every workflow; Dependabot understands
   # those and bumps the SHA together with the version comment.
   - package-ecosystem: github-actions
