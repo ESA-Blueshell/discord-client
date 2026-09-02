@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.1...v0.2.2) (2026-09-02)
+
+
+### Bug Fixes
+
+* **ci:** take the release pull request number from release-please ([#14](https://github.com/ESA-Blueshell/discord-client/issues/14)) ([1204d69](https://github.com/ESA-Blueshell/discord-client/commit/1204d698598f1e61f52aaa460def00db14bdc878))
+
 ## [0.2.1](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.0...v0.2.1) (2026-09-02)
 
 
