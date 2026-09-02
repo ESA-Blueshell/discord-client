@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.7](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.6...v0.2.7) (2026-09-02)
+
+
+### Build and Dependencies
+
+* **deps:** Bump gradle/actions/setup-gradle from 4.4.1 to 6.3.0 ([#23](https://github.com/ESA-Blueshell/discord-client/issues/23)) ([83a3ba9](https://github.com/ESA-Blueshell/discord-client/commit/83a3ba90839757b58ca41dda623d58e0ccffc1d4))
+
 ## [0.2.6](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.5...v0.2.6) (2026-09-02)
 
 
