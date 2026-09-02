@@ -30,6 +30,9 @@ updates:
     directory: /tools
     schedule:
       interval: weekly
+    commit-message:
+      prefix: build(deps)
+      prefix-development: build(deps-dev)
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5
@@ -47,6 +50,9 @@ updates:
     directory: /typescript
     schedule:
       interval: weekly
+    commit-message:
+      prefix: build(deps)
+      prefix-development: build(deps-dev)
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5
@@ -64,6 +70,9 @@ updates:
     directory: /kotlin
     schedule:
       interval: weekly
+    commit-message:
+      prefix: build(deps)
+      prefix-development: build(deps-dev)
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5
@@ -83,6 +92,9 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    commit-message:
+      prefix: build(deps)
+      prefix-development: build(deps-dev)
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5

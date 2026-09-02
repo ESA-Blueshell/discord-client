@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   pull_request:
+    branches-ignore:
+      - release-please--branches--main
+      - chore/spec-sync
     branches: [main]
   schedule:
     # Weekly, so a newly published query pack still gets applied to code that

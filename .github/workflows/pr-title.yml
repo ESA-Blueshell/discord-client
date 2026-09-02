@@ -7,6 +7,9 @@ name: Pull request title
 
 on:
   pull_request:
+    branches-ignore:
+      - release-please--branches--main
+      - chore/spec-sync
     types: [opened, edited, synchronize, reopened]
 
 permissions:
@@ -16,14 +19,12 @@ permissions:
 jobs:
   lint:
     name: Lint the title
-    # Bot-authored pull requests are exempt. Dependabot capitalises its
-    # subjects ("build(deps): Bump axios from ...") and its title is not
-    # editable, so linting it only ever produces a red check nobody can fix.
-    # release-please's "chore: release main" is already conventional. The rule
-    # exists to stop a *human* title from silently producing no release.
-    if: >-
-      github.event.pull_request.user.login != 'dependabot[bot]' &&
-      github.event.pull_request.user.login != 'github-actions[bot]'
+    # Dependabot's pull requests do run workflows, unlike release-please's, so
+    # they reach this job. Its titles are conventional by construction — the
+    # prefixes are pinned in dependabot.yml — but the subject's leading "bump"
+    # has been capitalised on some runs and not others, and the title cannot be
+    # edited to fix it. Linting it can only produce red nobody can clear.
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

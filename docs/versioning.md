@@ -79,6 +79,22 @@ HOLD_MAJOR_RELEASES=true
 The release job is skipped on the run that follows a release, which is what
 stops the two workflows from cycling.
 
+### How the release pull request is verified
+
+GitHub does not execute workflow runs for a pull request opened with the
+default `GITHUB_TOKEN`. It creates the run, allocates no job, and concludes it
+`failure` — measured here as `jobs=0` and a red mark on all four workflows of
+every release pull request. Those marks say nothing about the change, and
+merging past them is indistinguishable from merging past a real failure.
+
+So the pull-request-triggered workflows skip the two bot branches entirely, and
+`release.yml` verifies the release pull request itself: it checks out the pull
+request's head, runs the spec gate, the pipeline tests, both client builds and
+their tests, and confirms the version in `kotlin/gradle.properties` and
+`typescript/package.json` matches what release-please is about to publish. The
+merge job depends on that verification, so a release cannot merge on a check
+that never ran.
+
 ### The one gap
 
 `main` is protected by the `Main` ruleset — pull request required, squash only,
@@ -90,9 +106,10 @@ an automated pull request and the chain above would stall forever.
 To require the check as well, add an `AUTOMATION_TOKEN` secret (a PAT or GitHub
 App token with `contents` and `pull-requests` write). Both workflows already
 prefer it over the default token, so the automated pull requests would then run
-CI like any other, and `Verify spec, Kotlin and TypeScript` can be added to the
-ruleset. Until then the verification lives in the sync job rather than on the
-pull request.
+CI like any other, `Verify spec, Kotlin and TypeScript` can be added to the
+ruleset, and the `branches-ignore` exclusions plus the `verify-release-pr` job
+can go away. Until then the verification lives in the workflows that have a
+working token context rather than on the pull request.
 
 ## Who owns the number
 

@@ -5,6 +5,9 @@ name: Dependency review
 
 on:
   pull_request:
+    branches-ignore:
+      - release-please--branches--main
+      - chore/spec-sync
 
 permissions:
   contents: read
