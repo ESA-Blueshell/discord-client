@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.5](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.4...v0.2.5) (2026-09-02)
+
+
+### Bug Fixes
+
+* **ci:** stop creating workflow runs that cannot execute, and verify releases properly ([#18](https://github.com/ESA-Blueshell/discord-client/issues/18)) ([b6a12e4](https://github.com/ESA-Blueshell/discord-client/commit/b6a12e4c016e6ba9f3c1553fca817fd65bc8a935))
+
+
+### Build and Dependencies
+
+* **deps-dev:** Bump typescript from 5.9.3 to 6.0.3 in /typescript ([#20](https://github.com/ESA-Blueshell/discord-client/issues/20)) ([0514e22](https://github.com/ESA-Blueshell/discord-client/commit/0514e222d8895486fd82f35a6f8ac234f33caef0))
+
 ## [0.2.4](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.3...v0.2.4) (2026-09-02)
 
 
