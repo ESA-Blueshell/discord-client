@@ -7,9 +7,6 @@ name: Pull request title
 
 on:
   pull_request:
-    branches-ignore:
-      - release-please--branches--main
-      - chore/spec-sync
     types: [opened, edited, synchronize, reopened]
 
 permissions:
@@ -24,7 +21,10 @@ jobs:
     # prefixes are pinned in dependabot.yml — but the subject's leading "bump"
     # has been capitalised on some runs and not others, and the title cannot be
     # edited to fix it. Linting it can only produce red nobody can clear.
-    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    if: >-
+      github.event.pull_request.user.login != 'dependabot[bot]' &&
+      github.head_ref != 'release-please--branches--main' &&
+      github.head_ref != 'chore/spec-sync'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

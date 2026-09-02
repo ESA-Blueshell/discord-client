@@ -5,9 +5,6 @@ name: Dependency review
 
 on:
   pull_request:
-    branches-ignore:
-      - release-please--branches--main
-      - chore/spec-sync
 
 permissions:
   contents: read
@@ -15,6 +12,17 @@ permissions:
 jobs:
   review:
     name: Review dependency changes
+    # release-please and spec-sync open their pull requests with the default
+    # GITHUB_TOKEN, and GitHub does not execute workflow runs for those: it
+    # creates the run, allocates no job, and concludes it red. Skipping at the
+    # job level makes the run conclude `skipped` instead, which is honest.
+    #
+    # This has to be a job-level `if` on head_ref. An `on.pull_request.branches-ignore`
+    # filter matches the *base* branch, and these pull requests target main like
+    # any other, so it excluded nothing at all.
+    if: >-
+      github.head_ref != 'release-please--branches--main' &&
+      github.head_ref != 'chore/spec-sync'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

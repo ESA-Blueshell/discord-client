@@ -122,7 +122,11 @@ jobs:
           # a mismatch here means release-please's extra-files stopped matching
           # and the wrong number is about to be published.
           set -euo pipefail
-          gradle_version="$(cd kotlin && ./gradlew -q printVersion --no-daemon | tail -1)"
+          # Parsed rather than asked of Gradle: these jobs check out release
+          # tags that can predate any build task. Everything after a `#` is
+          # dropped and whitespace stripped, so the historical
+          # "1.0.0 # x-release-please-version" form reads as "1.0.0" too.
+          gradle_version="$(sed -n 's/^version=\(.*\)$/\1/p' kotlin/gradle.properties | sed 's/#.*//' | tr -d '[:space:]')"
           npm_version="$(node -p "require('./typescript/package.json').version")"
           echo "release-please=$VERSION gradle=$gradle_version npm=$npm_version"
           if [ -n "$VERSION" ] && { [ "$gradle_version" != "$VERSION" ] || [ "$npm_version" != "$VERSION" ]; }; then
@@ -230,7 +234,11 @@ jobs:
           # extra-files entry in release-please-config.json stopped matching,
           # which would otherwise publish a version nobody asked for.
           set -euo pipefail
-          gradle_version="$(cd kotlin && ./gradlew -q printVersion --no-daemon | tail -1)"
+          # Parsed rather than asked of Gradle: these jobs check out release
+          # tags that can predate any build task. Everything after a `#` is
+          # dropped and whitespace stripped, so the historical
+          # "1.0.0 # x-release-please-version" form reads as "1.0.0" too.
+          gradle_version="$(sed -n 's/^version=\(.*\)$/\1/p' kotlin/gradle.properties | sed 's/#.*//' | tr -d '[:space:]')"
           npm_version="$(node -p "require('./typescript/package.json').version")"
           echo "tag=$VERSION gradle=$gradle_version npm=$npm_version"
           if [ "$gradle_version" != "$VERSION" ] || [ "$npm_version" != "$VERSION" ]; then
