@@ -1,0 +1,36 @@
+name: Bug report
+description: Something in the generated client behaves incorrectly.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: if the generated code simply does not match the Discord
+        API, the cause is usually the vendored spec being out of date. Check
+        whether the nightly `Spec sync` workflow has an open pull request.
+  - type: dropdown
+    id: client
+    attributes:
+      label: Which client
+      options: [Kotlin, TypeScript, Both, The spec pipeline]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: 1.2.0
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected, and what happened instead
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: The smallest call that shows the problem. Redact tokens.
+      render: shell

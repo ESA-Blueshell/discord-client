@@ -1,0 +1,2499 @@
+{
+  "components": {
+    "headers": {
+      "X-RateLimit-Bucket": {
+        "description": "The bucket that the request belongs to",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-RateLimit-Limit": {
+        "description": "The maximum number of requests that can be made in the current ratelimit window",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "X-RateLimit-Remaining": {
+        "description": "The number of requests remaining in the current ratelimit window",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "X-RateLimit-Reset": {
+        "description": "A unix timestamp in seconds at which the current ratelimit window resets",
+        "schema": {
+          "type": "number"
+        }
+      },
+      "X-RateLimit-Reset-After": {
+        "description": "The duration in seconds until the current ratelimit window resets",
+        "schema": {
+          "type": "number"
+        }
+      }
+    },
+    "responses": {
+      "ClientErrorResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        },
+        "description": "Client error response",
+        "headers": {
+          "X-RateLimit-Bucket": {
+            "$ref": "#/components/headers/X-RateLimit-Bucket"
+          },
+          "X-RateLimit-Limit": {
+            "$ref": "#/components/headers/X-RateLimit-Limit"
+          },
+          "X-RateLimit-Remaining": {
+            "$ref": "#/components/headers/X-RateLimit-Remaining"
+          },
+          "X-RateLimit-Reset": {
+            "$ref": "#/components/headers/X-RateLimit-Reset"
+          },
+          "X-RateLimit-Reset-After": {
+            "$ref": "#/components/headers/X-RateLimit-Reset-After"
+          }
+        }
+      },
+      "ClientRatelimitedResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RatelimitedResponse"
+            }
+          }
+        },
+        "description": "Client ratelimited response",
+        "headers": {
+          "X-RateLimit-Bucket": {
+            "$ref": "#/components/headers/X-RateLimit-Bucket"
+          },
+          "X-RateLimit-Limit": {
+            "$ref": "#/components/headers/X-RateLimit-Limit"
+          },
+          "X-RateLimit-Remaining": {
+            "$ref": "#/components/headers/X-RateLimit-Remaining"
+          },
+          "X-RateLimit-Reset": {
+            "$ref": "#/components/headers/X-RateLimit-Reset"
+          },
+          "X-RateLimit-Reset-After": {
+            "$ref": "#/components/headers/X-RateLimit-Reset-After"
+          }
+        }
+      }
+    },
+    "schemas": {
+      "AfkTimeouts": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 60,
+            "title": "ONE_MINUTE"
+          },
+          {
+            "const": 300,
+            "title": "FIVE_MINUTES"
+          },
+          {
+            "const": 900,
+            "title": "FIFTEEN_MINUTES"
+          },
+          {
+            "const": 1800,
+            "title": "THIRTY_MINUTES"
+          },
+          {
+            "const": 3600,
+            "title": "ONE_HOUR"
+          }
+        ],
+        "type": "integer"
+      },
+      "AvailableLocalesEnum": {
+        "oneOf": [
+          {
+            "const": "ar",
+            "description": "The ar locale",
+            "title": "ar"
+          },
+          {
+            "const": "bg",
+            "description": "The bg locale",
+            "title": "bg"
+          },
+          {
+            "const": "cs",
+            "description": "The cs locale",
+            "title": "cs"
+          },
+          {
+            "const": "da",
+            "description": "The da locale",
+            "title": "da"
+          },
+          {
+            "const": "de",
+            "description": "The de locale",
+            "title": "de"
+          },
+          {
+            "const": "el",
+            "description": "The el locale",
+            "title": "el"
+          },
+          {
+            "const": "en-GB",
+            "description": "The en-GB locale",
+            "title": "en-GB"
+          },
+          {
+            "const": "en-US",
+            "description": "The en-US locale",
+            "title": "en-US"
+          },
+          {
+            "const": "es-419",
+            "description": "The es-419 locale",
+            "title": "es-419"
+          },
+          {
+            "const": "es-ES",
+            "description": "The es-ES locale",
+            "title": "es-ES"
+          },
+          {
+            "const": "fi",
+            "description": "The fi locale",
+            "title": "fi"
+          },
+          {
+            "const": "fr",
+            "description": "The fr locale",
+            "title": "fr"
+          },
+          {
+            "const": "he",
+            "description": "The he locale",
+            "title": "he"
+          },
+          {
+            "const": "hi",
+            "description": "The hi locale",
+            "title": "hi"
+          },
+          {
+            "const": "hr",
+            "description": "The hr locale",
+            "title": "hr"
+          },
+          {
+            "const": "hu",
+            "description": "The hu locale",
+            "title": "hu"
+          },
+          {
+            "const": "id",
+            "description": "The id locale",
+            "title": "id"
+          },
+          {
+            "const": "it",
+            "description": "The it locale",
+            "title": "it"
+          },
+          {
+            "const": "ja",
+            "description": "The ja locale",
+            "title": "ja"
+          },
+          {
+            "const": "ko",
+            "description": "The ko locale",
+            "title": "ko"
+          },
+          {
+            "const": "lt",
+            "description": "The lt locale",
+            "title": "lt"
+          },
+          {
+            "const": "nl",
+            "description": "The nl locale",
+            "title": "nl"
+          },
+          {
+            "const": "no",
+            "description": "The no locale",
+            "title": "no"
+          },
+          {
+            "const": "pl",
+            "description": "The pl locale",
+            "title": "pl"
+          },
+          {
+            "const": "pt-BR",
+            "description": "The pt-BR locale",
+            "title": "pt-BR"
+          },
+          {
+            "const": "ro",
+            "description": "The ro locale",
+            "title": "ro"
+          },
+          {
+            "const": "ru",
+            "description": "The ru locale",
+            "title": "ru"
+          },
+          {
+            "const": "sv-SE",
+            "description": "The sv-SE locale",
+            "title": "sv-SE"
+          },
+          {
+            "const": "th",
+            "description": "The th locale",
+            "title": "th"
+          },
+          {
+            "const": "tr",
+            "description": "The tr locale",
+            "title": "tr"
+          },
+          {
+            "const": "uk",
+            "description": "The uk locale",
+            "title": "uk"
+          },
+          {
+            "const": "vi",
+            "description": "The vi locale",
+            "title": "vi"
+          },
+          {
+            "const": "zh-CN",
+            "description": "The zh-CN locale",
+            "title": "zh-CN"
+          },
+          {
+            "const": "zh-TW",
+            "description": "The zh-TW locale",
+            "title": "zh-TW"
+          }
+        ],
+        "type": "string"
+      },
+      "EmojiResponse": {
+        "properties": {
+          "animated": {
+            "type": "boolean"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "managed": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "require_colons": {
+            "type": "boolean"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "array"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "roles",
+          "require_colons",
+          "managed",
+          "animated",
+          "available"
+        ],
+        "type": "object"
+      },
+      "Error": {
+        "description": "A single error, either for an API response or a specific field.",
+        "properties": {
+          "code": {
+            "description": "Discord internal error code. See error code reference",
+            "type": "integer"
+          },
+          "message": {
+            "description": "Human-readable error message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object"
+      },
+      "ErrorDetails": {
+        "oneOf": [
+          {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ErrorDetails"
+            },
+            "type": "object"
+          },
+          {
+            "$ref": "#/components/schemas/InnerErrors"
+          }
+        ]
+      },
+      "ErrorResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Error"
+          },
+          {
+            "properties": {
+              "errors": {
+                "$ref": "#/components/schemas/ErrorDetails"
+              }
+            },
+            "type": "object"
+          }
+        ],
+        "description": "Errors object returned by the Discord API",
+        "type": "object"
+      },
+      "GuildExplicitContentFilterTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "media content will not be scanned",
+            "title": "DISABLED"
+          },
+          {
+            "const": 1,
+            "description": "media content sent by members without roles will be scanned",
+            "title": "MEMBERS_WITHOUT_ROLES"
+          },
+          {
+            "const": 2,
+            "description": "media content sent by all members will be scanned",
+            "title": "ALL_MEMBERS"
+          }
+        ],
+        "type": "integer"
+      },
+      "GuildFeatures": {
+        "oneOf": [
+          {
+            "const": "ANIMATED_BANNER",
+            "description": "guild has access to set an animated guild banner image",
+            "title": "ANIMATED_BANNER"
+          },
+          {
+            "const": "ANIMATED_ICON",
+            "description": "guild has access to set an animated guild icon",
+            "title": "ANIMATED_ICON"
+          },
+          {
+            "const": "APPLICATION_COMMAND_PERMISSIONS_V2",
+            "description": "guild is using the old permissions configuration behavior",
+            "title": "APPLICATION_COMMAND_PERMISSIONS_V2"
+          },
+          {
+            "const": "AUTO_MODERATION",
+            "description": "guild has set up auto moderation rules",
+            "title": "AUTO_MODERATION"
+          },
+          {
+            "const": "BANNER",
+            "description": "guild has access to set a guild banner image",
+            "title": "BANNER"
+          },
+          {
+            "const": "COMMUNITY",
+            "description": "guild can enable welcome screen, Membership Screening, stage channels and discovery, and             receives community updates",
+            "title": "COMMUNITY"
+          },
+          {
+            "const": "CREATOR_MONETIZABLE_PROVISIONAL",
+            "description": "guild has enabled monetization",
+            "title": "CREATOR_MONETIZABLE_PROVISIONAL"
+          },
+          {
+            "const": "CREATOR_STORE_PAGE",
+            "description": "guild has enabled the role subscription promo page",
+            "title": "CREATOR_STORE_PAGE"
+          },
+          {
+            "const": "DEVELOPER_SUPPORT_SERVER",
+            "description": "guild has been set as a support server on the App Directory",
+            "title": "DEVELOPER_SUPPORT_SERVER"
+          },
+          {
+            "const": "DISCOVERABLE",
+            "description": "guild is able to be discovered in the directory",
+            "title": "DISCOVERABLE"
+          },
+          {
+            "const": "FEATURABLE",
+            "description": "guild is able to be featured in the directory",
+            "title": "FEATURABLE"
+          },
+          {
+            "const": "INVITES_DISABLED",
+            "description": "guild has paused invites, preventing new users from joining",
+            "title": "INVITES_DISABLED"
+          },
+          {
+            "const": "INVITE_SPLASH",
+            "description": "guild has access to set an invite splash background",
+            "title": "INVITE_SPLASH"
+          },
+          {
+            "const": "MEMBER_VERIFICATION_GATE_ENABLED",
+            "description": "guild has enabled Membership Screening",
+            "title": "MEMBER_VERIFICATION_GATE_ENABLED"
+          },
+          {
+            "const": "MORE_STICKERS",
+            "description": "guild has increased custom sticker slots",
+            "title": "MORE_STICKERS"
+          },
+          {
+            "const": "NEWS",
+            "description": "guild has access to create announcement channels",
+            "title": "NEWS"
+          },
+          {
+            "const": "PARTNERED",
+            "description": "guild is partnered",
+            "title": "PARTNERED"
+          },
+          {
+            "const": "PREVIEW_ENABLED",
+            "description": "guild can be previewed before joining via Membership Screening or the directory",
+            "title": "PREVIEW_ENABLED"
+          },
+          {
+            "const": "RAID_ALERTS_DISABLED",
+            "description": "guild has disabled activity alerts in the configured safety alerts channel",
+            "title": "RAID_ALERTS_DISABLED"
+          },
+          {
+            "const": "PRUNE_REQUIRES_ADMIN",
+            "description": "guild has restricted member prune to administrators and the guild owner",
+            "title": "PRUNE_REQUIRES_ADMIN"
+          },
+          {
+            "const": "ROLE_ICONS",
+            "description": "guild is able to set role icons",
+            "title": "ROLE_ICONS"
+          },
+          {
+            "const": "ROLE_SUBSCRIPTIONS_AVAILABLE_FOR_PURCHASE",
+            "description": "guild has role subscriptions that can be purchased",
+            "title": "ROLE_SUBSCRIPTIONS_AVAILABLE_FOR_PURCHASE"
+          },
+          {
+            "const": "ROLE_SUBSCRIPTIONS_ENABLED",
+            "description": "guild has enabled role subscriptions",
+            "title": "ROLE_SUBSCRIPTIONS_ENABLED"
+          },
+          {
+            "const": "TICKETED_EVENTS_ENABLED",
+            "description": "guild has enabled ticketed events",
+            "title": "TICKETED_EVENTS_ENABLED"
+          },
+          {
+            "const": "VANITY_URL",
+            "description": "guild has access to set a vanity URL",
+            "title": "VANITY_URL"
+          },
+          {
+            "const": "VERIFIED",
+            "description": "guild is verified",
+            "title": "VERIFIED"
+          },
+          {
+            "const": "VIP_REGIONS",
+            "description": "guild has access to set 384kbps bitrate in voice (previously VIP voice servers)",
+            "title": "VIP_REGIONS"
+          },
+          {
+            "const": "WELCOME_SCREEN_ENABLED",
+            "description": "guild has enabled the welcome screen",
+            "title": "WELCOME_SCREEN_ENABLED"
+          },
+          {
+            "const": "OFFICIAL_GAME_GUILD",
+            "description": "guild is an official guild for one or more games",
+            "title": "OFFICIAL_GAME_GUILD"
+          }
+        ],
+        "type": "string"
+      },
+      "GuildIncidentsDataResponse": {
+        "properties": {
+          "dms_disabled_until": {
+            "description": "When direct messages get enabled again",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "invites_disabled_until": {
+            "description": "When invites get enabled again",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "invites_disabled_until",
+          "dms_disabled_until"
+        ],
+        "type": "object"
+      },
+      "GuildMFALevel": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "Guild has no MFA/2FA requirement for moderation actions",
+            "title": "NONE"
+          },
+          {
+            "const": 1,
+            "description": "Guild has a 2FA requirement for moderation actions",
+            "title": "ELEVATED"
+          }
+        ],
+        "type": "integer"
+      },
+      "GuildMemberResponse": {
+        "properties": {
+          "avatar": {
+            "description": "the member's guild avatar hash",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "avatar_decoration_data": {
+            "description": "data for the member's guild avatar decoration",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserAvatarDecorationResponse"
+              }
+            ]
+          },
+          "banner": {
+            "description": "the member's guild banner hash",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "collectibles": {
+            "description": "data for the member's collectibles",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserCollectiblesResponse"
+              }
+            ]
+          },
+          "communication_disabled_until": {
+            "description": "when the user's timeout will expire and the user will be able to communicate in the guild again, null or a time in the past if the user is not timed out",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "deaf": {
+            "description": "whether the user is deafened in voice channels",
+            "type": "boolean"
+          },
+          "flags": {
+            "description": "guild member flags represented as a bit set, defaults to 0",
+            "format": "int32",
+            "type": "integer"
+          },
+          "joined_at": {
+            "description": "when the user joined the guild",
+            "format": "date-time",
+            "type": "string"
+          },
+          "mute": {
+            "description": "whether the user is muted in voice channels",
+            "type": "boolean"
+          },
+          "nick": {
+            "description": "this user's guild nickname",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "pending": {
+            "description": "whether the user has not yet passed the guild's Membership Screening requirements",
+            "type": "boolean"
+          },
+          "premium_since": {
+            "description": "when the user started boosting the guild",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "roles": {
+            "description": "array of role object ids",
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse",
+            "description": "the user this guild member represents"
+          }
+        },
+        "required": [
+          "avatar",
+          "banner",
+          "communication_disabled_until",
+          "flags",
+          "joined_at",
+          "nick",
+          "pending",
+          "premium_since",
+          "roles",
+          "user",
+          "mute",
+          "deaf"
+        ],
+        "type": "object"
+      },
+      "GuildNSFWContentLevel": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "title": "DEFAULT"
+          },
+          {
+            "const": 1,
+            "title": "EXPLICIT"
+          },
+          {
+            "const": 2,
+            "title": "SAFE"
+          },
+          {
+            "const": 3,
+            "title": "AGE_RESTRICTED"
+          }
+        ],
+        "type": "integer"
+      },
+      "GuildRoleColorsResponse": {
+        "properties": {
+          "primary_color": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "secondary_color": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "tertiary_color": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "primary_color",
+          "secondary_color",
+          "tertiary_color"
+        ],
+        "type": "object"
+      },
+      "GuildRoleResponse": {
+        "properties": {
+          "color": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "colors": {
+            "$ref": "#/components/schemas/GuildRoleColorsResponse"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "hoist": {
+            "type": "boolean"
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "managed": {
+            "type": "boolean"
+          },
+          "mentionable": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "string"
+          },
+          "position": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "tags": {
+            "$ref": "#/components/schemas/GuildRoleTagsResponse"
+          },
+          "unicode_emoji": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "permissions",
+          "position",
+          "color",
+          "colors",
+          "hoist",
+          "managed",
+          "mentionable",
+          "icon",
+          "unicode_emoji",
+          "flags"
+        ],
+        "type": "object"
+      },
+      "GuildRoleTagsResponse": {
+        "properties": {
+          "available_for_purchase": {
+            "type": "null"
+          },
+          "bot_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "guild_connections": {
+            "type": "null"
+          },
+          "integration_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "premium_subscriber": {
+            "type": "null"
+          },
+          "subscription_listing_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        "type": "object"
+      },
+      "GuildStickerResponse": {
+        "properties": {
+          "available": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "format_type": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StickerFormatTypes"
+              }
+            ]
+          },
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StickerTypes"
+              }
+            ],
+            "enum": [
+              2
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "tags",
+          "type",
+          "format_type",
+          "description",
+          "available",
+          "guild_id"
+        ],
+        "type": "object"
+      },
+      "GuildWithCountsResponse": {
+        "properties": {
+          "afk_channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "afk_timeout": {
+            "$ref": "#/components/schemas/AfkTimeouts"
+          },
+          "application_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "approximate_member_count": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "approximate_presence_count": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "banner": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "default_message_notifications": {
+            "$ref": "#/components/schemas/UserNotificationSettings"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "discovery_splash": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "emojis": {
+            "items": {
+              "$ref": "#/components/schemas/EmojiResponse"
+            },
+            "type": "array"
+          },
+          "explicit_content_filter": {
+            "$ref": "#/components/schemas/GuildExplicitContentFilterTypes"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/GuildFeatures"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "home_header": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "incidents_data": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/GuildIncidentsDataResponse"
+              }
+            ]
+          },
+          "max_members": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "max_presences": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "max_stage_video_channel_users": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "max_video_channel_users": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "mfa_level": {
+            "$ref": "#/components/schemas/GuildMFALevel"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nsfw": {
+            "type": "boolean"
+          },
+          "nsfw_level": {
+            "$ref": "#/components/schemas/GuildNSFWContentLevel"
+          },
+          "owner_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "preferred_locale": {
+            "$ref": "#/components/schemas/AvailableLocalesEnum"
+          },
+          "premium_progress_bar_enabled": {
+            "type": "boolean"
+          },
+          "premium_progress_bar_enabled_user_updated_at": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "premium_subscription_count": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "premium_tier": {
+            "$ref": "#/components/schemas/PremiumGuildTiers"
+          },
+          "public_updates_channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "region": {
+            "type": "string"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/GuildRoleResponse"
+            },
+            "type": "array"
+          },
+          "rules_channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "safety_alerts_channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "splash": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "stickers": {
+            "items": {
+              "$ref": "#/components/schemas/GuildStickerResponse"
+            },
+            "type": "array"
+          },
+          "system_channel_flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "system_channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "vanity_url_code": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "verification_level": {
+            "$ref": "#/components/schemas/VerificationLevels"
+          },
+          "widget_channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "widget_enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "icon",
+          "description",
+          "home_header",
+          "splash",
+          "discovery_splash",
+          "features",
+          "banner",
+          "owner_id",
+          "application_id",
+          "region",
+          "afk_channel_id",
+          "afk_timeout",
+          "system_channel_id",
+          "system_channel_flags",
+          "widget_enabled",
+          "widget_channel_id",
+          "verification_level",
+          "roles",
+          "default_message_notifications",
+          "mfa_level",
+          "explicit_content_filter",
+          "max_presences",
+          "max_members",
+          "max_stage_video_channel_users",
+          "max_video_channel_users",
+          "vanity_url_code",
+          "premium_tier",
+          "premium_subscription_count",
+          "preferred_locale",
+          "rules_channel_id",
+          "safety_alerts_channel_id",
+          "public_updates_channel_id",
+          "premium_progress_bar_enabled",
+          "nsfw",
+          "nsfw_level",
+          "emojis",
+          "stickers",
+          "incidents_data"
+        ],
+        "type": "object"
+      },
+      "InnerErrors": {
+        "additionalProperties": false,
+        "properties": {
+          "_errors": {
+            "description": "The list of errors for this field",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "_errors"
+        ],
+        "type": "object"
+      },
+      "Int53Type": {
+        "format": "int64",
+        "maximum": 9007199254740991,
+        "minimum": -9007199254740991,
+        "type": "integer"
+      },
+      "NameplatePalette": {
+        "oneOf": [
+          {
+            "const": "crimson",
+            "description": "Crimson color palette",
+            "title": "CRIMSON"
+          },
+          {
+            "const": "berry",
+            "description": "Berry color palette",
+            "title": "BERRY"
+          },
+          {
+            "const": "sky",
+            "description": "Sky color palette",
+            "title": "SKY"
+          },
+          {
+            "const": "teal",
+            "description": "Teal color palette",
+            "title": "TEAL"
+          },
+          {
+            "const": "forest",
+            "description": "Forest color palette",
+            "title": "FOREST"
+          },
+          {
+            "const": "bubble_gum",
+            "description": "Bubble gum color palette",
+            "title": "BUBBLE_GUM"
+          },
+          {
+            "const": "violet",
+            "description": "Violet color palette",
+            "title": "VIOLET"
+          },
+          {
+            "const": "cobalt",
+            "description": "Cobalt color palette",
+            "title": "COBALT"
+          },
+          {
+            "const": "clover",
+            "description": "Clover color palette",
+            "title": "CLOVER"
+          },
+          {
+            "const": "lemon",
+            "description": "Lemon color palette",
+            "title": "LEMON"
+          },
+          {
+            "const": "white",
+            "description": "White color palette",
+            "title": "WHITE"
+          },
+          {
+            "const": "black",
+            "description": "Black color palette",
+            "title": "BLACK"
+          }
+        ],
+        "type": "string"
+      },
+      "PremiumGuildTiers": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "Guild has not unlocked any Server Boost perks",
+            "title": "NONE"
+          },
+          {
+            "const": 1,
+            "description": "Guild has unlocked Server Boost level 1 perks",
+            "title": "TIER_1"
+          },
+          {
+            "const": 2,
+            "description": "Guild has unlocked Server Boost level 2 perks",
+            "title": "TIER_2"
+          },
+          {
+            "const": 3,
+            "description": "Guild has unlocked Server Boost level 3 perks",
+            "title": "TIER_3"
+          }
+        ],
+        "type": "integer"
+      },
+      "PremiumTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "None",
+            "title": "NONE"
+          },
+          {
+            "const": 1,
+            "description": "Nitro Classic",
+            "title": "TIER_1"
+          },
+          {
+            "const": 2,
+            "description": "Nitro Standard",
+            "title": "TIER_2"
+          },
+          {
+            "const": 3,
+            "description": "Nitro Basic",
+            "title": "TIER_0"
+          }
+        ],
+        "type": "integer"
+      },
+      "RatelimitedResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Error"
+          },
+          {
+            "properties": {
+              "global": {
+                "description": "Whether you are being ratelimited by the global ratelimit or a per-endpoint ratelimit",
+                "type": "boolean"
+              },
+              "retry_after": {
+                "description": "The number of seconds to wait before retrying your request",
+                "type": "number"
+              }
+            },
+            "required": [
+              "retry_after",
+              "global"
+            ],
+            "type": "object"
+          }
+        ],
+        "description": "Ratelimit error object returned by the Discord API",
+        "type": "object"
+      },
+      "SnowflakeType": {
+        "format": "snowflake",
+        "pattern": "^(0|[1-9][0-9]*)$",
+        "type": "string"
+      },
+      "StickerFormatTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "title": "PNG"
+          },
+          {
+            "const": 2,
+            "title": "APNG"
+          },
+          {
+            "const": 3,
+            "title": "LOTTIE"
+          },
+          {
+            "const": 4,
+            "title": "GIF"
+          }
+        ],
+        "type": "integer"
+      },
+      "StickerTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "an official sticker in a pack, part of Nitro or in a removed purchasable pack",
+            "title": "STANDARD"
+          },
+          {
+            "const": 2,
+            "description": "a sticker uploaded to a guild for the guild's members",
+            "title": "GUILD"
+          }
+        ],
+        "type": "integer"
+      },
+      "UserAvatarDecorationResponse": {
+        "properties": {
+          "asset": {
+            "description": "the avatar decoration hash",
+            "type": "string"
+          },
+          "sku_id": {
+            "description": "id of the avatar decoration's SKU",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          }
+        },
+        "required": [
+          "asset",
+          "sku_id"
+        ],
+        "type": "object"
+      },
+      "UserCollectiblesResponse": {
+        "properties": {
+          "nameplate": {
+            "description": "Object mapping of nameplate data",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserNameplateResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "nameplate"
+        ],
+        "type": "object"
+      },
+      "UserNameplateResponse": {
+        "properties": {
+          "asset": {
+            "description": "Path to the nameplate asset",
+            "type": "string"
+          },
+          "label": {
+            "description": "The label of this nameplate. Currently unused",
+            "type": "string"
+          },
+          "palette": {
+            "$ref": "#/components/schemas/NameplatePalette",
+            "description": "Background color of the nameplate"
+          },
+          "sku_id": {
+            "description": "ID of the nameplate SKU",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          }
+        },
+        "required": [
+          "sku_id",
+          "asset",
+          "label",
+          "palette"
+        ],
+        "type": "object"
+      },
+      "UserNotificationSettings": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "members will receive notifications for all messages by default",
+            "title": "ALL_MESSAGES"
+          },
+          {
+            "const": 1,
+            "description": "members will receive notifications only for messages that @mention them by default",
+            "title": "ONLY_MENTIONS"
+          }
+        ],
+        "type": "integer"
+      },
+      "UserPIIResponse": {
+        "properties": {
+          "accent_color": {
+            "description": "the user's banner color encoded as an integer representation of hexadecimal color code",
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "avatar": {
+            "description": "the user's avatar hash",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "avatar_decoration_data": {
+            "description": "data for the user's avatar decoration",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserAvatarDecorationResponse"
+              }
+            ]
+          },
+          "banner": {
+            "description": "the user's banner hash",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "bot": {
+            "description": "whether the user belongs to an OAuth2 application",
+            "type": "boolean"
+          },
+          "collectibles": {
+            "description": "data for the user's collectibles",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserCollectiblesResponse"
+              }
+            ]
+          },
+          "discriminator": {
+            "description": "the user's Discord-tag",
+            "type": "string"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "flags": {
+            "$ref": "#/components/schemas/Int53Type",
+            "description": "the flags on a user's account"
+          },
+          "global_name": {
+            "description": "the user's display name, if it is set",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "the user's id"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/AvailableLocalesEnum"
+          },
+          "mfa_enabled": {
+            "type": "boolean"
+          },
+          "premium_type": {
+            "$ref": "#/components/schemas/PremiumTypes"
+          },
+          "primary_guild": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserPrimaryGuildResponse"
+              }
+            ]
+          },
+          "public_flags": {
+            "description": "the public flags on a user's account",
+            "format": "int32",
+            "type": "integer"
+          },
+          "system": {
+            "description": "whether the user is an Official Discord System user (part of the urgent message system)",
+            "type": "boolean"
+          },
+          "username": {
+            "description": "the user's username, not unique across the platform",
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "avatar",
+          "discriminator",
+          "public_flags",
+          "flags",
+          "global_name",
+          "mfa_enabled",
+          "locale"
+        ],
+        "type": "object"
+      },
+      "UserPrimaryGuildResponse": {
+        "properties": {
+          "badge": {
+            "description": "the server tag badge hash",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "identity_enabled": {
+            "description": "whether the user is displaying the primary guild's server tag",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "identity_guild_id": {
+            "description": "the id of the user's primary guild",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "tag": {
+            "description": "the text of the user's server tag, limited to 4 characters",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "identity_guild_id",
+          "identity_enabled",
+          "tag",
+          "badge"
+        ],
+        "type": "object"
+      },
+      "UserResponse": {
+        "properties": {
+          "accent_color": {
+            "description": "the user's banner color encoded as an integer representation of hexadecimal color code",
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "avatar": {
+            "description": "the user's avatar hash",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "avatar_decoration_data": {
+            "description": "data for the user's avatar decoration",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserAvatarDecorationResponse"
+              }
+            ]
+          },
+          "banner": {
+            "description": "the user's banner hash",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "bot": {
+            "description": "whether the user belongs to an OAuth2 application",
+            "type": "boolean"
+          },
+          "collectibles": {
+            "description": "data for the user's collectibles",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserCollectiblesResponse"
+              }
+            ]
+          },
+          "discriminator": {
+            "description": "the user's Discord-tag",
+            "type": "string"
+          },
+          "flags": {
+            "$ref": "#/components/schemas/Int53Type",
+            "description": "the flags on a user's account"
+          },
+          "global_name": {
+            "description": "the user's display name, if it is set",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "the user's id"
+          },
+          "primary_guild": {
+            "description": "the user's primary guild",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserPrimaryGuildResponse"
+              }
+            ]
+          },
+          "public_flags": {
+            "description": "the public flags on a user's account",
+            "format": "int32",
+            "type": "integer"
+          },
+          "system": {
+            "description": "whether the user is an Official Discord System user (part of the urgent message system)",
+            "type": "boolean"
+          },
+          "username": {
+            "description": "the user's username, not unique across the platform",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "avatar",
+          "discriminator",
+          "public_flags",
+          "flags",
+          "global_name",
+          "primary_guild"
+        ],
+        "type": "object"
+      },
+      "VerificationLevels": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "unrestricted",
+            "title": "NONE"
+          },
+          {
+            "const": 1,
+            "description": "must have verified email on account",
+            "title": "LOW"
+          },
+          {
+            "const": 2,
+            "description": "must be registered on Discord for longer than 5 minutes",
+            "title": "MEDIUM"
+          },
+          {
+            "const": 3,
+            "description": "must be a member of the server for longer than 10 minutes",
+            "title": "HIGH"
+          },
+          {
+            "const": 4,
+            "description": "must have a verified phone number",
+            "title": "VERY_HIGH"
+          }
+        ],
+        "type": "integer"
+      }
+    },
+    "securitySchemes": {
+      "BotToken": {
+        "description": "Discord bot token",
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey"
+      },
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://discord.com/api/oauth2/authorize",
+            "refreshUrl": "https://discord.com/api/oauth2/token",
+            "scopes": {
+              "activities.invites.write": "allows your app to send activity invites - requires Discord approval (NOT REQUIRED FOR GAMESDK ACTIVITY MANAGER)",
+              "activities.read": "allows your app to fetch data from a user's \"Now Playing/Recently Played\" list - requires Discord approval",
+              "activities.write": "allows your app to update a user's activity - requires Discord approval (NOT REQUIRED FOR GAMESDK ACTIVITY MANAGER)",
+              "applications.builds.read": "allows your app to read build data for a user's applications",
+              "applications.builds.upload": "allows your app to upload/update builds for a user's applications - requires Discord approval",
+              "applications.commands": "allows your app to use commands in a guild",
+              "applications.commands.permissions.update": "allows your app to update permissions for its commands in a guild a user has permissions to",
+              "applications.entitlements": "allows your app to read entitlements for a user's applications",
+              "applications.store.update": "allows your app to read and update store data (SKUs, store listings, achievements, etc.) for a user's applications",
+              "bot": "for oauth2 bots, this puts the bot in the user's selected guild by default",
+              "connections": "allows /users/@me/connections to return linked third-party accounts",
+              "dm_channels.read": "allows your app to see information about the user's DMs and group DMs - requires Discord approval",
+              "email": "enables /users/@me to return an email",
+              "gdm.join": "allows your app to join users to a group dm",
+              "guilds": "allows /users/@me/guilds to return basic information about all of a user's guilds",
+              "guilds.join": "allows /guilds/{guild.id}/members/{user.id} to be used for joining users to a guild",
+              "guilds.members.read": "allows /users/@me/guilds/{guild.id}/member to return a user's member information in a guild",
+              "identify": "allows /users/@me without email",
+              "messages.read": "for local rpc server api access, this allows you to read messages from all client channels (otherwise restricted to channels/guilds your app creates)",
+              "openid": "for OpenID Connect, this allows your app to receive user id and basic profile information",
+              "relationships.read": "allows your app to know a user's friends and implicit relationships - requires Discord approval",
+              "role_connections.write": "allows your app to update a user's connection and metadata for the app",
+              "rpc": "for local rpc server access, this allows you to control a user's local Discord client - requires Discord approval",
+              "rpc.activities.write": "for local rpc server access, this allows you to update a user's activity - requires Discord approval",
+              "rpc.notifications.read": "for local rpc server access, this allows you to receive notifications pushed out to the user - requires Discord approval",
+              "rpc.screenshare.read": "for local rpc server access, this allows you to read a user's screenshare status- requires Discord approval",
+              "rpc.screenshare.write": "for local rpc server access, this allows you to update a user's screenshare settings- requires Discord approval",
+              "rpc.video.read": "for local rpc server access, this allows you to read a user's video status - requires Discord approval",
+              "rpc.video.write": "for local rpc server access, this allows you to update a user's video settings - requires Discord approval",
+              "rpc.voice.read": "for local rpc server access, this allows you to read a user's voice settings and listen for voice events - requires Discord approval",
+              "rpc.voice.write": "for local rpc server access, this allows you to update a user's voice settings - requires Discord approval",
+              "voice": "allows your app to connect to voice on user's behalf and see all the voice members - requires Discord approval",
+              "webhook.incoming": "this generates a webhook that is returned in the oauth token response for authorization code grants"
+            },
+            "tokenUrl": "https://discord.com/api/oauth2/token"
+          },
+          "clientCredentials": {
+            "refreshUrl": "https://discord.com/api/oauth2/token",
+            "scopes": {
+              "activities.invites.write": "allows your app to send activity invites - requires Discord approval (NOT REQUIRED FOR GAMESDK ACTIVITY MANAGER)",
+              "activities.read": "allows your app to fetch data from a user's \"Now Playing/Recently Played\" list - requires Discord approval",
+              "activities.write": "allows your app to update a user's activity - requires Discord approval (NOT REQUIRED FOR GAMESDK ACTIVITY MANAGER)",
+              "applications.builds.read": "allows your app to read build data for a user's applications",
+              "applications.builds.upload": "allows your app to upload/update builds for a user's applications - requires Discord approval",
+              "applications.commands": "allows your app to use commands in a guild",
+              "applications.commands.permissions.update": "allows your app to update permissions for its commands in a guild a user has permissions to",
+              "applications.commands.update": "allows your app to update its commands using a Bearer token - client credentials grant only",
+              "applications.entitlements": "allows your app to read entitlements for a user's applications",
+              "applications.store.update": "allows your app to read and update store data (SKUs, store listings, achievements, etc.) for a user's applications",
+              "bot": "for oauth2 bots, this puts the bot in the user's selected guild by default",
+              "connections": "allows /users/@me/connections to return linked third-party accounts",
+              "dm_channels.read": "allows your app to see information about the user's DMs and group DMs - requires Discord approval",
+              "email": "enables /users/@me to return an email",
+              "gdm.join": "allows your app to join users to a group dm",
+              "guilds": "allows /users/@me/guilds to return basic information about all of a user's guilds",
+              "guilds.join": "allows /guilds/{guild.id}/members/{user.id} to be used for joining users to a guild",
+              "guilds.members.read": "allows /users/@me/guilds/{guild.id}/member to return a user's member information in a guild",
+              "identify": "allows /users/@me without email",
+              "messages.read": "for local rpc server api access, this allows you to read messages from all client channels (otherwise restricted to channels/guilds your app creates)",
+              "openid": "for OpenID Connect, this allows your app to receive user id and basic profile information",
+              "relationships.read": "allows your app to know a user's friends and implicit relationships - requires Discord approval",
+              "rpc": "for local rpc server access, this allows you to control a user's local Discord client - requires Discord approval",
+              "rpc.activities.write": "for local rpc server access, this allows you to update a user's activity - requires Discord approval",
+              "rpc.notifications.read": "for local rpc server access, this allows you to receive notifications pushed out to the user - requires Discord approval",
+              "rpc.screenshare.read": "for local rpc server access, this allows you to read a user's screenshare status- requires Discord approval",
+              "rpc.screenshare.write": "for local rpc server access, this allows you to update a user's screenshare settings- requires Discord approval",
+              "rpc.video.read": "for local rpc server access, this allows you to read a user's video status - requires Discord approval",
+              "rpc.video.write": "for local rpc server access, this allows you to update a user's video settings - requires Discord approval",
+              "rpc.voice.read": "for local rpc server access, this allows you to read a user's voice settings and listen for voice events - requires Discord approval",
+              "rpc.voice.write": "for local rpc server access, this allows you to update a user's voice settings - requires Discord approval",
+              "voice": "allows your app to connect to voice on user's behalf and see all the voice members - requires Discord approval",
+              "webhook.incoming": "this generates a webhook that is returned in the oauth token response for authorization code grants"
+            },
+            "tokenUrl": "https://discord.com/api/oauth2/token"
+          },
+          "implicit": {
+            "authorizationUrl": "https://discord.com/api/oauth2/authorize",
+            "refreshUrl": "https://discord.com/api/oauth2/token",
+            "scopes": {
+              "activities.invites.write": "allows your app to send activity invites - requires Discord approval (NOT REQUIRED FOR GAMESDK ACTIVITY MANAGER)",
+              "activities.read": "allows your app to fetch data from a user's \"Now Playing/Recently Played\" list - requires Discord approval",
+              "activities.write": "allows your app to update a user's activity - requires Discord approval (NOT REQUIRED FOR GAMESDK ACTIVITY MANAGER)",
+              "applications.builds.read": "allows your app to read build data for a user's applications",
+              "applications.builds.upload": "allows your app to upload/update builds for a user's applications - requires Discord approval",
+              "applications.commands": "allows your app to use commands in a guild",
+              "applications.commands.permissions.update": "allows your app to update permissions for its commands in a guild a user has permissions to",
+              "applications.entitlements": "allows your app to read entitlements for a user's applications",
+              "applications.store.update": "allows your app to read and update store data (SKUs, store listings, achievements, etc.) for a user's applications",
+              "bot": "for oauth2 bots, this puts the bot in the user's selected guild by default",
+              "connections": "allows /users/@me/connections to return linked third-party accounts",
+              "dm_channels.read": "allows your app to see information about the user's DMs and group DMs - requires Discord approval",
+              "email": "enables /users/@me to return an email",
+              "gdm.join": "allows your app to join users to a group dm",
+              "guilds": "allows /users/@me/guilds to return basic information about all of a user's guilds",
+              "guilds.join": "allows /guilds/{guild.id}/members/{user.id} to be used for joining users to a guild",
+              "guilds.members.read": "allows /users/@me/guilds/{guild.id}/member to return a user's member information in a guild",
+              "identify": "allows /users/@me without email",
+              "messages.read": "for local rpc server api access, this allows you to read messages from all client channels (otherwise restricted to channels/guilds your app creates)",
+              "openid": "for OpenID Connect, this allows your app to receive user id and basic profile information",
+              "relationships.read": "allows your app to know a user's friends and implicit relationships - requires Discord approval",
+              "rpc": "for local rpc server access, this allows you to control a user's local Discord client - requires Discord approval",
+              "rpc.activities.write": "for local rpc server access, this allows you to update a user's activity - requires Discord approval",
+              "rpc.notifications.read": "for local rpc server access, this allows you to receive notifications pushed out to the user - requires Discord approval",
+              "rpc.screenshare.read": "for local rpc server access, this allows you to read a user's screenshare status- requires Discord approval",
+              "rpc.screenshare.write": "for local rpc server access, this allows you to update a user's screenshare settings- requires Discord approval",
+              "rpc.video.read": "for local rpc server access, this allows you to read a user's video status - requires Discord approval",
+              "rpc.video.write": "for local rpc server access, this allows you to update a user's video settings - requires Discord approval",
+              "rpc.voice.read": "for local rpc server access, this allows you to read a user's voice settings and listen for voice events - requires Discord approval",
+              "rpc.voice.write": "for local rpc server access, this allows you to update a user's voice settings - requires Discord approval",
+              "voice": "allows your app to connect to voice on user's behalf and see all the voice members - requires Discord approval",
+              "webhook.incoming": "this generates a webhook that is returned in the oauth token response for authorization code grants"
+            }
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Discord Developer Documentation",
+    "url": "https://discord.com/developers/docs"
+  },
+  "info": {
+    "description": "Preview of the Discord v10 HTTP API specification. See https://discord.com/developers/docs for more details.",
+    "license": {
+      "identifier": "MIT",
+      "name": "MIT"
+    },
+    "termsOfService": "https://discord.com/developers/docs/policies-and-agreements/developer-terms-of-service",
+    "title": "Discord HTTP API (Preview)",
+    "version": "10"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/guilds/{guild_id}": {
+      "get": {
+        "operationId": "get_guild",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "with_counts",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuildWithCountsResponse"
+                }
+              }
+            },
+            "description": "200 response for get_guild",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "guild_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ]
+    },
+    "/guilds/{guild_id}/members": {
+      "get": {
+        "operationId": "list_guild_members",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "after",
+            "schema": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/GuildMemberResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "200 response for list_guild_members",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "guild_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ]
+    },
+    "/guilds/{guild_id}/members/search": {
+      "get": {
+        "operationId": "search_guild_members",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/GuildMemberResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "200 response for search_guild_members",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "guild_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ]
+    },
+    "/guilds/{guild_id}/members/{user_id}": {
+      "get": {
+        "operationId": "get_guild_member",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuildMemberResponse"
+                }
+              }
+            },
+            "description": "200 response for get_guild_member",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "guild_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        {
+          "in": "path",
+          "name": "user_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ],
+      "patch": {
+        "operationId": "update_guild_member",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "channel_id": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "$ref": "#/components/schemas/SnowflakeType"
+                      }
+                    ]
+                  },
+                  "communication_disabled_until": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "deaf": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "flags": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "mute": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "nick": {
+                    "maxLength": 32,
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "roles": {
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "$ref": "#/components/schemas/SnowflakeType"
+                        }
+                      ]
+                    },
+                    "maxItems": 350,
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "uniqueItems": true
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuildMemberResponse"
+                }
+              }
+            },
+            "description": "200 response for update_guild_member",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "204": {
+            "description": "204 response for update_guild_member",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      }
+    },
+    "/guilds/{guild_id}/roles": {
+      "get": {
+        "operationId": "list_guild_roles",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/GuildRoleResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "200 response for list_guild_roles",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "guild_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ]
+    },
+    "/users/@me": {
+      "get": {
+        "operationId": "get_my_user",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPIIResponse"
+                }
+              }
+            },
+            "description": "200 response for get_my_user",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          },
+          {
+            "OAuth2": [
+              "identify"
+            ]
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://discord.com/api/v10"
+    }
+  ]
+}

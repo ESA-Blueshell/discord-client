@@ -1,0 +1,18 @@
+{
+  "name": "@esa-blueshell/discord-client-tools",
+  "private": true,
+  "type": "module",
+  "description": "Spec sync pipeline: fetch, normalise, filter and semver-classify the upstream OpenAPI document.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "sync": "node src/cli.mjs sync",
+    "check": "node src/cli.mjs check",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "yaml": "2.8.1"
+  },
+  "devDependencies": {
+    "vitest": "4.1.11"
+  }
+}

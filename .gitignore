@@ -1,0 +1,20 @@
+# Build output
+build/
+dist/
+node_modules/
+*.tsbuildinfo
+
+# Gradle
+.gradle/
+kotlin/.kotlin/
+
+# Editors
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Pipeline scratch space (written by tools/src/cli.mjs)
+/build/
+pack.json
+pr-body.md

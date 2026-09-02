@@ -1,0 +1,10 @@
+* text=auto eol=lf
+
+# Windows launcher must keep CRLF.
+gradlew.bat text eol=crlf
+*.jar binary
+
+# Generated trees: collapse them in pull request diffs so the spec change and
+# the hand-written code stay visible, but keep them diffable on request.
+specs/*.json                   linguist-generated=true
+typescript/src/generated/**    linguist-generated=true

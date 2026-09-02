@@ -1,0 +1,206 @@
+name: Spec sync
+
+# Nightly check for a new upstream Discord spec.
+#
+# What it does, in one job:
+#   1. fetches the upstream document and reduces it to specs/surface.json
+#   2. if the consumed surface moved, classifies the change with oasdiff into
+#      major / minor / patch
+#   3. regenerates both clients and runs their tests
+#   4. opens (or updates in place) a single pull request whose title is a
+#      conventional commit encoding the bump, which release-please turns into a
+#      version number once merged
+#
+# On the schedule: GitHub delivers scheduled workflows far less reliably than
+# the cron implies — measured across this estate at a handful of runs per repo
+# per day regardless of the declared interval, and often hours late. A daily
+# cron is comfortably inside that, but do not treat 00:00 as a guarantee, and
+# do not raise the frequency to compensate: delivery appears capped per repo
+# per day, so a tighter cron changes nothing. Use the manual trigger when you
+# need an answer now.
+
+on:
+  schedule:
+    # 00:00 UTC daily.
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Open a pull request even if the consumed surface is unchanged'
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  JAVA_VERSION: '25'
+  NODE_VERSION: '22'
+  SYNC_BRANCH: chore/spec-sync
+
+jobs:
+  sync:
+    name: Check upstream spec and regenerate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+          # A pull request opened with the default GITHUB_TOKEN does not trigger
+          # `pull_request` workflows — GitHub suppresses that to prevent
+          # recursion — so CI would never run on the nightly PR. Setting an
+          # AUTOMATION_TOKEN secret (a PAT or GitHub App token with `contents`
+          # and `pull-requests` write) makes the checks appear. Without it
+          # everything still works: this job builds and tests both clients
+          # before opening the PR, so the evidence is in the run rather than on
+          # the PR. See docs/versioning.md.
+          token: ${{ secrets.AUTOMATION_TOKEN || github.token }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Set up Java
+        uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@ac638b010cf58a27ee6c972d7336334ccaf61c96 # v4.4.1
+
+      - name: Install pipeline dependencies
+        working-directory: tools
+        run: npm ci
+
+      - name: Fetch upstream spec and classify the change
+        id: sync
+        run: node tools/src/cli.mjs sync
+
+      - name: Report that nothing changed
+        if: steps.sync.outputs.changed != 'true' && !inputs.force
+        run: |
+          echo "### Spec sync: no change" >> "$GITHUB_STEP_SUMMARY"
+          echo "${{ steps.sync.outputs.summary }}" >> "$GITHUB_STEP_SUMMARY"
+
+      # Everything below runs only when the consumed surface actually moved.
+      - name: Regenerate the TypeScript client
+        if: steps.sync.outputs.changed == 'true'
+        working-directory: typescript
+        run: |
+          npm ci
+          node ../tools/src/cli.mjs generator-input ../build/ts-generator-input.json
+          npm run generate
+
+      - name: Verify the regenerated clients still build and pass their tests
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          # A spec change that breaks generation must not open a green-looking
+          # pull request. Both clients are built here so the PR carries the
+          # evidence that the new surface is actually usable.
+          set -euo pipefail
+          ( cd kotlin && ./gradlew build --no-daemon )
+          ( cd typescript && npm run typecheck && npm test && npm run build )
+
+      - name: Commit the new surface and generated code
+        if: steps.sync.outputs.changed == 'true'
+        id: commit
+        env:
+          BUMP: ${{ steps.sync.outputs.bump }}
+        run: |
+          set -euo pipefail
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          # A single long-lived branch, reset to main on every run, so repeated
+          # upstream changes update one pull request instead of leaving a trail
+          # of stale ones behind.
+          git checkout -B "$SYNC_BRANCH"
+          git add specs typescript/src/generated
+          if git diff --cached --quiet; then
+            echo "nothing_to_commit=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit --file build/commit-message.txt
+          git push --force-with-lease origin "$SYNC_BRANCH"
+          echo "nothing_to_commit=false" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update the pull request
+        if: steps.sync.outputs.changed == 'true' && steps.commit.outputs.nothing_to_commit == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN || github.token }}
+          BUMP: ${{ steps.sync.outputs.bump }}
+        run: |
+          set -euo pipefail
+
+          # The PR title is the conventional commit subject. The repository is
+          # configured to squash-merge using the PR title and body, so this is
+          # the message release-please reads on main — including the BREAKING
+          # CHANGE footer in the body, which is what makes a major a major.
+          title="$(head -1 build/commit-message.txt)"
+          body_file=pr-body.md
+          {
+            echo "Automated spec sync. **Classified as \`$BUMP\`.**"
+            echo
+            echo "Upstream: <${{ github.server_url }}/${{ github.repository }}/blob/main/specs/surface.json>"
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            if [ "$BUMP" = "major" ]; then
+              echo "> [!WARNING]"
+              echo "> This is a **breaking** change to the consumed surface. Review the"
+              echo "> findings below and the generated diff before merging — consumers"
+              echo "> will need code changes."
+              echo
+            fi
+            echo '<details><summary>Classification details</summary>'
+            echo
+            echo '```json'
+            cat build/findings.json
+            echo '```'
+            echo
+            echo '</details>'
+            echo
+            # Everything from the commit message after the subject line, so the
+            # squashed commit carries the findings and the BREAKING CHANGE footer.
+            tail -n +2 build/commit-message.txt
+          } > "$body_file"
+
+          # Idempotent labels; `gh label create` on an existing label is an error.
+          for label in "spec-sync" "bump:$BUMP"; do
+            gh label create "$label" --color BFD4F2 --description "Automated spec sync" 2>/dev/null || true
+          done
+
+          existing="$(gh pr list --head "$SYNC_BRANCH" --state open --limit 1 --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --title "$title" --body-file "$body_file" \
+              --add-label "spec-sync" --add-label "bump:$BUMP"
+            echo "Updated pull request #$existing"
+          else
+            gh pr create --head "$SYNC_BRANCH" --base main \
+              --title "$title" --body-file "$body_file" \
+              --label "spec-sync" --label "bump:$BUMP"
+          fi
+
+          {
+            echo "### Spec sync: \`$BUMP\`"
+            echo
+            echo "${{ steps.sync.outputs.summary }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the classification artefacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: spec-sync-classification
+          path: |
+            build/findings.json
+            build/commit-message.txt
+          if-no-files-found: ignore

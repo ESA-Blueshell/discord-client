@@ -1,0 +1,17 @@
+{
+  "$comment": "The consumed surface: the only part of the upstream Discord API this client exposes, and therefore the contract its version numbers describe. Adding an entry is a minor release; removing one is a major release. Edit this file, then run `yarn --cwd tools sync`.",
+  "apiName": "Discord",
+  "upstreamUrl": "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json",
+  "specFile": "discord.json",
+  "lockFile": "discord.upstream.lock.json",
+  "tag": "Discord",
+  "majorAtLevel": 2,
+  "paths": {
+    "/users/@me": ["get"],
+    "/guilds/{guild_id}": ["get"],
+    "/guilds/{guild_id}/members": ["get"],
+    "/guilds/{guild_id}/members/search": ["get"],
+    "/guilds/{guild_id}/members/{user_id}": ["get", "patch"],
+    "/guilds/{guild_id}/roles": ["get"]
+  }
+}

@@ -1,0 +1,49 @@
+name: Pull request title
+
+# release-please derives the version from commit messages on main, and this
+# repository squash-merges using the pull request title. A title that is not a
+# conventional commit therefore does not merely look untidy — it silently
+# produces no release at all.
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  lint:
+    name: Lint the title
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check the title is a conventional commit
+        uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            perf
+            refactor
+            docs
+            build
+            ci
+            chore
+            test
+            revert
+          # `spec` is what the automated sync uses; the rest are for humans.
+          scopes: |
+            spec
+            kotlin
+            typescript
+            tools
+            ci
+            deps
+          requireScope: false
+          subjectPattern: ^(?![A-Z]).+$
+          subjectPatternError: |
+            The subject "{subject}" must start with a lowercase letter.

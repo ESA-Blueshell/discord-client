@@ -1,0 +1,10 @@
+# Default owner for everything.
+*                       @ExtraToast
+
+# The spec surface and the version-classification pipeline decide what gets
+# published and under which version number. Changes here are worth a
+# deliberate look even when the diff is one line.
+/specs/                 @ExtraToast
+/tools/                 @ExtraToast
+/release-please-config.json @ExtraToast
+/.github/workflows/     @ExtraToast

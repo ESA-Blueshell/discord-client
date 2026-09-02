@@ -1,0 +1,34 @@
+name: Request an operation
+description: Ask for a Discord endpoint this client does not yet expose.
+title: 'feat(spec): expose '
+labels: [enhancement, spec-surface]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This client deliberately exposes only the operations listed in
+        [`specs/surface.json`](../blob/main/specs/surface.json). Adding one is a
+        **minor** release; it is a one-line change plus a spec sync.
+  - type: input
+    id: operation
+    attributes:
+      label: Endpoint
+      description: Method and path exactly as Discord documents it.
+      placeholder: GET /guilds/{guild_id}/channels
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What needs it
+      description: Which application or feature will call this, and for what.
+    validations:
+      required: true
+  - type: checkboxes
+    id: languages
+    attributes:
+      label: Clients needed
+      description: Both are generated from one surface, so both get it either way — this just tells us who is waiting.
+      options:
+        - label: Kotlin
+        - label: TypeScript

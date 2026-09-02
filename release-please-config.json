@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "$comment": "One version for the whole repository. The Kotlin and TypeScript clients are generated from a single spec surface, so a version that meant different things in each would be worse than useless — a consumer could not tell which surface 2.1.0 described. release-please owns the number; the spec-sync workflow only decides the bump by writing a conventional commit.",
+  "include-component-in-tag": false,
+  "separate-pull-requests": false,
+  "pull-request-title-pattern": "chore: release ${version}",
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "extra-files": [
+        "kotlin/gradle.properties",
+        { "type": "json", "path": "typescript/package.json", "jsonpath": "$.version" }
+      ],
+      "changelog-sections": [
+        { "type": "feat", "section": "Features" },
+        { "type": "fix", "section": "Bug Fixes" },
+        { "type": "perf", "section": "Performance" },
+        { "type": "refactor", "section": "Refactoring" },
+        { "type": "docs", "section": "Documentation" },
+        { "type": "build", "section": "Build and Dependencies" },
+        { "type": "ci", "section": "Continuous Integration", "hidden": true },
+        { "type": "chore", "section": "Chores", "hidden": true },
+        { "type": "test", "section": "Tests", "hidden": true }
+      ]
+    }
+  }
+}

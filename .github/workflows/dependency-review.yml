@@ -1,0 +1,25 @@
+name: Dependency review
+
+# Blocks a pull request that introduces a dependency with a known
+# vulnerability, before it is merged rather than after Dependabot notices.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    name: Review dependency changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Review
+        uses: actions/dependency-review-action@bc41886e18ea39df68b1b1245f4184881938e050 # v4.6.0
+        with:
+          fail-on-severity: moderate
+          comment-summary-in-pr: on-failure

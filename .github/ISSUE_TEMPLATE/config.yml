@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Upstream Discord API problem
+    url: https://github.com/discord/discord-api-docs/issues
+    about: Wrong or missing behaviour in the Discord API itself, rather than in this client.
