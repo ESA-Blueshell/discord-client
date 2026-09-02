@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.0.1...v1.1.0) (2026-09-02)
+
+
+### Features
+
+* **spec:** expose GET /guilds/{guild_id}/widget.json ([#34](https://github.com/ESA-Blueshell/discord-client/issues/34)) ([80efe00](https://github.com/ESA-Blueshell/discord-client/commit/80efe008353d4dd7c0b47920d3a05ce1429494d1))
+
 ## [1.0.1](https://github.com/ESA-Blueshell/discord-client/compare/v1.0.0...v1.0.1) (2026-09-02)
 
 
