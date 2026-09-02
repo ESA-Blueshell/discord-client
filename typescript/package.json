@@ -31,9 +31,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
+    "LICENSE",
     "README.md",
-    "LICENSE"
+    "dist"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
@@ -41,10 +41,11 @@
   },
   "scripts": {
     "generate": "openapi-ts",
-    "build": "tsc --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.build.json && node scripts/fix-esm-specifiers.mjs dist",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "lint": "eslint src test --max-warnings 0"
+    "lint": "eslint src test --max-warnings 0",
+    "verify:esm": "node --input-type=module -e \"import('./dist/index.js').then(m => { if (typeof m.getMyUser !== 'function' && typeof m.getContacts !== 'function') { throw new Error('built package did not export its sdk') } console.log('built package loads as ESM') })\""
   },
   "peerDependencies": {
     "axios": ">=1.18.0 <2"

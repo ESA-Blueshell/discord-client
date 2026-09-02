@@ -149,6 +149,21 @@ jobs:
         working-directory: typescript
         run: npm run build
 
+      - name: Confirm the built package loads as ESM
+        if: ${{ !cancelled() }}
+        working-directory: typescript
+        run: |
+          # The generated sources import with extensionless, sometimes
+          # directory-shaped specifiers, which TypeScript's `bundler` resolution
+          # accepts and emits unchanged. Node then refuses the result:
+          #
+          #   ERR_UNSUPPORTED_DIR_IMPORT: Directory import '.../dist/generated/client'
+          #
+          # It shipped once already, because everything here tested the source
+          # and nothing imported the build. Vite resolved it happily; vitest in
+          # the consuming application did not.
+          npm run verify:esm
+
       - name: Confirm the npm package contents
         if: ${{ !cancelled() }}
         working-directory: typescript
