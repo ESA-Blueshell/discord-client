@@ -37,6 +37,13 @@ jobs:
       released: ${{ steps.release.outputs.release_created }}
       tag: ${{ steps.release.outputs.tag_name }}
       version: ${{ steps.release.outputs.version }}
+      # The release pull request's number, taken from release-please itself
+      # rather than rediscovered with a label query. Listing pull requests by
+      # label goes through an index that lags creation by seconds, so the merge
+      # job below saw "no pending release pull request" while the pull request
+      # demonstrably existed — it merged on one repository and silently did
+      # nothing on the other, purely on timing.
+      release_pr: ${{ steps.release.outputs.pr && fromJson(steps.release.outputs.pr).number || '' }}
     steps:
       - name: Run release-please
         id: release
@@ -54,17 +61,18 @@ jobs:
     # Only when release-please has a pending release; on the run that follows
     # the merge it has nothing to propose and this is skipped, which is what
     # stops the two workflows from cycling.
-    if: needs.release-please.outputs.released != 'true'
+    if: needs.release-please.outputs.release_pr != ''
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     permissions:
       contents: write
       pull-requests: write
     steps:
-      - name: Merge it if one is open
+      - name: Merge it
         env:
           GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN || github.token }}
           GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ needs.release-please.outputs.release_pr }}
         run: |
           set -euo pipefail
 
@@ -72,14 +80,41 @@ jobs:
           # the release cannot wait for someone to press merge. The pull request
           # only ever changes version strings and the changelog — the code it
           # releases was already built and tested on main.
-          number="$(gh pr list --label 'autorelease: pending' --state open --limit 1 --json number --jq '.[0].number // empty')"
-          if [ -z "$number" ]; then
-            echo "No pending release pull request."
-            exit 0
-          fi
+          #
+          # This job runs only when release-please reported a pull request, so
+          # "not found" is a failure rather than a quiet no-op. GitHub computes
+          # mergeability asynchronously and reports UNKNOWN until it finishes,
+          # so a merge attempted immediately after creation can be rejected;
+          # hence the wait.
+          for attempt in $(seq 1 20); do
+            state="$(gh pr view "$NUMBER" --json state --jq '.state')"
+            if [ "$state" = "MERGED" ]; then
+              echo "::notice::Release pull request #$NUMBER is already merged."
+              exit 0
+            fi
+            if [ "$state" = "CLOSED" ]; then
+              echo "::error::Release pull request #$NUMBER was closed without merging."
+              exit 1
+            fi
 
-          gh pr merge "$number" --squash --auto || gh pr merge "$number" --squash
-          echo "::notice::Merged release pull request #$number; the next Release run publishes it."
+            mergeable="$(gh pr view "$NUMBER" --json mergeable --jq '.mergeable')"
+            if [ "$mergeable" = "MERGEABLE" ]; then
+              if gh pr merge "$NUMBER" --squash; then
+                echo "::notice::Merged release pull request #$NUMBER; the next Release run publishes it."
+                exit 0
+              fi
+              echo "Merge of #$NUMBER was rejected; retrying (attempt $attempt/20)."
+            elif [ "$mergeable" = "CONFLICTING" ]; then
+              echo "::error::Release pull request #$NUMBER has conflicts and needs a human."
+              exit 1
+            else
+              echo "Mergeability of #$NUMBER is $mergeable; waiting (attempt $attempt/20)."
+            fi
+            sleep 10
+          done
+
+          echo "::error::Gave up waiting to merge release pull request #$NUMBER."
+          exit 1
 
   publish:
     name: Publish to GitHub Packages
