@@ -101,7 +101,8 @@ updates:
 
   # ── GitHub Actions ───────────────────────────────────────────────────────
   # Note: nothing in CI exercises release.yml, so an Actions major that breaks
-  # releasing goes in green. release-please-action v5.0.0 did exactly that.
+  # releasing would go in green. release.yml is worth checking by hand after
+  # an Actions major lands.
   # Actions are pinned by commit SHA in every workflow; Dependabot understands
   # those and bumps the SHA together with the version comment.
   - package-ecosystem: github-actions
@@ -122,10 +123,3 @@ updates:
       actions-security:
         applies-to: security-updates
         patterns: ['*']
-    # v5.0.0 fails to create a release ("Resource not accessible by
-    # integration") with the documented `contents: write` permission, on both
-    # client repositories. Held until that is understood; releasing is the one
-    # thing these repositories exist to do.
-    ignore:
-      - dependency-name: googleapis/release-please-action
-        versions: [">= 5"]

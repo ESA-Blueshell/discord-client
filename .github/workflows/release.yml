@@ -45,21 +45,9 @@ jobs:
       # nothing on the other, purely on timing.
       release_pr: ${{ steps.release.outputs.pr && fromJson(steps.release.outputs.pr).number || '' }}
     steps:
-      # Pinned to v4. v5.0.0 reads the configuration and computes the release
-      # correctly, then fails creating it:
-      #
-      #   ✔ Creating 1 releases for pull #17
-      #   release-please failed: Resource not accessible by integration
-      #     https://docs.github.com/rest/releases/releases#create-a-release
-      #
-      # It reproduced on both client repositories with `contents: write` on
-      # this job, which is the permission that endpoint documents. Reverted
-      # rather than debugged, because the effect is that no release can be
-      # created at all — and note that ordinary CI never exercises this
-      # workflow, so the upgrade went in green.
       - name: Run release-please
         id: release
-        uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 # v4.2.0
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
