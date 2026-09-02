@@ -79,6 +79,32 @@ jobs:
         run: ./gradlew build --no-daemon --stacktrace
 
       # ── TypeScript client ───────────────────────────────────────────────
+      - name: Check both packages carry a well-formed version
+        if: ${{ !cancelled() }}
+        run: |
+          # Seven releases were published as "0.2.x # x-release-please-version"
+          # before anyone noticed: Java .properties has no trailing-comment
+          # syntax, so release-please's marker became part of the value and
+          # Gradle named every artefact after it. The version is asked of the
+          # build rather than parsed out of the file, because parsing it is
+          # what hid the problem.
+          set -euo pipefail
+          gradle_version="$(cd kotlin && ./gradlew -q printVersion --no-daemon | tail -1)"
+          npm_version="$(node -p "require('./typescript/package.json').version")"
+          echo "gradle=$gradle_version npm=$npm_version"
+          semver='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'
+          for pair in "gradle:$gradle_version" "npm:$npm_version"; do
+            name="${pair%%:*}"; value="${pair#*:}"
+            if ! printf '%s' "$value" | grep -Eq "$semver"; then
+              echo "::error::The $name version is not a bare semver string: '$value'"
+              exit 1
+            fi
+          done
+          if [ "$gradle_version" != "$npm_version" ]; then
+            echo "::error::Gradle and npm versions disagree: '$gradle_version' vs '$npm_version'."
+            exit 1
+          fi
+
       - name: Install TypeScript dependencies
         if: ${{ !cancelled() }}
         working-directory: typescript
