@@ -47,7 +47,7 @@
     "lint": "eslint src test --max-warnings 0"
   },
   "peerDependencies": {
-    "axios": ">=1.7.0 <2"
+    "axios": ">=1.18.0 <2"
   },
   "dependencies": {
     "@hey-api/client-axios": "0.9.1"
@@ -55,8 +55,11 @@
   "devDependencies": {
     "@hey-api/openapi-ts": "0.99.0",
     "@types/node": "24.9.2",
-    "axios": "1.14.0",
+    "axios": "1.20.0",
     "typescript": "5.9.3",
     "vitest": "4.1.11"
+  },
+  "overrides": {
+    "js-yaml": "^4.3.1"
   }
 }
