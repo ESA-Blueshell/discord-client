@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetGuildData, GetGuildErrors, GetGuildMemberData, GetGuildMemberErrors, GetGuildMemberResponses, GetGuildResponses, GetMyUserData, GetMyUserErrors, GetMyUserResponses, ListGuildMembersData, ListGuildMembersErrors, ListGuildMembersResponses, ListGuildRolesData, ListGuildRolesErrors, ListGuildRolesResponses, SearchGuildMembersData, SearchGuildMembersErrors, SearchGuildMembersResponses, UpdateGuildMemberData, UpdateGuildMemberErrors, UpdateGuildMemberResponses } from './types.gen';
+import type { GetGuildData, GetGuildErrors, GetGuildMemberData, GetGuildMemberErrors, GetGuildMemberResponses, GetGuildResponses, GetGuildWidgetData, GetGuildWidgetErrors, GetGuildWidgetResponses, GetMyUserData, GetMyUserErrors, GetMyUserResponses, ListGuildMembersData, ListGuildMembersErrors, ListGuildMembersResponses, ListGuildRolesData, ListGuildRolesErrors, ListGuildRolesResponses, SearchGuildMembersData, SearchGuildMembersErrors, SearchGuildMembersResponses, UpdateGuildMemberData, UpdateGuildMemberErrors, UpdateGuildMemberResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -61,6 +61,13 @@ export const listGuildRoles = <ThrowOnError extends boolean = false>(options: Op
     responseType: 'json',
     security: [{ name: 'Authorization', type: 'apiKey' }],
     url: '/guilds/{guild_id}/roles',
+    ...options
+});
+
+export const getGuildWidget = <ThrowOnError extends boolean = false>(options: Options<GetGuildWidgetData, ThrowOnError>): RequestResult<GetGuildWidgetResponses, GetGuildWidgetErrors, ThrowOnError> => (options.client ?? client).get<GetGuildWidgetResponses, GetGuildWidgetErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/guilds/{guild_id}/widget.json',
     ...options
 });
 
