@@ -122,3 +122,10 @@ updates:
       actions-security:
         applies-to: security-updates
         patterns: ['*']
+    # v5.0.0 fails to create a release ("Resource not accessible by
+    # integration") with the documented `contents: write` permission, on both
+    # client repositories. Held until that is understood; releasing is the one
+    # thing these repositories exist to do.
+    ignore:
+      - dependency-name: googleapis/release-please-action
+        versions: [">= 5"]
