@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.4](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.3...v0.2.4) (2026-09-02)
+
+
+### Build and Dependencies
+
+* **deps-dev:** bump @types/node from 24.9.2 to 26.3.0 in /typescript ([#6](https://github.com/ESA-Blueshell/discord-client/issues/6)) ([e73f50e](https://github.com/ESA-Blueshell/discord-client/commit/e73f50eee1f6e2429f8315841fc833484b7795f9))
+* **deps:** Bump actions/checkout from 5.0.0 to 7.0.1 ([#8](https://github.com/ESA-Blueshell/discord-client/issues/8)) ([370d605](https://github.com/ESA-Blueshell/discord-client/commit/370d605f383ba904518ed1006c57e71688f89b6d))
+* **deps:** Bump actions/setup-node from 6.0.0 to 7.0.0 ([#9](https://github.com/ESA-Blueshell/discord-client/issues/9)) ([b02bdfa](https://github.com/ESA-Blueshell/discord-client/commit/b02bdfa052a247c9e5d0bbb973b2074d122f9713))
+* **deps:** bump actions/upload-artifact from 4.6.2 to 7.0.1 ([#10](https://github.com/ESA-Blueshell/discord-client/issues/10)) ([dc94dbe](https://github.com/ESA-Blueshell/discord-client/commit/dc94dbe7018958551619b6065695318b689dd793))
+* **deps:** Bump googleapis/release-please-action from 4.2.0 to 5.0.0 ([#11](https://github.com/ESA-Blueshell/discord-client/issues/11)) ([fbeaa26](https://github.com/ESA-Blueshell/discord-client/commit/fbeaa2675811292c5b90a06f2b57006916dbe920))
+* **deps:** Bump the actions group with 4 updates ([#7](https://github.com/ESA-Blueshell/discord-client/issues/7)) ([54bdff3](https://github.com/ESA-Blueshell/discord-client/commit/54bdff3a45c0a731562c351c8f59be3624189ea9))
+
 ## [0.2.3](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.2...v0.2.3) (2026-09-02)
 
 
