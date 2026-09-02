@@ -5,6 +5,7 @@ import {
   createDiscordClient,
   getGuild,
   getGuildMember,
+  getGuildWidget,
   getMyUser,
   listGuildMembers,
   listGuildRoles,
@@ -56,12 +57,12 @@ describe('operation surface', () => {
     // generated from one spec and share a version number, so a surface that
     // drifted between them would make that version a lie.
     const operations = {
-      getGuild, getGuildMember, getMyUser, listGuildMembers,
+      getGuild, getGuildMember, getGuildWidget, getMyUser, listGuildMembers,
       listGuildRoles, searchGuildMembers, updateGuildMember,
     }
     expect(Object.keys(operations).sort()).toEqual([
-      'getGuild', 'getGuildMember', 'getMyUser', 'listGuildMembers',
-      'listGuildRoles', 'searchGuildMembers', 'updateGuildMember',
+      'getGuild', 'getGuildMember', 'getGuildWidget', 'getMyUser',
+      'listGuildMembers', 'listGuildRoles', 'searchGuildMembers', 'updateGuildMember',
     ])
     for (const [name, operation] of Object.entries(operations)) {
       expect(typeof operation, `${name} should be a callable export`).toBe('function')
@@ -110,6 +111,19 @@ describe('request wiring', () => {
     await updateGuildMember({ client: client(), path: { guild_id: '123', user_id: '456' }, body: { nick: 'Chair' } })
     expect(server.lastRequest.method).toBe('PATCH')
     expect(JSON.parse(server.lastRequest.body)).toEqual({ nick: 'Chair' })
+  })
+})
+
+describe('the guild widget', () => {
+  it('fetches widget.json, the one Discord endpoint that needs no auth', async () => {
+    // The website's public Discord banner reads this. It is unauthenticated,
+    // so it is also the only operation here a caller can use without a token.
+    server.reply(() => ({ json: { id: '324285132133629963', name: 'Blueshell', instant_invite: null, channels: [], members: [], presence_count: 42 } }))
+
+    const { data } = await getGuildWidget({ client: client(), path: { guild_id: '324285132133629963' } })
+
+    expect(server.lastRequest.path).toBe('/guilds/324285132133629963/widget.json')
+    expect(data?.presence_count).toBe(42)
   })
 })
 

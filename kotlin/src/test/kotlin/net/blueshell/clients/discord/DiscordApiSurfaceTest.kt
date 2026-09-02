@@ -34,6 +34,7 @@ class DiscordApiSurfaceTest {
             "getGuildMember",
             "updateGuildMember",
             "listGuildRoles",
+            "getGuildWidget",
         )
     }
 

@@ -13,7 +13,7 @@ here is written by hand except the small amount of wiring in
 | --- | --- |
 | Maven | `net.blueshell.clients:discord-client` |
 | npm | `@esa-blueshell/discord-client` |
-| Operations exposed | 7 ([`specs/surface.json`](specs/surface.json)) |
+| Operations exposed | 8 ([`specs/surface.json`](specs/surface.json)) |
 | Upstream | [discord/discord-api-spec](https://github.com/discord/discord-api-spec) |
 | Spec refreshed | nightly, 00:00 UTC |
 
@@ -49,6 +49,11 @@ const { data: roles } = await listGuildRoles({ client, path: { guild_id: GUILD_I
 ```
 
 `axios` is a peer dependency, so your application pins the version.
+
+`getGuildWidget` reads `/guilds/{id}/widget.json`, the one endpoint here that
+needs no authentication — useful for public pages. Its `WidgetResponse`,
+`WidgetMember` and `WidgetChannel` types are exported whether or not you call
+the operation.
 
 Operations return `{ data, error, status }` rather than throwing, so a missing
 `try`/`catch` cannot swallow a failure.

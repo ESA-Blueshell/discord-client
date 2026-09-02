@@ -1795,6 +1795,140 @@
           }
         ],
         "type": "integer"
+      },
+      "WidgetActivity": {
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "WidgetChannel": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "name": {
+            "type": "string"
+          },
+          "position": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "position"
+        ],
+        "type": "object"
+      },
+      "WidgetMember": {
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/WidgetActivity"
+          },
+          "avatar": {
+            "type": "null"
+          },
+          "avatar_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "channel_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "deaf": {
+            "type": "boolean"
+          },
+          "discriminator": {
+            "$ref": "#/components/schemas/WidgetUserDiscriminator"
+          },
+          "id": {
+            "type": "string"
+          },
+          "mute": {
+            "type": "boolean"
+          },
+          "self_deaf": {
+            "type": "boolean"
+          },
+          "self_mute": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          },
+          "suppress": {
+            "type": "boolean"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "discriminator",
+          "avatar",
+          "status",
+          "avatar_url"
+        ],
+        "type": "object"
+      },
+      "WidgetResponse": {
+        "properties": {
+          "channels": {
+            "items": {
+              "$ref": "#/components/schemas/WidgetChannel"
+            },
+            "type": "array"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "instant_invite": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "members": {
+            "items": {
+              "$ref": "#/components/schemas/WidgetMember"
+            },
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          },
+          "presence_count": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "instant_invite",
+          "channels",
+          "members",
+          "presence_count"
+        ],
+        "type": "object"
+      },
+      "WidgetUserDiscriminator": {
+        "oneOf": [
+          {
+            "const": "0000",
+            "title": "ZEROES"
+          }
+        ],
+        "type": "string"
       }
     },
     "securitySchemes": {
@@ -2418,6 +2552,65 @@
           }
         },
         "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "guild_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ]
+    },
+    "/guilds/{guild_id}/widget.json": {
+      "get": {
+        "operationId": "get_guild_widget",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WidgetResponse"
+                }
+              }
+            },
+            "description": "200 response for get_guild_widget",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {},
           {
             "BotToken": []
           }

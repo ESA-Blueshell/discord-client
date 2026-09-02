@@ -426,6 +426,46 @@ export type UserResponse = {
 
 export type VerificationLevels = 0 | 1 | 2 | 3 | 4;
 
+export type WidgetActivity = {
+    name: string;
+};
+
+export type WidgetChannel = {
+    id: SnowflakeType;
+    name: string;
+    position: number;
+};
+
+export type WidgetMember = {
+    activity?: WidgetActivity;
+    avatar: boolean;
+    avatar_url: string;
+    channel_id?: SnowflakeType;
+    deaf?: boolean;
+    discriminator: WidgetUserDiscriminator;
+    id: string;
+    mute?: boolean;
+    self_deaf?: boolean;
+    self_mute?: boolean;
+    status: string;
+    suppress?: boolean;
+    username: string;
+};
+
+export type WidgetResponse = {
+    channels: Array<WidgetChannel>;
+    id: SnowflakeType;
+    instant_invite: string | null;
+    members: Array<WidgetMember>;
+    name: string;
+    presence_count: number;
+};
+
+/**
+ * ZEROES
+ */
+export type WidgetUserDiscriminator = '0000';
+
 export type GetGuildData = {
     body?: never;
     path: {
@@ -633,6 +673,37 @@ export type ListGuildRolesResponses = {
 };
 
 export type ListGuildRolesResponse = ListGuildRolesResponses[keyof ListGuildRolesResponses];
+
+export type GetGuildWidgetData = {
+    body?: never;
+    path: {
+        guild_id: SnowflakeType;
+    };
+    query?: never;
+    url: '/guilds/{guild_id}/widget.json';
+};
+
+export type GetGuildWidgetErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type GetGuildWidgetError = GetGuildWidgetErrors[keyof GetGuildWidgetErrors];
+
+export type GetGuildWidgetResponses = {
+    /**
+     * 200 response for get_guild_widget
+     */
+    200: WidgetResponse;
+};
+
+export type GetGuildWidgetResponse = GetGuildWidgetResponses[keyof GetGuildWidgetResponses];
 
 export type GetMyUserData = {
     body?: never;
