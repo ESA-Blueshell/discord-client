@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/ESA-Blueshell/discord-client/compare/v1.0.0...v1.0.1) (2026-09-02)
+
+
+### Bug Fixes
+
+* **ci:** repair CodeQL and read the version from a ref that may predate the task ([#33](https://github.com/ESA-Blueshell/discord-client/issues/33)) ([3709c1a](https://github.com/ESA-Blueshell/discord-client/commit/3709c1a8d81bba2780d915234d71decafd052837))
+* stop publishing artefacts named "0.2.x # x-release-please-version" ([#30](https://github.com/ESA-Blueshell/discord-client/issues/30)) ([a9175fc](https://github.com/ESA-Blueshell/discord-client/commit/a9175fc1fe4e719237d582bc897249c7ea71ddd0))
+
 ## [1.0.0](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.7...v1.0.0) (2026-09-02)
 
 
