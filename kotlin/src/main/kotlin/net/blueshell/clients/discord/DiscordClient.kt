@@ -3,7 +3,7 @@ package net.blueshell.clients.discord
 import net.blueshell.clients.discord.api.DiscordApi
 import net.blueshell.clients.discord.infrastructure.Serializer
 import org.springframework.http.MediaType
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter
 import org.springframework.web.client.RestClient
 
 /**
@@ -15,16 +15,11 @@ import org.springframework.web.client.RestClient
  *  - It wires **no authentication**. openapi-generator does not translate
  *    Discord's bearer scheme into the Kotlin `jvm-spring-restclient` library,
  *    so every call goes out unauthenticated and comes back 401.
- *  - It registers its JSON converter with `messageConverters { it.add(...) }`,
- *    which *appends*. RestClient uses the first converter that can write the
- *    type, so Spring's own default JSON converter stays in front and the
- *    generated `Serializer` — the one configured with `NON_ABSENT` inclusion —
- *    is never consulted. Requests then carry an explicit `null` for every unset
- *    field, which on a Discord PATCH means "clear this field" rather than
- *    "leave it alone".
+ *  - Its converter setup is correct under Jackson 3, so this factory mirrors
+ *    it rather than replacing it.
  *
- * This factory fixes both, and is the only hand-written Kotlin in the
- * repository; everything under `.api` and `.model` is generated.
+ * So authentication is the reason this exists. It is the only hand-written
+ * Kotlin in the repository; everything under `.api` and `.model` is generated.
  */
 object DiscordClient {
 
@@ -57,8 +52,15 @@ object DiscordClient {
             .baseUrl(baseUrl)
             .defaultHeader("Authorization", "Bot $botToken")
             .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-            // Inserted at the front, not appended — see the class comment.
-            .messageConverters { it.add(0, MappingJackson2HttpMessageConverter(Serializer.jacksonObjectMapper)) }
+            // `withJsonConverter` replaces the default JSON converter rather
+            // than adding a second one behind it, so the generated Serializer's
+            // mapper is the one that actually runs. That matters: it sets
+            // NON_ABSENT inclusion, and on a Discord PATCH an explicit null
+            // means "clear this field" — a client that helpfully filled in
+            // nulls would wipe a member's roles while setting their nickname.
+            .configureMessageConverters {
+                it.registerDefaults().withJsonConverter(JacksonJsonHttpMessageConverter(Serializer.jacksonObjectMapper))
+            }
 
         if (userAgent != null) {
             builder.defaultHeader("User-Agent", userAgent)
