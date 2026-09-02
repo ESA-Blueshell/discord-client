@@ -43,6 +43,57 @@ a number to a string, and any call site passing a `Long` stops compiling.
 That is the whole argument for the filter step, and it is why
 `specs/discord.json` holds the filtered surface rather than the upstream file.
 
+## Nothing waits for a human
+
+The chain runs unattended, so the published clients stay in step with the
+upstream spec rather than with whoever remembers to press merge:
+
+```
+upstream spec moves
+  -> spec-sync filters, classifies, regenerates, builds, tests
+  -> opens a pull request titled with the conventional commit
+  -> merges it
+  -> release-please opens a release pull request
+  -> merges that
+  -> tags, and publishes both artefacts
+```
+
+Merging the spec-sync pull request without review is safe for two specific
+reasons rather than as a general policy. The job has already regenerated both
+clients, compiled them and run their tests before it opens the pull request, so
+a spec change that breaks generation never reaches the merge step. And the
+surface guards fail the run outright if upstream stops serving a declared
+operation or tag, so the failure that actually matters — silently publishing a
+smaller client — cannot get there either.
+
+**Majors merge too.** Consumers pin versions, so publishing a major breaks
+nobody who has not chosen to upgrade, and semver is precisely how the break is
+communicated. Holding a breaking spec change back would leave the client
+describing an API that no longer exists, which is the worse failure. To review
+majors by hand instead, set the repository variable:
+
+```
+HOLD_MAJOR_RELEASES=true
+```
+
+The release job is skipped on the run that follows a release, which is what
+stops the two workflows from cycling.
+
+### The one gap
+
+`main` is protected by the `Main` ruleset — pull request required, squash only,
+linear history, no force pushes or deletion. It deliberately does **not**
+require a status check, because GitHub does not run workflows on pull requests
+opened with the default `GITHUB_TOKEN`: a required check would never report on
+an automated pull request and the chain above would stall forever.
+
+To require the check as well, add an `AUTOMATION_TOKEN` secret (a PAT or GitHub
+App token with `contents` and `pull-requests` write). Both workflows already
+prefer it over the default token, so the automated pull requests would then run
+CI like any other, and `Verify spec, Kotlin and TypeScript` can be added to the
+ruleset. Until then the verification lives in the sync job rather than on the
+pull request.
+
 ## Who owns the number
 
 Nothing writes a version directly. The nightly sync writes a **conventional
