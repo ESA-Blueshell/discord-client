@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.2...v0.2.3) (2026-09-02)
+
+
+### Build and Dependencies
+
+* **deps:** Bump the gradle group in /kotlin with 5 updates ([#3](https://github.com/ESA-Blueshell/discord-client/issues/3)) ([e99d3d7](https://github.com/ESA-Blueshell/discord-client/commit/e99d3d7a4e745d15547a583a6d197a9d574f8108))
+
 ## [0.2.2](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.1...v0.2.2) (2026-09-02)
 
 
