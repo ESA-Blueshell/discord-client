@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.6](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.5...v0.2.6) (2026-09-02)
+
+
+### Build and Dependencies
+
+* **deps:** Bump actions/dependency-review-action from 4.7.2 to 5.0.0 ([#22](https://github.com/ESA-Blueshell/discord-client/issues/22)) ([5bed572](https://github.com/ESA-Blueshell/discord-client/commit/5bed572059cb34fca4c8bbc9997bea27cc3ccc0e))
+
 ## [0.2.5](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.4...v0.2.5) (2026-09-02)
 
 
