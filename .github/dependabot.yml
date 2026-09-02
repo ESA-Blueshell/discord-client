@@ -30,6 +30,9 @@ updates:
     directory: /tools
     schedule:
       interval: weekly
+    commit-message:
+      prefix: build(deps)
+      prefix-development: build(deps-dev)
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5
@@ -47,9 +50,26 @@ updates:
     directory: /typescript
     schedule:
       interval: weekly
+    commit-message:
+      prefix: build(deps)
+      prefix-development: build(deps-dev)
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5
+    # TypeScript 7 is the native port and reshaped the compiler API. It removes
+    # what `@hey-api/openapi-ts` reads at import time, so the generator dies
+    # before it emits anything:
+    #
+    #   TypeError: Cannot read properties of undefined (reading 'AnyKeyword')
+    #     at .../@hey-api/openapi-ts/dist/init-*.mjs
+    #
+    # openapi-ts 0.99.0 is the current release and does not support it yet.
+    # Nothing in this repository can fix that, and an open pull request that
+    # can never go green only hides the ones that can. Lift this once
+    # openapi-ts declares support for typescript 7.
+    ignore:
+      - dependency-name: typescript
+        versions: [">= 7"]
     groups:
       typescript:
         applies-to: version-updates
@@ -64,6 +84,9 @@ updates:
     directory: /kotlin
     schedule:
       interval: weekly
+    commit-message:
+      prefix: build(deps)
+      prefix-development: build(deps-dev)
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5
@@ -83,6 +106,9 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    commit-message:
+      prefix: build(deps)
+      prefix-development: build(deps-dev)
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5

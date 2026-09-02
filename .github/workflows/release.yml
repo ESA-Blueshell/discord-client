@@ -55,9 +55,78 @@ jobs:
           # request is created but runs no checks. Optional.
           token: ${{ secrets.AUTOMATION_TOKEN || github.token }}
 
+  verify-release-pr:
+    name: Verify the release pull request
+    needs: release-please
+    if: needs.release-please.outputs.release_pr != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      # GitHub does not execute workflow runs for a pull request opened with
+      # the default GITHUB_TOKEN, so the release pull request cannot check
+      # itself — its runs are created with no jobs and concluded red. The
+      # verification therefore runs here, against the pull request's own head,
+      # and the merge below is gated on this job succeeding. Merging a release
+      # on the strength of a check that never executed is exactly what this
+      # replaces.
+      - name: Check out the release pull request's head
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          ref: refs/pull/${{ needs.release-please.outputs.release_pr }}/head
+
+      - name: Set up Node.js
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Set up Java
+        uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@ac638b010cf58a27ee6c972d7336334ccaf61c96 # v4.4.1
+
+      - name: Check the vendored spec is canonical and matches its lock
+        run: node tools/src/cli.mjs check
+
+      - name: Test the spec pipeline
+        run: npm ci --prefix tools && npm test --prefix tools
+
+      - name: Build and test the Kotlin client
+        working-directory: kotlin
+        run: ./gradlew build --no-daemon
+
+      - name: Build and test the TypeScript client
+        working-directory: typescript
+        run: |
+          npm ci
+          npm run typecheck
+          npm test
+          npm run build
+
+      - name: Confirm the versions agree with what will be released
+        env:
+          VERSION: ${{ needs.release-please.outputs.version }}
+        run: |
+          # The whole point of the release pull request is the version bump, so
+          # a mismatch here means release-please's extra-files stopped matching
+          # and the wrong number is about to be published.
+          set -euo pipefail
+          gradle_version="$(sed -n 's/^version=\([^ ]*\).*/\1/p' kotlin/gradle.properties)"
+          npm_version="$(node -p "require('./typescript/package.json').version")"
+          echo "release-please=$VERSION gradle=$gradle_version npm=$npm_version"
+          if [ -n "$VERSION" ] && { [ "$gradle_version" != "$VERSION" ] || [ "$npm_version" != "$VERSION" ]; }; then
+            echo "::error::Version mismatch in the release pull request."
+            exit 1
+          fi
+
   merge-release-pr:
     name: Merge the release pull request
-    needs: release-please
+    needs: [release-please, verify-release-pr]
     # Only when release-please has a pending release; on the run that follows
     # the merge it has nothing to propose and this is skipped, which is what
     # stops the two workflows from cycling.
