@@ -207,3 +207,15 @@ publishing {
         }
     }
 }
+
+// Prints the version Gradle resolved, for CI to assert on.
+//
+// Re-parsing gradle.properties is what hid a corrupt version for seven
+// releases. The check took everything up to the first space, so it read a
+// clean "0.2.6" out of a value that was really
+// "0.2.6 # x-release-please-version". Ask the build for the version, not the
+// file.
+tasks.register("printVersion") {
+    val resolved = project.version.toString()
+    doLast { println(resolved) }
+}
