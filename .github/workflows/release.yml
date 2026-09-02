@@ -31,8 +31,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
+      # `issues: write` is needed alongside the other two: release-please
+      # applies its `autorelease:` labels through the issues API, and label
+      # writes on a pull request are an issues operation, not a pull-requests
+      # one. Without it v5 reports `Resource not accessible by integration`
+      # while creating the release.
       contents: write
       pull-requests: write
+      issues: write
     outputs:
       released: ${{ steps.release.outputs.release_created }}
       tag: ${{ steps.release.outputs.tag_name }}
