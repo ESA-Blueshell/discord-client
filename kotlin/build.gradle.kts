@@ -3,7 +3,7 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
     kotlin("jvm") version "2.4.10"
-    id("org.openapi.generator") version "7.24.0"
+    id("org.openapi.generator") version "7.25.0"
     `java-library`
     `maven-publish`
 }
@@ -11,8 +11,8 @@ plugins {
 // Versions the generated client compiles and runs against. Kept aligned with
 // ESA-Blueshell/website (Spring Boot 4.1.x, Java 25) so the published artefact
 // drops into its primary consumer without a dependency conflict.
-val springVersion = "7.0.5"
-val jacksonVersion = "2.21.0"
+val springVersion = "7.0.9"
+val jacksonVersion = "2.22.2"
 val javaToolchain = 25
 
 kotlin {
@@ -147,7 +147,7 @@ dependencies {
     api("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     testImplementation(kotlin("test"))
-    testImplementation("org.junit.jupiter:junit-jupiter:6.0.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.1.3")
     testImplementation("org.assertj:assertj-core:3.27.7")
     testImplementation("org.wiremock:wiremock:3.13.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
