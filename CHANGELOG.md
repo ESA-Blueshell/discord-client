@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/ESA-Blueshell/discord-client/compare/v0.2.0...v0.2.1) (2026-09-02)
+
+
+### Documentation
+
+* describe the unattended release chain and its one gap ([#12](https://github.com/ESA-Blueshell/discord-client/issues/12)) ([bdf03d6](https://github.com/ESA-Blueshell/discord-client/commit/bdf03d6d62e0c95d5f4f0f2b28cb7bc821da92bf))
+
 ## [0.2.0](https://github.com/ESA-Blueshell/discord-client/compare/v0.1.0...v0.2.0) (2026-09-02)
 
 
