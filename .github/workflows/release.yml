@@ -48,6 +48,39 @@ jobs:
           # request is created but runs no checks. Optional.
           token: ${{ secrets.AUTOMATION_TOKEN || github.token }}
 
+  merge-release-pr:
+    name: Merge the release pull request
+    needs: release-please
+    # Only when release-please has a pending release; on the run that follows
+    # the merge it has nothing to propose and this is skipped, which is what
+    # stops the two workflows from cycling.
+    if: needs.release-please.outputs.released != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Merge it if one is open
+        env:
+          GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN || github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          # Keeping the published clients in step with the upstream specs means
+          # the release cannot wait for someone to press merge. The pull request
+          # only ever changes version strings and the changelog — the code it
+          # releases was already built and tested on main.
+          number="$(gh pr list --label 'autorelease: pending' --state open --limit 1 --json number --jq '.[0].number // empty')"
+          if [ -z "$number" ]; then
+            echo "No pending release pull request."
+            exit 0
+          fi
+
+          gh pr merge "$number" --squash --auto || gh pr merge "$number" --squash
+          echo "::notice::Merged release pull request #$number; the next Release run publishes it."
+
   publish:
     name: Publish to GitHub Packages
     needs: release-please

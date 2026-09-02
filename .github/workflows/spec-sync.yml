@@ -195,6 +195,43 @@ jobs:
             echo "${{ steps.sync.outputs.summary }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Merge the pull request
+        if: steps.sync.outputs.changed == 'true' && steps.commit.outputs.nothing_to_commit == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN || github.token }}
+          BUMP: ${{ steps.sync.outputs.bump }}
+          HOLD_MAJOR: ${{ vars.HOLD_MAJOR_RELEASES }}
+        run: |
+          set -euo pipefail
+
+          # Merging without waiting for a review is safe here for two specific
+          # reasons, not as a general policy:
+          #
+          #  - This job has already regenerated both clients, compiled them and
+          #    run their tests. A spec change that breaks generation never
+          #    reaches this step.
+          #  - The surface guards fail the run outright if upstream stops
+          #    serving a declared operation or tag, so the failure mode that
+          #    actually matters — silently publishing a smaller client — cannot
+          #    get here either.
+          #
+          # A major is merged too. That is deliberate: consumers pin versions,
+          # so publishing a major breaks nobody who has not chosen to upgrade,
+          # and semver is exactly how the break gets communicated. Set the
+          # repository variable HOLD_MAJOR_RELEASES=true to hold majors for
+          # review instead.
+          if [ "$BUMP" = "major" ] && [ "${HOLD_MAJOR:-false}" = "true" ]; then
+            echo "::notice::Classified as major and HOLD_MAJOR_RELEASES is set; leaving the pull request open for review."
+            exit 0
+          fi
+
+          # --auto waits for any required checks; with none configured it
+          # merges immediately. Fall back to a direct squash if auto-merge is
+          # unavailable on the repository.
+          gh pr merge "$SYNC_BRANCH" --squash --auto \
+            || gh pr merge "$SYNC_BRANCH" --squash
+          echo "::notice::Merged the $BUMP spec sync; the release workflow will cut and publish the version."
+
       - name: Upload the classification artefacts
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
