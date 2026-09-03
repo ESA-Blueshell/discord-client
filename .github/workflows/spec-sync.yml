@@ -34,9 +34,12 @@ concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
 
+# Read at the top level; the one job that needs to push a branch and open a
+# pull request asks for write itself. A top-level write grant applies to every
+# job a workflow ever grows, which is what Scorecard's token-permissions check
+# objects to.
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 env:
   JAVA_VERSION: '25'
@@ -46,6 +49,9 @@ env:
 jobs:
   sync:
     name: Check upstream spec and regenerate
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:

@@ -1,0 +1,15 @@
+name: CodeQL config
+
+# Build output is not source. The Kotlin analysis has to compile the client to
+# produce a database, and that compilation generates the whole client under
+# kotlin/build/generated — which CodeQL then scanned, reporting 34 style notes
+# about code openapi-generator wrote and nobody here can edit. None of it is
+# committed; it exists only for the duration of the analysis.
+#
+# The TypeScript equivalents are typescript/src/generated (committed, but
+# generated) and typescript/dist (build output).
+paths-ignore:
+  - '**/build/**'
+  - 'typescript/dist/**'
+  - 'typescript/src/generated/**'
+  - '**/node_modules/**'
