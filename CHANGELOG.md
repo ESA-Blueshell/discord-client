@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/ESA-Blueshell/discord-client/compare/v1.1.1...v1.1.2) (2026-09-16)
+
+
+### Build and Dependencies
+
+* **deps:** Bump the actions group with 4 updates ([#44](https://github.com/ESA-Blueshell/discord-client/issues/44)) ([a4de353](https://github.com/ESA-Blueshell/discord-client/commit/a4de35331ace7fe9cd3441376bbc9ff5a2d2acd8))
+
 ## [1.1.1](https://github.com/ESA-Blueshell/discord-client/compare/v1.1.0...v1.1.1) (2026-09-02)
 
 
