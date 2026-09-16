@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
-    kotlin("jvm") version "2.4.10"
+    kotlin("jvm") version "2.4.20"
     id("org.openapi.generator") version "7.25.0"
     `java-library`
     `maven-publish`
@@ -17,7 +17,7 @@ val springVersion = "7.0.9"
 // version is managed by the Jackson 3 BOM rather than pinned here, because
 // the two version lines do not track each other (the BOM at 3.1.0 wants
 // annotations 2.x, and 2.22.2 was never published).
-val jacksonVersion = "3.1.0"
+val jacksonVersion = "3.2.2"
 val javaToolchain = 25
 
 kotlin {
