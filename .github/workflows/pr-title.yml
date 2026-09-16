@@ -16,13 +16,13 @@ permissions:
 jobs:
   lint:
     name: Lint the title
-    # Dependabot's pull requests do run workflows, unlike release-please's, so
+    # Renovate's pull requests do run workflows, unlike release-please's, so
     # they reach this job. Its titles are conventional by construction — the
-    # prefixes are pinned in dependabot.yml — but the subject's leading "bump"
-    # has been capitalised on some runs and not others, and the title cannot be
-    # edited to fix it. Linting it can only produce red nobody can clear.
+    # type comes from `semanticCommitType` in renovate.json — and a title it
+    # rewrites on the next run cannot be corrected by hand. Linting it can only
+    # produce red nobody can clear.
     if: >-
-      github.event.pull_request.user.login != 'dependabot[bot]' &&
+      github.event.pull_request.user.login != 'renovate[bot]' &&
       github.head_ref != 'release-please--branches--main' &&
       github.head_ref != 'chore/spec-sync'
     runs-on: ubuntu-latest

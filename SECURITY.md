@@ -14,7 +14,7 @@ concerns are narrow, and worth naming:
 - **Supply chain.** Every GitHub Action is pinned by commit SHA, and `oasdiff`
   runs from a digest-pinned container. That pin matters more than it looks:
   `oasdiff` decides published version numbers, so a silently-changed classifier
-  could ship a breaking change as a patch. Dependabot proposes updates only
+  could ship a breaking change as a patch. Renovate proposes updates only
   after a release has been on its registry for **seven days**, leaving time for
   a compromised version to be yanked before it reaches a pull request.
 - **Credential handling.** The clients take a bot token and send it as an

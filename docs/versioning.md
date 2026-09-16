@@ -141,5 +141,5 @@ single worst outcome this design is built to prevent.
 
 The spec is not the only thing that can break a consumer. A generator upgrade
 can rename a model or change a method signature without the spec moving at all.
-Those changes arrive through ordinary Dependabot pull requests and need a human
+Those changes arrive through ordinary Renovate pull requests and need a human
 to write the conventional commit — the automation has no view into them.

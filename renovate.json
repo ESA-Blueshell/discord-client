@@ -1,0 +1,107 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":dependencyDashboard"
+  ],
+  "timezone": "Europe/Amsterdam",
+  "schedule": [
+    "before 06:00 on monday"
+  ],
+  "minimumReleaseAge": "7 days",
+  "labels": [
+    "dependencies"
+  ],
+  "prConcurrentLimit": 8,
+  "branchConcurrentLimit": 8,
+  "rebaseWhen": "conflicted",
+  "semanticCommitType": "build",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 05:00 on monday"
+    ]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "dependencies",
+      "bug"
+    ]
+  },
+  "packageRules": [
+    {
+      "description": "A major bump needs code changes, so it never joins a group. Dashboard approval keeps it out of the queue until someone picks it up.",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "The spec pipeline decides release version numbers, so its updates are reviewed on their own rather than alongside the client's.",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchFileNames": [
+        "tools/**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "spec pipeline",
+      "addLabels": [
+        "javascript"
+      ]
+    },
+    {
+      "matchManagers": [
+        "npm"
+      ],
+      "matchFileNames": [
+        "typescript/**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "typescript client",
+      "addLabels": [
+        "javascript"
+      ]
+    },
+    {
+      "matchManagers": [
+        "gradle",
+        "gradle-wrapper"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "kotlin client",
+      "addLabels": [
+        "java"
+      ]
+    },
+    {
+      "description": "Every action is pinned by commit SHA, so Renovate keeps the digest and the version comment in step. Nothing in CI exercises release.yml, so an Actions major that breaks releasing goes in green — check it by hand after one lands.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "pinDigests": true,
+      "groupName": "github actions dependencies",
+      "addLabels": [
+        "github_actions"
+      ]
+    },
+    {
+      "description": "TypeScript 7 is the native port and reshaped the compiler API. It removes what @hey-api/openapi-ts reads at import time, so the generator dies before it emits anything: TypeError: Cannot read properties of undefined (reading 'AnyKeyword'). Lift this once openapi-ts declares support for typescript 7.",
+      "matchPackageNames": [
+        "typescript"
+      ],
+      "allowedVersions": "<7"
+    }
+  ]
+}
