@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/ESA-Blueshell/discord-client/compare/v1.1.2...v1.1.3) (2026-09-16)
+
+
+### Build and Dependencies
+
+* **deps:** renovate replaces dependabot here too ([#45](https://github.com/ESA-Blueshell/discord-client/issues/45)) ([98faa6c](https://github.com/ESA-Blueshell/discord-client/commit/98faa6c2b221eb751234ff08f786b5c708697cae))
+
 ## [1.1.2](https://github.com/ESA-Blueshell/discord-client/compare/v1.1.1...v1.1.2) (2026-09-16)
 
 
