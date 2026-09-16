@@ -97,6 +97,14 @@
       ]
     },
     {
+      "description": "CodeQL's Kotlin extractor refuses a compiler it does not know, and the analysis builds the client to scan it: `Kotlin version 2.4.20 is too recent. CodeQL currently supports versions below 2.4.20`. The bump cannot go green until the extractor catches up, and an open pull request that never can only hides the ones that can. Lift this once CodeQL supports 2.4.20.",
+      "matchPackageNames": [
+        "org.jetbrains.kotlin.jvm",
+        "/^org\\.jetbrains\\.kotlin[.:]/"
+      ],
+      "allowedVersions": "<2.4.20"
+    },
+    {
       "description": "TypeScript 7 is the native port and reshaped the compiler API. It removes what @hey-api/openapi-ts reads at import time, so the generator dies before it emits anything: TypeError: Cannot read properties of undefined (reading 'AnyKeyword'). Lift this once openapi-ts declares support for typescript 7.",
       "matchPackageNames": [
         "typescript"
