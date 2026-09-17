@@ -23,7 +23,62 @@ import { applyGeneratorFixups } from './fixups.mjs'
 import { buildLock, serialiseLock, sha256 } from './lock.mjs'
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
+
+/**
+ * Hosts this tool is allowed to fetch a spec from.
+ *
+ * `surface.json` names the upstream URL, so without this the file decides
+ * where CI makes an outbound request to — and the fetched body is then written
+ * into the repository. CodeQL flags exactly that pair (`js/file-access-to-http`
+ * and `js/http-to-file-access`), and it is right to: a one-line edit to a
+ * config file should not be able to point the nightly job at an arbitrary host.
+ *
+ * Held in code rather than in `surface.json` on purpose. A list living beside
+ * the value it constrains constrains nothing.
+ */
+const ALLOWED_UPSTREAM_HOSTS = new Set([
+  'api.brevo.com',
+  'raw.githubusercontent.com',
+])
+
+/** Rejects anything that is not an https URL on an allowed host. */
+function assertAllowedUpstream(rawUrl) {
+  let url
+  try {
+    url = new URL(rawUrl)
+  } catch {
+    throw new Error(`specs/surface.json upstreamUrl is not a URL: ${rawUrl}`)
+  }
+  if (url.protocol !== 'https:') {
+    throw new Error(`specs/surface.json upstreamUrl must be https, got ${url.protocol}`)
+  }
+  if (!ALLOWED_UPSTREAM_HOSTS.has(url.hostname)) {
+    throw new Error(
+      `specs/surface.json upstreamUrl host ${url.hostname} is not allowed. ` +
+        `Add it to ALLOWED_UPSTREAM_HOSTS in tools/src/cli.mjs if it is genuinely intended.`,
+    )
+  }
+  return url.href
+}
+
+/**
+ * Rejects anything that is not a bare filename.
+ *
+ * The spec and lock file names come from `surface.json` too, and are joined
+ * onto `specs/` before being written. A name containing a separator or `..`
+ * would put the write outside the directory it belongs in.
+ */
+function assertBareFilename(value, field) {
+  if (typeof value !== 'string' || value === '' || /[\\/]|^\.\.?$|\.\./.test(value)) {
+    throw new Error(`specs/surface.json ${field} must be a bare filename, got ${JSON.stringify(value)}`)
+  }
+  return value
+}
+
 const surface = JSON.parse(readFileSync(resolve(repoRoot, 'specs/surface.json'), 'utf8'))
+const upstreamUrl = assertAllowedUpstream(surface.upstreamUrl)
+assertBareFilename(surface.specFile, 'specFile')
+assertBareFilename(surface.lockFile, 'lockFile')
 
 const specPath = resolve(repoRoot, 'specs', surface.specFile)
 const lockPath = resolve(repoRoot, 'specs', surface.lockFile)
@@ -49,12 +104,12 @@ function emitOutputs(values) {
 }
 
 async function fetchUpstream() {
-  const response = await fetch(surface.upstreamUrl, {
+  const response = await fetch(upstreamUrl, {
     headers: { accept: 'application/json, application/yaml, text/yaml, */*' },
     redirect: 'follow',
   })
   if (!response.ok) {
-    throw new Error(`Upstream returned HTTP ${response.status} ${response.statusText} for ${surface.upstreamUrl}`)
+    throw new Error(`Upstream returned HTTP ${response.status} ${response.statusText} for ${upstreamUrl}`)
   }
   return await response.text()
 }
@@ -63,12 +118,12 @@ async function fetchUpstream() {
 async function toVersionedSurface(rawBody) {
   const upstream = await parseAnySpec(rawBody)
   const filtered = filterSpec(upstream, surface)
-  return { upstream, filtered, canonical: serialiseSpec(filtered) }
+  return { upstream, canonical: serialiseSpec(filtered) }
 }
 
 async function sync() {
   const rawBody = await fetchUpstream()
-  const { upstream, filtered, canonical } = await toVersionedSurface(rawBody)
+  const { upstream, canonical } = await toVersionedSurface(rawBody)
 
   const previous = existsSync(specPath) ? readFileSync(specPath, 'utf8') : null
   const bytesChanged = previous !== canonical
@@ -77,7 +132,7 @@ async function sync() {
     // First run in a fresh repo: nothing to diff against, so seed the contract.
     writeFile(specPath, canonical)
     writeFile(lockPath, serialiseLock(buildLock({
-      url: surface.upstreamUrl, rawBody, spec: upstream,
+      url: upstreamUrl, rawBody, spec: upstream,
       surfaceSha: sha256(canonical), fetchedAt: new Date().toISOString(),
     })))
     emitOutputs({ bump: 'none', changed: 'true', summary: 'Seeded the initial vendored spec surface.' })
@@ -117,7 +172,7 @@ async function sync() {
 
   writeFile(specPath, canonical)
   writeFile(lockPath, serialiseLock(buildLock({
-    url: surface.upstreamUrl, rawBody, spec: upstream,
+    url: upstreamUrl, rawBody, spec: upstream,
     surfaceSha: sha256(canonical), fetchedAt: new Date().toISOString(),
   })))
 

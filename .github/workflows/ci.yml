@@ -60,6 +60,14 @@ jobs:
       - name: Set up Gradle
         if: ${{ !cancelled() }}
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+        with:
+          # Already the action's default; pinned explicitly so a future change
+          # of that default cannot quietly drop it. This is the answer to
+          # Scorecard's BinaryArtifacts finding about the checked-in
+          # kotlin/gradle/wrapper/gradle-wrapper.jar: the checksum is verified
+          # against the published Gradle distributions on every run, so a
+          # swapped jar fails the build rather than executing.
+          validate-wrappers: true
 
       # ── The spec contract ────────────────────────────────────────────────
       # Runs first and is the cheapest gate: it catches a hand-edited spec, a
