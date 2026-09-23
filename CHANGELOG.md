@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.1.3...v1.2.0) (2026-09-23)
+
+
+### Features
+
+* **spec:** expose guild channels, channel messages and the current application ([#49](https://github.com/ESA-Blueshell/discord-client/issues/49)) ([09b2fa4](https://github.com/ESA-Blueshell/discord-client/commit/09b2fa40fa77ad939f2a819a6ce6cec035e45faa))
+
 ## [1.1.3](https://github.com/ESA-Blueshell/discord-client/compare/v1.1.2...v1.1.3) (2026-09-16)
 
 
