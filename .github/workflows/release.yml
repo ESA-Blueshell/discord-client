@@ -50,16 +50,29 @@ jobs:
       # demonstrably existed — it merged on one repository and silently did
       # nothing on the other, purely on timing.
       release_pr: ${{ steps.release.outputs.pr && fromJson(steps.release.outputs.pr).number || '' }}
+    env:
+      HAS_RELEASE_APP: ${{ secrets.RELEASE_APP_ID != '' }}
     steps:
+      # A token minted from the blueshell-release app, where the repo has its secrets. A pull
+      # request or push made with it starts the workflows GITHUB_TOKEN cannot: checks on the
+      # pull requests this opens, and the Release run that publishes a merged release.
+      - name: Mint the release app's token
+        id: app-token
+        if: env.HAS_RELEASE_APP == 'true'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
       - name: Run release-please
         id: release
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
-          # As in spec-sync: with only the default token the release pull
-          # request is created but runs no checks. Optional.
-          token: ${{ secrets.AUTOMATION_TOKEN || github.token }}
+          # The app's token, so the release pull request runs its checks. The default token still
+          # works without the app's secrets, but opens it with none.
+          token: ${{ steps.app-token.outputs.token || github.token }}
 
   verify-release-pr:
     name: Verify the release pull request
@@ -146,10 +159,23 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+    env:
+      HAS_RELEASE_APP: ${{ secrets.RELEASE_APP_ID != '' }}
     steps:
+      # A token minted from the blueshell-release app, where the repo has its secrets. A pull
+      # request or push made with it starts the workflows GITHUB_TOKEN cannot: checks on the
+      # pull requests this opens, and the Release run that publishes a merged release.
+      - name: Mint the release app's token
+        id: app-token
+        if: env.HAS_RELEASE_APP == 'true'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
       - name: Merge it
         env:
-          GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN || github.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ needs.release-please.outputs.release_pr }}
         run: |

@@ -48,20 +48,30 @@ jobs:
     name: Check upstream spec and regenerate
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      HAS_RELEASE_APP: ${{ secrets.RELEASE_APP_ID != '' }}
     steps:
+      # A token minted from the blueshell-release app, where the repo has its secrets. A pull
+      # request or push made with it starts the workflows GITHUB_TOKEN cannot: checks on the
+      # pull requests this opens, and the Release run that publishes a merged release.
+      - name: Mint the release app's token
+        id: app-token
+        if: env.HAS_RELEASE_APP == 'true'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           # A pull request opened with the default GITHUB_TOKEN does not trigger
-          # `pull_request` workflows — GitHub suppresses that to prevent
-          # recursion — so CI would never run on the nightly PR. Setting an
-          # AUTOMATION_TOKEN secret (a PAT or GitHub App token with `contents`
-          # and `pull-requests` write) makes the checks appear. Without it
-          # everything still works: this job builds and tests both clients
-          # before opening the PR, so the evidence is in the run rather than on
-          # the PR. See docs/versioning.md.
-          token: ${{ secrets.AUTOMATION_TOKEN || github.token }}
+          # `pull_request` workflows, so CI would never run on the nightly PR. The
+          # release app's token makes the checks appear. Without its secrets
+          # everything still works: this job builds and tests both clients before
+          # opening the PR, so the evidence is in the run rather than on the PR.
+          token: ${{ steps.app-token.outputs.token || github.token }}
 
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -136,7 +146,7 @@ jobs:
       - name: Open or update the pull request
         if: steps.sync.outputs.changed == 'true' && steps.commit.outputs.nothing_to_commit == 'false'
         env:
-          GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN || github.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
           BUMP: ${{ steps.sync.outputs.bump }}
         run: |
           set -euo pipefail
@@ -198,7 +208,7 @@ jobs:
       - name: Merge the pull request
         if: steps.sync.outputs.changed == 'true' && steps.commit.outputs.nothing_to_commit == 'false'
         env:
-          GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN || github.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
           BUMP: ${{ steps.sync.outputs.bump }}
           HOLD_MAJOR: ${{ vars.HOLD_MAJOR_RELEASES }}
         run: |

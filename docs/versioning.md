@@ -103,13 +103,17 @@ require a status check, because GitHub does not run workflows on pull requests
 opened with the default `GITHUB_TOKEN`: a required check would never report on
 an automated pull request and the chain above would stall forever.
 
-To require the check as well, add an `AUTOMATION_TOKEN` secret (a PAT or GitHub
-App token with `contents` and `pull-requests` write). Both workflows already
-prefer it over the default token, so the automated pull requests would then run
-CI like any other, `Verify spec, Kotlin and TypeScript` can be added to the
-ruleset, and the `branches-ignore` exclusions plus the `verify-release-pr` job
-can go away. Until then the verification lives in the workflows that have a
-working token context rather than on the pull request.
+Both workflows mint a token from the `blueshell-release` GitHub App when the
+repository has its `RELEASE_APP_ID` and `RELEASE_APP_PRIVATE_KEY` secrets, and
+fall back to the default token otherwise. With the app's token:
+- a push or merge starts the next workflow run, so a merged release pull request
+  is published by the Release run that follows it rather than stalling;
+- the automated pull requests run CI like any other, so `Verify spec, Kotlin and
+  TypeScript` can be added to the ruleset, and the `branches-ignore` exclusions
+  plus the `verify-release-pr` job can go away.
+
+Until then the verification lives in the workflows that have a working token
+context rather than on the pull request.
 
 ## Who owns the number
 
