@@ -1,5 +1,47 @@
 import { describe, expect, it } from 'vitest'
-import { applyGeneratorFixups, collapseRedundantEnumAllOf, dropConstraintOnlyCompositions, keepJsonRequestBodies, rewriteNullTypes } from '../src/fixups.mjs'
+import { applyGeneratorFixups, collapseNullableUnions, collapseRedundantEnumAllOf, dropConstraintOnlyCompositions, keepJsonRequestBodies, rewriteNullTypes } from '../src/fixups.mjs'
+
+describe('collapseNullableUnions', () => {
+  it('reads a nullable reference as the reference, no longer required, its description kept', () => {
+    // Left as a union, the generator renders a wrapper class Jackson cannot
+    // build from the snowflake string Discord sends, and every read fails.
+    const out = collapseNullableUnions({
+      required: ['id', 'afk_channel_id'],
+      properties: {
+        id: { $ref: '#/components/schemas/SnowflakeType' },
+        afk_channel_id: { description: 'd', oneOf: [{ type: 'null' }, { $ref: '#/components/schemas/SnowflakeType' }] },
+      },
+    })
+    expect(out.properties.afk_channel_id).toEqual({ description: 'd', $ref: '#/components/schemas/SnowflakeType' })
+    expect(out.required).toEqual(['id'])
+  })
+
+  it('collapses anyOf and a null branch in either place, at any depth', () => {
+    const out = collapseNullableUnions({
+      a: { properties: { b: { anyOf: [{ $ref: '#/x' }, { type: 'null' }] } } },
+      items: { oneOf: [{ type: 'null' }, { type: 'string' }] },
+    })
+    expect(out.a.properties.b).toEqual({ $ref: '#/x' })
+    expect(out.items).toEqual({ type: 'string' })
+  })
+
+  it('leaves real unions alone', () => {
+    const node = {
+      properties: {
+        many: { oneOf: [{ type: 'null' }, { $ref: '#/a' }, { $ref: '#/b' }] },
+        two: { oneOf: [{ $ref: '#/a' }, { $ref: '#/b' }] },
+        marked: { oneOf: [{ type: 'null', description: 'present means true' }, { $ref: '#/a' }] },
+      },
+      required: ['many', 'two', 'marked'],
+    }
+    expect(collapseNullableUnions(structuredClone(node))).toEqual(node)
+  })
+
+  it('runs before the null types become booleans', () => {
+    const out = applyGeneratorFixups({ components: { schemas: { G: { properties: { c: { oneOf: [{ type: 'null' }, { $ref: '#/s' }] } } } } } })
+    expect(out.components.schemas.G.properties.c).toEqual({ $ref: '#/s' })
+  })
+})
 
 describe('rewriteNullTypes', () => {
   it('rewrites type: null to boolean at any depth', () => {

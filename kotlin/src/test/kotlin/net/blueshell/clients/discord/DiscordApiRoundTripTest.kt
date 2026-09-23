@@ -147,6 +147,27 @@ class DiscordApiRoundTripTest {
         assertThat(api.getMyUser().username).isEqualTo("nelly")
     }
 
+    @Test
+    fun `reads a nullable reference as its value or as null`() {
+        // Discord writes these as oneOf null or a $ref. Generated as a wrapper
+        // class, a snowflake string could not be read into it and the whole
+        // response failed, the guild and the application among them.
+        stubJson(
+            "GET",
+            "/users/@me",
+            CURRENT_USER_JSON.dropLast(1) +
+                """, "avatar_decoration_data": { "asset": "a_fed43ab12698df65902ba06727e20c0e", "sku_id": "1144058844004233369" } }""",
+        )
+        assertThat(api.getMyUser().avatarDecorationData?.skuId).isEqualTo("1144058844004233369")
+
+        stubJson(
+            "GET",
+            "/users/@me",
+            CURRENT_USER_JSON.dropLast(1) + """, "avatar_decoration_data": { "asset": "a", "sku_id": null } }""",
+        )
+        assertThat(api.getMyUser().avatarDecorationData?.skuId).isNull()
+    }
+
     // ── Request wiring ──────────────────────────────────────────────────────
 
     @Test

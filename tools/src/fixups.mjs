@@ -9,11 +9,60 @@
  * committed spec lie and would hide the rewrite from the diff a reviewer reads.
  * Confining the hacks here keeps the contract honest and the workarounds visible.
  *
- * `rewriteNullTypes`, `collapseRedundantEnumAllOf` and `keepJsonRequestBodies`
- * are the three Discord needs. `dropConstraintOnlyCompositions` is carried from
+ * `collapseNullableUnions`, `rewriteNullTypes`, `collapseRedundantEnumAllOf` and
+ * `keepJsonRequestBodies` are the four Discord needs. `dropConstraintOnlyCompositions` is carried from
  * the Brevo client so both repositories apply an identical set; it is a harmless
  * no-op here.
  */
+
+/**
+ * Rewrites `oneOf`/`anyOf: [{ type: "null" }, X]` as X, and drops a property so
+ * rewritten from its parent's `required` list.
+ *
+ * Discord writes every nullable reference that way: `afk_channel_id` is a null
+ * or a `SnowflakeType`, `primary_guild` a null or a `UserPrimaryGuildResponse`.
+ * Left alone, `rewriteNullTypes` turns the null branch into a boolean and
+ * openapi-generator renders the union as a wrapper class with no constructor
+ * Jackson can call from a string, so reading any response carrying one fails
+ * at runtime. The rewrite must run first. Leaving `required` makes the
+ * generated field nullable, which is what the null branch said.
+ */
+export function collapseNullableUnions(node) {
+  if (Array.isArray(node)) {
+    node.forEach(collapseNullableUnions)
+    return node
+  }
+  if (node === null || typeof node !== 'object') return node
+
+  for (const [name, property] of Object.entries(node.properties ?? {})) {
+    const collapsed = withoutNullBranch(property)
+    if (collapsed === undefined) continue
+    node.properties[name] = collapsed
+    if (Array.isArray(node.required)) node.required = node.required.filter((one) => one !== name)
+  }
+  for (const [key, value] of Object.entries(node)) {
+    if (key === 'properties') continue
+    const collapsed = withoutNullBranch(value)
+    if (collapsed !== undefined) node[key] = collapsed
+  }
+
+  Object.values(node).forEach(collapseNullableUnions)
+  return node
+}
+
+/** The non-null branch of a two-branch union with `{ type: "null" }`, keeping its siblings; otherwise undefined. */
+function withoutNullBranch(schema) {
+  if (schema === null || typeof schema !== 'object' || Array.isArray(schema)) return undefined
+  for (const keyword of ['oneOf', 'anyOf']) {
+    const branches = schema[keyword]
+    if (!Array.isArray(branches) || branches.length !== 2) continue
+    const nulls = branches.filter((branch) => branch?.type === 'null' && Object.keys(branch).length === 1)
+    if (nulls.length !== 1) continue
+    const { [keyword]: _union, ...siblings } = schema
+    return { ...siblings, ...branches.find((branch) => !nulls.includes(branch)) }
+  }
+  return undefined
+}
 
 /**
  * Discord's OpenAPI 3.1 document uses `type: "null"` as a marker-flag shape on a
@@ -148,6 +197,7 @@ export function keepJsonRequestBodies(spec) {
 /** Applies every generator workaround to a deep copy, leaving the input untouched. */
 export function applyGeneratorFixups(spec) {
   const copy = structuredClone(spec)
+  collapseNullableUnions(copy)
   rewriteNullTypes(copy)
   collapseRedundantEnumAllOf(copy)
   dropConstraintOnlyCompositions(copy)
