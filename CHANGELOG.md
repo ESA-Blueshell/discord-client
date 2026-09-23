@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/ESA-Blueshell/discord-client/compare/v1.3.0...v1.3.1) (2026-09-23)
+
+
+### Bug Fixes
+
+* **tools:** nullable references decode as their type ([#54](https://github.com/ESA-Blueshell/discord-client/issues/54)) ([fead5a4](https://github.com/ESA-Blueshell/discord-client/commit/fead5a463e5eb36b23260237bdba1f7086a8380c))
+
 ## [1.3.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.2.0...v1.3.0) (2026-09-23)
 
 
