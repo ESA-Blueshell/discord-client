@@ -4,9 +4,246 @@ export type ClientOptions = {
     baseURL: 'https://discord.com/api/v10' | (string & {});
 };
 
+export type ActionRowComponentResponse = {
+    components: Array<ButtonComponentResponse | ChannelSelectComponentResponse | MentionableSelectComponentResponse | RoleSelectComponentResponse | StringSelectComponentResponse | TextInputComponentResponse | UserSelectComponentResponse>;
+    id: number;
+    type: MessageComponentTypes;
+};
+
+export type ActionTypes = 'TYPING_START' | 'INVITE_CREATE' | 'INVITE_DELETE' | 'WEBHOOKS_UPDATE' | 'CHANNEL_CREATE' | 'VOICE_CHANNEL_STATUS_UPDATE' | 'CHANNEL_UPDATE' | 'CHANNEL_DELETE' | 'CHANNEL_PINS_UPDATE' | 'THREAD_CREATE' | 'THREAD_UPDATE' | 'THREAD_DELETE' | 'THREAD_LIST_SYNC' | 'THREAD_MEMBER_UPDATE' | 'THREAD_MEMBERS_UPDATE' | 'GUILD_CREATE' | 'GUILD_UPDATE' | 'GUILD_DELETE' | 'GUILD_EMOJIS_UPDATE' | 'GUILD_STICKERS_UPDATE' | 'GUILD_INTEGRATIONS_UPDATE' | 'GUILD_MEMBER_ADD' | 'GUILD_MEMBER_UPDATE' | 'GUILD_MEMBER_REMOVE' | 'GUILD_BAN_ADD' | 'GUILD_BAN_REMOVE' | 'GUILD_ROLE_CREATE' | 'GUILD_ROLE_UPDATE' | 'GUILD_ROLE_DELETE' | 'GUILD_MEMBERS_CHUNK' | 'MESSAGE_CREATE' | 'MESSAGE_UPDATE' | 'MESSAGE_DELETE' | 'MESSAGE_DELETE_BULK' | 'MESSAGE_REACTION_ADD' | 'MESSAGE_REACTION_REMOVE' | 'MESSAGE_REACTION_REMOVE_ALL' | 'MESSAGE_REACTION_REMOVE_EMOJI' | 'USER_UPDATE' | 'ENTITLEMENT_CREATE' | 'ENTITLEMENT_UPDATE' | 'ENTITLEMENT_DELETE' | 'READY' | 'RESUMED' | 'PRESENCE_UPDATE' | 'VOICE_STATE_UPDATE' | 'VOICE_SERVER_UPDATE' | 'LOBBY_MESSAGE_CREATE' | 'LOBBY_MESSAGE_UPDATE' | 'LOBBY_MESSAGE_DELETE' | 'GAME_DIRECT_MESSAGE_CREATE' | 'GAME_DIRECT_MESSAGE_DELETE' | 'GAME_DIRECT_MESSAGE_UPDATE' | 'INTERACTION_CREATE' | 'INTEGRATION_CREATE' | 'INTEGRATION_UPDATE' | 'INTEGRATION_DELETE' | 'APPLICATION_COMMAND_PERMISSIONS_UPDATE' | 'APPLICATION_AUTHORIZED' | 'APPLICATION_DEAUTHORIZED' | 'STAGE_INSTANCE_CREATE' | 'STAGE_INSTANCE_UPDATE' | 'STAGE_INSTANCE_DELETE' | 'GUILD_AUDIT_LOG_ENTRY_CREATE' | 'GUILD_SCHEDULED_EVENT_CREATE' | 'GUILD_SCHEDULED_EVENT_UPDATE' | 'GUILD_SCHEDULED_EVENT_DELETE' | 'GUILD_SCHEDULED_EVENT_USER_ADD' | 'GUILD_SCHEDULED_EVENT_USER_REMOVE' | 'AUTO_MODERATION_RULE_CREATE' | 'AUTO_MODERATION_RULE_UPDATE' | 'AUTO_MODERATION_RULE_DELETE' | 'AUTO_MODERATION_ACTION_EXECUTION' | 'GUILD_SOUNDBOARD_SOUNDS_UPDATE' | 'GUILD_SOUNDBOARD_SOUND_CREATE' | 'GUILD_SOUNDBOARD_SOUND_UPDATE' | 'GUILD_SOUNDBOARD_SOUND_DELETE' | 'QUEST_USER_ENROLLMENT' | 'RATE_LIMITED';
+
+export type ActivityActionTypes = 1 | 2 | 3 | 5 | 6;
+
 export type AfkTimeouts = 60 | 300 | 900 | 1800 | 3600;
 
+export type ApplicationCommandInteractionMetadataResponse = {
+    authorizing_integration_owners: {
+        [key: string]: SnowflakeType;
+    };
+    id: SnowflakeType;
+    original_response_message_id?: SnowflakeType;
+    target_message_id?: SnowflakeType;
+    target_user?: UserResponse;
+    type: InteractionTypes;
+    user?: UserResponse;
+};
+
+export type ApplicationEventWebhooksStatus = 1 | 2 | 3;
+
+export type ApplicationExplicitContentFilterTypes = 0 | 1;
+
+export type ApplicationIntegrationTypeConfigurationResponse = {
+    oauth2_install_params?: ApplicationOAuth2InstallParamsResponse;
+};
+
+export type ApplicationOAuth2InstallParamsResponse = {
+    permissions: string;
+    scopes: Array<OAuth2Scopes>;
+};
+
+export type ApplicationResponse = {
+    bot?: UserResponse;
+    bot_public?: boolean;
+    bot_require_code_grant?: boolean;
+    cover_image?: string;
+    custom_install_url?: string;
+    description: string;
+    flags: number;
+    flags_new: string;
+    guild_id?: SnowflakeType;
+    icon: string | null;
+    id: SnowflakeType;
+    install_params?: ApplicationOAuth2InstallParamsResponse;
+    integration_types_config?: {
+        [key: string]: ApplicationIntegrationTypeConfigurationResponse;
+    };
+    max_participants?: number | null;
+    name: string;
+    primary_sku_id?: SnowflakeType;
+    privacy_policy_url?: string;
+    rpc_origins?: Array<string>;
+    slug?: string;
+    tags?: Array<string>;
+    terms_of_service_url?: string;
+    type: boolean | ApplicationTypes;
+    verify_key: string;
+    vibegrations_project_id?: SnowflakeType;
+};
+
+/**
+ * GUILD_ROLE_SUBSCRIPTIONS
+ */
+export type ApplicationTypes = 4;
+
 export type AvailableLocalesEnum = 'ar' | 'bg' | 'cs' | 'da' | 'de' | 'el' | 'en-GB' | 'en-US' | 'es-419' | 'es-ES' | 'fi' | 'fr' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'ko' | 'lt' | 'nl' | 'no' | 'pl' | 'pt-BR' | 'ro' | 'ru' | 'sv-SE' | 'th' | 'tr' | 'uk' | 'vi' | 'zh-CN' | 'zh-TW';
+
+export type BasicApplicationResponseWithBot = {
+    bot?: UserResponse;
+    cover_image?: string;
+    description: string;
+    flags: number;
+    flags_new: string;
+    icon: string | null;
+    id: SnowflakeType;
+    name: string;
+    primary_sku_id?: SnowflakeType;
+    type: boolean | ApplicationTypes;
+};
+
+export type BasicGuildMemberResponse = {
+    /**
+     * the member's guild avatar hash
+     */
+    avatar: string | null;
+    /**
+     * data for the member's guild avatar decoration
+     */
+    avatar_decoration_data?: boolean | UserAvatarDecorationResponse;
+    /**
+     * the member's guild banner hash
+     */
+    banner: string | null;
+    /**
+     * data for the member's collectibles
+     */
+    collectibles?: boolean | UserCollectiblesResponse;
+    /**
+     * when the user's timeout will expire and the user will be able to communicate in the guild again, null or a time in the past if the user is not timed out
+     */
+    communication_disabled_until: string | null;
+    /**
+     * guild member flags represented as a bit set, defaults to 0
+     */
+    flags: number;
+    /**
+     * when the user joined the guild
+     */
+    joined_at: string;
+    /**
+     * this user's guild nickname
+     */
+    nick: string | null;
+    /**
+     * whether the user has not yet passed the guild's Membership Screening requirements
+     */
+    pending: boolean;
+    /**
+     * when the user started boosting the guild
+     */
+    premium_since: string | null;
+    /**
+     * array of role object ids
+     */
+    roles: Array<SnowflakeType>;
+};
+
+export type BasicMessageResponse = {
+    activity?: MessageActivityResponse;
+    application?: BasicApplicationResponseWithBot;
+    application_id?: SnowflakeType;
+    attachments: Array<MessageAttachmentResponse>;
+    author: UserResponse;
+    call?: MessageCallResponse;
+    channel_id: SnowflakeType;
+    components: Array<ActionRowComponentResponse | ContainerComponentResponse | FileComponentResponse | MediaGalleryComponentResponse | SectionComponentResponse | SeparatorComponentResponse | TextDisplayComponentResponse>;
+    content: string;
+    edited_timestamp: string | null;
+    embeds: Array<MessageEmbedResponse>;
+    flags: number;
+    id: SnowflakeType;
+    interaction?: MessageInteractionResponse;
+    interaction_metadata?: ApplicationCommandInteractionMetadataResponse | MessageComponentInteractionMetadataResponse | ModalSubmitInteractionMetadataResponse;
+    lobby_member?: MessageLobbyMemberResponse;
+    mention_channels?: Array<MessageMentionChannelResponse>;
+    mention_everyone: boolean;
+    mention_roles: Array<SnowflakeType>;
+    mentions: Array<UserResponse>;
+    message_reference?: MessageReferenceResponse;
+    message_snapshots?: Array<MessageSnapshotResponse>;
+    nonce?: number | string;
+    pinned: boolean;
+    poll?: PollResponse;
+    position?: number;
+    purchase_notification?: PurchaseNotificationResponse;
+    resolved?: ResolvedObjectsResponse;
+    role_subscription_data?: MessageRoleSubscriptionDataResponse;
+    shared_client_theme?: CustomClientThemeResponse;
+    sticker_items?: Array<MessageStickerItemResponse>;
+    stickers?: Array<GuildStickerResponse | StandardStickerResponse>;
+    thread?: ThreadResponse;
+    timestamp: string;
+    tts: boolean;
+    type: MessageType;
+    webhook_id?: SnowflakeType;
+};
+
+export type ButtonComponentResponse = {
+    custom_id?: string;
+    disabled?: boolean;
+    emoji?: ComponentEmojiResponse;
+    id: number;
+    label?: string;
+    sku_id?: SnowflakeType;
+    style: ButtonStyleTypes;
+    type: MessageComponentTypes;
+    url?: string | null;
+};
+
+export type ButtonStyleTypes = 1 | 2 | 3 | 4 | 5 | 6;
+
+export type ChannelPermissionOverwriteResponse = {
+    allow: string;
+    deny: string;
+    id: SnowflakeType;
+    type: ChannelPermissionOverwrites;
+};
+
+export type ChannelPermissionOverwrites = 0 | 1;
+
+export type ChannelSelectComponentResponse = {
+    channel_types?: Array<ChannelTypes>;
+    custom_id: string;
+    default_values?: Array<ChannelSelectDefaultValueResponse>;
+    disabled?: boolean;
+    id: number;
+    max_values: number;
+    min_values: number;
+    placeholder?: string;
+    type: MessageComponentTypes;
+};
+
+export type ChannelSelectDefaultValueResponse = {
+    id: SnowflakeType;
+    type: SnowflakeSelectDefaultValueTypes;
+};
+
+export type ChannelTypes = 1 | 3 | 0 | 2 | 4 | 5 | 10 | 11 | 12 | 13 | 14 | 15;
+
+export type ComponentEmojiResponse = {
+    animated?: boolean;
+    id?: SnowflakeType;
+    name: string;
+};
+
+export type ContainerComponentResponse = {
+    accent_color: number | null;
+    components: Array<ActionRowComponentResponse | FileComponentResponse | MediaGalleryComponentResponse | SectionComponentResponse | SeparatorComponentResponse | TextDisplayComponentResponse>;
+    id: number;
+    spoiler: boolean;
+    type: MessageComponentTypes;
+};
+
+export type CustomClientThemeResponse = {
+    base_mix: number;
+    base_theme: MessageShareCustomUserThemeBaseTheme;
+    colors: Array<string>;
+    gradient_angle: number;
+};
+
+export type DefaultReactionEmojiResponse = {
+    emoji_id: boolean | SnowflakeType;
+    emoji_name: string | null;
+};
 
 export type EmojiResponse = {
     animated: boolean;
@@ -42,6 +279,53 @@ export type ErrorDetails = {
  */
 export type ErrorResponse = Error & {
     errors?: ErrorDetails;
+};
+
+export type FileComponentResponse = {
+    file: UnfurledMediaResponse;
+    id: number;
+    name: string | null;
+    size: number | null;
+    spoiler: boolean;
+    type: MessageComponentTypes;
+};
+
+export type ForumLayout = 0 | 1 | 2;
+
+export type ForumTagResponse = {
+    emoji_id: boolean | SnowflakeType;
+    emoji_name: string | null;
+    id: SnowflakeType;
+    moderated: boolean;
+    name: string;
+};
+
+export type GuildChannelResponse = {
+    available_tags?: Array<ForumTagResponse>;
+    bitrate?: number;
+    default_auto_archive_duration?: ThreadAutoArchiveDuration;
+    default_forum_layout?: ForumLayout;
+    default_reaction_emoji?: boolean | DefaultReactionEmojiResponse;
+    default_sort_order?: boolean | ThreadSortOrder;
+    default_tag_setting?: boolean | ThreadSearchTagSetting;
+    default_thread_rate_limit_per_user?: number;
+    flags: number;
+    guild_id: SnowflakeType;
+    id: SnowflakeType;
+    last_message_id?: boolean | SnowflakeType;
+    last_pin_timestamp?: string | null;
+    name: string;
+    nsfw?: boolean;
+    parent_id?: boolean | SnowflakeType;
+    permission_overwrites?: Array<ChannelPermissionOverwriteResponse>;
+    permissions?: string;
+    position: number;
+    rate_limit_per_user?: number;
+    rtc_region?: string | null;
+    topic?: string | null;
+    type: ChannelTypes;
+    user_limit?: number;
+    video_quality_mode?: VideoQualityModes;
 };
 
 export type GuildExplicitContentFilterTypes = 0 | 1 | 2;
@@ -121,6 +405,11 @@ export type GuildMemberResponse = {
 };
 
 export type GuildNsfwContentLevel = 0 | 1 | 2 | 3;
+
+export type GuildProductPurchaseResponse = {
+    listing_id: SnowflakeType;
+    product_name: string;
+};
 
 export type GuildRoleColorsResponse = {
     primary_color: number;
@@ -220,11 +509,450 @@ export type InnerErrors = {
 
 export type Int53Type = number;
 
+export type InteractionTypes = 1 | 2 | 3 | 4 | 5 | 6;
+
+export type MediaGalleryComponentResponse = {
+    id: number;
+    items: Array<MediaGalleryItemResponse>;
+    type: MessageComponentTypes;
+};
+
+export type MediaGalleryItemResponse = {
+    description: string | null;
+    media: UnfurledMediaResponse;
+    spoiler: boolean;
+};
+
+export type MentionableSelectComponentResponse = {
+    custom_id: string;
+    default_values?: Array<RoleSelectDefaultValueResponse | UserSelectDefaultValueResponse>;
+    disabled?: boolean;
+    id: number;
+    max_values: number;
+    min_values: number;
+    placeholder?: string;
+    type: MessageComponentTypes;
+};
+
+export type MessageActivityResponse = {
+    party_id?: string;
+    type: ActivityActionTypes;
+};
+
+export type MessageAttachmentResponse = {
+    application?: ApplicationResponse;
+    clip_created_at?: string;
+    clip_participants?: Array<UserResponse>;
+    content_type?: string;
+    description?: string;
+    duration_secs?: number;
+    ephemeral?: boolean;
+    filename: string;
+    flags?: number;
+    height?: number;
+    id: SnowflakeType;
+    placeholder?: string;
+    placeholder_version?: number;
+    proxy_url: string;
+    size: number;
+    title?: string | null;
+    url: string;
+    waveform?: string;
+    width?: number;
+};
+
+export type MessageCallResponse = {
+    ended_timestamp?: string | null;
+    participants: Array<SnowflakeType>;
+};
+
+export type MessageComponentInteractionMetadataResponse = {
+    authorizing_integration_owners: {
+        [key: string]: SnowflakeType;
+    };
+    id: SnowflakeType;
+    interacted_message_id: SnowflakeType;
+    original_response_message_id?: SnowflakeType;
+    type: InteractionTypes;
+    user?: UserResponse;
+};
+
+export type MessageComponentSeparatorSpacingSize = 1 | 2;
+
+export type MessageComponentTypes = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 17 | 18 | 19 | 21 | 22 | 23;
+
+export type MessageEmbedAuthorResponse = {
+    icon_url?: string;
+    name: string;
+    proxy_icon_url?: string;
+    url?: string;
+};
+
+export type MessageEmbedFieldResponse = {
+    inline: boolean;
+    name: string;
+    value: string;
+};
+
+export type MessageEmbedFooterResponse = {
+    icon_url?: string;
+    proxy_icon_url?: string;
+    text: string;
+};
+
+export type MessageEmbedImageResponse = {
+    content_type?: string;
+    description?: string;
+    flags?: UInt32Type;
+    height?: UInt32Type;
+    placeholder?: string;
+    placeholder_version?: UInt32Type;
+    proxy_url?: string;
+    url?: string;
+    width?: UInt32Type;
+};
+
+export type MessageEmbedProviderResponse = {
+    name: string;
+    url?: string;
+};
+
+export type MessageEmbedResponse = {
+    author?: MessageEmbedAuthorResponse;
+    color?: number;
+    components?: Array<ContainerComponentResponse>;
+    description?: string;
+    fields?: Array<MessageEmbedFieldResponse>;
+    flags?: number | null;
+    footer?: MessageEmbedFooterResponse;
+    image?: MessageEmbedImageResponse;
+    provider?: MessageEmbedProviderResponse;
+    thumbnail?: MessageEmbedImageResponse;
+    timestamp?: string;
+    title?: string;
+    type: string;
+    url?: string;
+    video?: MessageEmbedVideoResponse;
+};
+
+export type MessageEmbedVideoResponse = {
+    content_type?: string;
+    description?: string;
+    flags?: UInt32Type;
+    height?: UInt32Type;
+    placeholder?: string;
+    placeholder_version?: UInt32Type;
+    proxy_url?: string;
+    url?: string;
+    width?: UInt32Type;
+};
+
+export type MessageInteractionResponse = {
+    id: SnowflakeType;
+    name: string;
+    name_localized?: string;
+    type: InteractionTypes;
+    user?: UserResponse;
+};
+
+export type MessageLobbyMemberResponse = {
+    additional_name: string;
+};
+
+export type MessageMentionChannelResponse = {
+    guild_id: SnowflakeType;
+    id: SnowflakeType;
+    name: string;
+    type: ChannelTypes;
+};
+
+export type MessageReactionCountDetailsResponse = {
+    burst: number;
+    normal: number;
+};
+
+export type MessageReactionEmojiResponse = {
+    animated?: boolean;
+    id: boolean | SnowflakeType;
+    name: string | null;
+};
+
+export type MessageReactionResponse = {
+    burst_colors: Array<string>;
+    count: number;
+    count_details: MessageReactionCountDetailsResponse;
+    emoji: MessageReactionEmojiResponse;
+    me: boolean;
+    me_burst: boolean;
+};
+
+export type MessageReferenceResponse = {
+    channel_id: SnowflakeType;
+    guild_id?: SnowflakeType;
+    message_id?: SnowflakeType;
+    type: MessageReferenceType;
+};
+
+/**
+ * DEFAULT
+ *
+ * Reference to a message
+ */
+export type MessageReferenceType = 0;
+
+export type MessageResponse = {
+    activity?: MessageActivityResponse;
+    application?: BasicApplicationResponseWithBot;
+    application_id?: SnowflakeType;
+    attachments: Array<MessageAttachmentResponse>;
+    author: UserResponse;
+    call?: MessageCallResponse;
+    channel_id: SnowflakeType;
+    components: Array<ActionRowComponentResponse | ContainerComponentResponse | FileComponentResponse | MediaGalleryComponentResponse | SectionComponentResponse | SeparatorComponentResponse | TextDisplayComponentResponse>;
+    content: string;
+    edited_timestamp: string | null;
+    embeds: Array<MessageEmbedResponse>;
+    flags: number;
+    id: SnowflakeType;
+    interaction?: MessageInteractionResponse;
+    interaction_metadata?: ApplicationCommandInteractionMetadataResponse | MessageComponentInteractionMetadataResponse | ModalSubmitInteractionMetadataResponse;
+    lobby_member?: MessageLobbyMemberResponse;
+    mention_channels?: Array<MessageMentionChannelResponse>;
+    mention_everyone: boolean;
+    mention_roles: Array<SnowflakeType>;
+    mentions: Array<UserResponse>;
+    message_reference?: MessageReferenceResponse;
+    message_snapshots?: Array<MessageSnapshotResponse>;
+    nonce?: number | string;
+    pinned: boolean;
+    poll?: PollResponse;
+    position?: number;
+    purchase_notification?: PurchaseNotificationResponse;
+    reactions?: Array<MessageReactionResponse>;
+    referenced_message?: boolean | BasicMessageResponse;
+    resolved?: ResolvedObjectsResponse;
+    role_subscription_data?: MessageRoleSubscriptionDataResponse;
+    shared_client_theme?: CustomClientThemeResponse;
+    sticker_items?: Array<MessageStickerItemResponse>;
+    stickers?: Array<GuildStickerResponse | StandardStickerResponse>;
+    thread?: ThreadResponse;
+    timestamp: string;
+    tts: boolean;
+    type: MessageType;
+    webhook_id?: SnowflakeType;
+};
+
+export type MessageRoleSubscriptionDataResponse = {
+    is_renewal: boolean;
+    role_subscription_listing_id: SnowflakeType;
+    tier_name: string;
+    total_months_subscribed: number;
+};
+
+export type MessageShareCustomUserThemeBaseTheme = 0 | 1 | 2 | 3 | 4;
+
+export type MessageSnapshotResponse = {
+    message: MinimalContentMessageResponse;
+};
+
+export type MessageStickerItemResponse = {
+    format_type: StickerFormatTypes;
+    id: SnowflakeType;
+    name: string;
+};
+
+export type MessageType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 31 | 32 | 36 | 37 | 38 | 39 | 46 | 55;
+
+export type MinimalContentMessageResponse = {
+    attachments: Array<MessageAttachmentResponse>;
+    components: Array<ActionRowComponentResponse | ContainerComponentResponse | FileComponentResponse | MediaGalleryComponentResponse | SectionComponentResponse | SeparatorComponentResponse | TextDisplayComponentResponse>;
+    content: string;
+    edited_timestamp: string | null;
+    embeds: Array<MessageEmbedResponse>;
+    flags: number;
+    mention_roles: Array<SnowflakeType>;
+    mentions: Array<UserResponse>;
+    sticker_items?: Array<MessageStickerItemResponse>;
+    stickers?: Array<GuildStickerResponse | StandardStickerResponse>;
+    timestamp: string;
+    type: MessageType;
+};
+
+export type ModalSubmitInteractionMetadataResponse = {
+    authorizing_integration_owners: {
+        [key: string]: SnowflakeType;
+    };
+    id: SnowflakeType;
+    original_response_message_id?: SnowflakeType;
+    triggering_interaction_metadata: ApplicationCommandInteractionMetadataResponse | MessageComponentInteractionMetadataResponse;
+    type: InteractionTypes;
+    user?: UserResponse;
+};
+
 export type NameplatePalette = 'crimson' | 'berry' | 'sky' | 'teal' | 'forest' | 'bubble_gum' | 'violet' | 'cobalt' | 'clover' | 'lemon' | 'white' | 'black';
+
+export type OAuth2Scopes = 'identify' | 'email' | 'connections' | 'guilds' | 'guilds.join' | 'guilds.members.read' | 'gdm.join' | 'bot' | 'rpc' | 'rpc.notifications.read' | 'rpc.voice.read' | 'rpc.voice.write' | 'rpc.video.read' | 'rpc.video.write' | 'rpc.screenshare.read' | 'rpc.screenshare.write' | 'rpc.activities.write' | 'webhook.incoming' | 'messages.read' | 'applications.builds.upload' | 'applications.builds.read' | 'applications.commands' | 'applications.commands.permissions.update' | 'applications.commands.update' | 'applications.store.update' | 'applications.entitlements' | 'activities.read' | 'activities.write' | 'activities.invites.write' | 'relationships.read' | 'voice' | 'dm_channels.read' | 'role_connections.write' | 'openid';
+
+export type PollAnswerResponse = {
+    /**
+     * The ID of the answer
+     */
+    answer_id: number;
+    /**
+     * The data of the answer
+     */
+    poll_media: PollMediaResponse;
+};
+
+/**
+ * DEFAULT
+ *
+ * The, uhm, default layout type.
+ */
+export type PollLayoutTypes = 1;
+
+export type PollMediaResponse = {
+    /**
+     * The emoji of the field
+     */
+    emoji?: MessageReactionEmojiResponse;
+    /**
+     * The text of the field
+     */
+    text?: string;
+};
+
+export type PollResponse = {
+    /**
+     * Whether a user can select multiple answers
+     */
+    allow_multiselect: boolean;
+    /**
+     * Each of the answers available in the poll
+     */
+    answers: Array<PollAnswerResponse>;
+    /**
+     * The time when the poll ends
+     */
+    expiry: string;
+    /**
+     * The layout type of the poll
+     */
+    layout_type: PollLayoutTypes;
+    /**
+     * The question of the poll. Only `text` is supported.
+     */
+    question: PollMediaResponse;
+    /**
+     * The results of the poll
+     */
+    results: PollResultsResponse;
+};
+
+export type PollResultsEntryResponse = {
+    /**
+     * The number of votes for this answer
+     */
+    count: number;
+    /**
+     * The answer_id
+     */
+    id: number;
+    /**
+     * Whether the current user voted for this answer
+     */
+    me_voted: boolean;
+};
+
+export type PollResultsResponse = {
+    /**
+     * The counts for each answer
+     */
+    answer_counts: Array<PollResultsEntryResponse>;
+    /**
+     * Whether the votes have been precisely counted
+     */
+    is_finalized: boolean;
+};
 
 export type PremiumGuildTiers = 0 | 1 | 2 | 3;
 
 export type PremiumTypes = 0 | 1 | 2 | 3;
+
+export type PrivateApplicationResponse = {
+    approximate_guild_count: number;
+    approximate_user_authorization_count: number;
+    approximate_user_install_count: number;
+    bot?: UserResponse;
+    bot_public?: boolean;
+    bot_require_code_grant?: boolean;
+    cover_image?: string;
+    custom_install_url?: string;
+    description: string;
+    eligible_oauth2_scopes: Array<OAuth2Scopes>;
+    event_webhooks_status?: ApplicationEventWebhooksStatus;
+    event_webhooks_types?: Array<ActionTypes>;
+    event_webhooks_url?: string | null;
+    explicit_content_filter: ApplicationExplicitContentFilterTypes;
+    flags: number;
+    flags_new: string;
+    guild_id?: SnowflakeType;
+    icon: string | null;
+    id: SnowflakeType;
+    install_params?: ApplicationOAuth2InstallParamsResponse;
+    integration_types_config?: {
+        [key: string]: ApplicationIntegrationTypeConfigurationResponse;
+    };
+    interactions_endpoint_url: string | null;
+    max_participants?: number | null;
+    name: string;
+    owner: UserResponse;
+    primary_sku_id?: SnowflakeType;
+    privacy_policy_url?: string;
+    redirect_uris: Array<string>;
+    role_connections_verification_url: string | null;
+    rpc_origins?: Array<string>;
+    slug?: string;
+    tags?: Array<string>;
+    team: boolean | TeamResponse;
+    terms_of_service_url?: string;
+    type: boolean | ApplicationTypes;
+    verify_key: string;
+    vibegrations_project_id?: SnowflakeType;
+};
+
+export type PrivateChannelResponse = {
+    flags: number;
+    id: SnowflakeType;
+    last_message_id?: boolean | SnowflakeType;
+    last_pin_timestamp?: string | null;
+    recipients: Array<UserResponse>;
+    type: ChannelTypes;
+};
+
+export type PrivateGroupChannelResponse = {
+    application_id?: SnowflakeType;
+    flags: number;
+    icon: string | null;
+    id: SnowflakeType;
+    last_message_id?: boolean | SnowflakeType;
+    last_pin_timestamp?: string | null;
+    managed?: boolean;
+    name: string | null;
+    owner_id: SnowflakeType;
+    recipients: Array<UserResponse>;
+    type: ChannelTypes;
+};
+
+export type PurchaseNotificationResponse = {
+    guild_product_purchase?: GuildProductPurchaseResponse;
+    type: PurchaseType;
+};
+
+/**
+ * GUILD_PRODUCT
+ */
+export type PurchaseType = 0;
 
 /**
  * Ratelimit error object returned by the Discord API
@@ -240,11 +968,196 @@ export type RatelimitedResponse = Error & {
     retry_after: number;
 };
 
+export type ResolvedObjectsResponse = {
+    channels?: {
+        [key: string]: GuildChannelResponse | PrivateChannelResponse | PrivateGroupChannelResponse | ThreadResponse;
+    } | null;
+    members?: {
+        [key: string]: BasicGuildMemberResponse;
+    } | null;
+    roles?: {
+        [key: string]: GuildRoleResponse;
+    } | null;
+    users?: {
+        [key: string]: UserResponse;
+    } | null;
+};
+
+export type RoleSelectComponentResponse = {
+    custom_id: string;
+    default_values?: Array<RoleSelectDefaultValueResponse>;
+    disabled?: boolean;
+    id: number;
+    max_values: number;
+    min_values: number;
+    placeholder?: string;
+    type: MessageComponentTypes;
+};
+
+export type RoleSelectDefaultValueResponse = {
+    id: SnowflakeType;
+    type: SnowflakeSelectDefaultValueTypes;
+};
+
+export type SectionComponentResponse = {
+    accessory: ButtonComponentResponse | ThumbnailComponentResponse;
+    components: Array<TextDisplayComponentResponse>;
+    id: number;
+    type: MessageComponentTypes;
+};
+
+export type SeparatorComponentResponse = {
+    divider: boolean;
+    id: number;
+    spacing: MessageComponentSeparatorSpacingSize;
+    type: MessageComponentTypes;
+};
+
+export type SnowflakeSelectDefaultValueTypes = 'user' | 'role' | 'channel';
+
 export type SnowflakeType = string;
+
+export type StandardStickerResponse = {
+    description: string | null;
+    format_type: boolean | StickerFormatTypes;
+    id: SnowflakeType;
+    name: string;
+    pack_id: SnowflakeType;
+    sort_value: number;
+    tags: string;
+    type: StickerTypes;
+};
 
 export type StickerFormatTypes = 1 | 2 | 3 | 4;
 
 export type StickerTypes = 1 | 2;
+
+export type StringSelectComponentResponse = {
+    custom_id: string;
+    disabled?: boolean;
+    id: number;
+    max_values: number;
+    min_values: number;
+    options: Array<StringSelectOptionResponse>;
+    placeholder?: string;
+    type: MessageComponentTypes;
+};
+
+export type StringSelectOptionResponse = {
+    default?: boolean;
+    description?: string;
+    emoji?: ComponentEmojiResponse;
+    label: string;
+    value: string;
+};
+
+export type TeamMemberResponse = {
+    membership_state: TeamMembershipStates;
+    permissions: Array<string>;
+    role: TeamMemberRoles;
+    team_id: SnowflakeType;
+    user: UserResponse;
+};
+
+export type TeamMemberRoles = 'admin' | 'developer' | 'read_only';
+
+export type TeamMembershipStates = 1 | 2;
+
+export type TeamResponse = {
+    icon: string | null;
+    id: SnowflakeType;
+    members: Array<TeamMemberResponse>;
+    name: string;
+    owner_user_id: SnowflakeType;
+};
+
+export type TextDisplayComponentResponse = {
+    content: string;
+    id: number;
+    type: MessageComponentTypes;
+};
+
+export type TextInputComponentResponse = {
+    custom_id: string;
+    id: number;
+    label: string | null;
+    max_length: number | null;
+    min_length: number | null;
+    placeholder?: string;
+    required?: boolean;
+    style: TextInputStyleTypes;
+    type: MessageComponentTypes;
+    value?: string;
+};
+
+export type TextInputStyleTypes = 1 | 2;
+
+export type ThreadAutoArchiveDuration = 60 | 1440 | 4320 | 10080;
+
+export type ThreadMemberResponse = {
+    flags: number;
+    id: SnowflakeType;
+    join_timestamp: string;
+    member?: GuildMemberResponse;
+    user_id: SnowflakeType;
+};
+
+export type ThreadMetadataResponse = {
+    archive_timestamp: string | null;
+    archived: boolean;
+    auto_archive_duration: ThreadAutoArchiveDuration;
+    create_timestamp?: string;
+    invitable?: boolean;
+    locked: boolean;
+};
+
+export type ThreadResponse = {
+    applied_tags?: Array<SnowflakeType>;
+    bitrate?: number;
+    flags: number;
+    guild_id: SnowflakeType;
+    id: SnowflakeType;
+    last_message_id?: boolean | SnowflakeType;
+    last_pin_timestamp?: string | null;
+    member?: ThreadMemberResponse;
+    member_count: number;
+    message_count: number;
+    name: string;
+    owner_id: SnowflakeType;
+    parent_id?: boolean | SnowflakeType;
+    permissions?: string;
+    rate_limit_per_user?: number;
+    rtc_region?: string | null;
+    thread_metadata: ThreadMetadataResponse;
+    total_message_sent: number;
+    type: ChannelTypes;
+    user_limit?: number;
+    video_quality_mode?: VideoQualityModes;
+};
+
+export type ThreadSearchTagSetting = 'match_all' | 'match_some';
+
+export type ThreadSortOrder = 0 | 1;
+
+export type ThumbnailComponentResponse = {
+    description: string | null;
+    id: number;
+    media: UnfurledMediaResponse;
+    spoiler: boolean;
+    type: MessageComponentTypes;
+};
+
+export type UInt32Type = number;
+
+export type UnfurledMediaResponse = {
+    attachment_id?: SnowflakeType;
+    content_type?: string | null;
+    height?: number | null;
+    id: SnowflakeType;
+    proxy_url: string;
+    url: string;
+    width?: number | null;
+};
 
 export type UserAvatarDecorationResponse = {
     /**
@@ -424,7 +1337,25 @@ export type UserResponse = {
     username: string;
 };
 
+export type UserSelectComponentResponse = {
+    custom_id: string;
+    default_values?: Array<UserSelectDefaultValueResponse>;
+    disabled?: boolean;
+    id: number;
+    max_values: number;
+    min_values: number;
+    placeholder?: string;
+    type: MessageComponentTypes;
+};
+
+export type UserSelectDefaultValueResponse = {
+    id: SnowflakeType;
+    type: SnowflakeSelectDefaultValueTypes;
+};
+
 export type VerificationLevels = 0 | 1 | 2 | 3 | 4;
+
+export type VideoQualityModes = 1 | 2;
 
 export type WidgetActivity = {
     name: string;
@@ -466,6 +1397,42 @@ export type WidgetResponse = {
  */
 export type WidgetUserDiscriminator = '0000';
 
+export type ListMessagesData = {
+    body?: never;
+    path: {
+        channel_id: SnowflakeType;
+    };
+    query?: {
+        around?: SnowflakeType;
+        before?: SnowflakeType;
+        after?: SnowflakeType;
+        limit?: number;
+    };
+    url: '/channels/{channel_id}/messages';
+};
+
+export type ListMessagesErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type ListMessagesError = ListMessagesErrors[keyof ListMessagesErrors];
+
+export type ListMessagesResponses = {
+    /**
+     * 200 response for list_messages
+     */
+    200: Array<MessageResponse> | null;
+};
+
+export type ListMessagesResponse = ListMessagesResponses[keyof ListMessagesResponses];
+
 export type GetGuildData = {
     body?: never;
     path: {
@@ -498,6 +1465,37 @@ export type GetGuildResponses = {
 };
 
 export type GetGuildResponse = GetGuildResponses[keyof GetGuildResponses];
+
+export type ListGuildChannelsData = {
+    body?: never;
+    path: {
+        guild_id: SnowflakeType;
+    };
+    query?: never;
+    url: '/guilds/{guild_id}/channels';
+};
+
+export type ListGuildChannelsErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type ListGuildChannelsError = ListGuildChannelsErrors[keyof ListGuildChannelsErrors];
+
+export type ListGuildChannelsResponses = {
+    /**
+     * 200 response for list_guild_channels
+     */
+    200: Array<GuildChannelResponse | PrivateChannelResponse | PrivateGroupChannelResponse | ThreadResponse> | null;
+};
+
+export type ListGuildChannelsResponse = ListGuildChannelsResponses[keyof ListGuildChannelsResponses];
 
 export type ListGuildMembersData = {
     body?: never;
@@ -704,6 +1702,35 @@ export type GetGuildWidgetResponses = {
 };
 
 export type GetGuildWidgetResponse = GetGuildWidgetResponses[keyof GetGuildWidgetResponses];
+
+export type GetMyOauth2ApplicationData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/oauth2/applications/@me';
+};
+
+export type GetMyOauth2ApplicationErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type GetMyOauth2ApplicationError = GetMyOauth2ApplicationErrors[keyof GetMyOauth2ApplicationErrors];
+
+export type GetMyOauth2ApplicationResponses = {
+    /**
+     * 200 response for get_my_oauth2_application
+     */
+    200: PrivateApplicationResponse;
+};
+
+export type GetMyOauth2ApplicationResponse = GetMyOauth2ApplicationResponses[keyof GetMyOauth2ApplicationResponses];
 
 export type GetMyUserData = {
     body?: never;

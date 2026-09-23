@@ -35,6 +35,9 @@ class DiscordApiSurfaceTest {
             "updateGuildMember",
             "listGuildRoles",
             "getGuildWidget",
+            "listGuildChannels",
+            "listMessages",
+            "getMyOauth2Application",
         )
     }
 

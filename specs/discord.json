@@ -89,6 +89,481 @@
       }
     },
     "schemas": {
+      "ActionRowComponentResponse": {
+        "properties": {
+          "components": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ButtonComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/ChannelSelectComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/MentionableSelectComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/RoleSelectComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/StringSelectComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/TextInputComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/UserSelectComponentResponse"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              1
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "components"
+        ],
+        "type": "object"
+      },
+      "ActionTypes": {
+        "oneOf": [
+          {
+            "const": "TYPING_START",
+            "description": "User started typing in a channel",
+            "title": "TYPING_START"
+          },
+          {
+            "const": "INVITE_CREATE",
+            "description": "Invite to a channel was created",
+            "title": "INVITE_CREATE"
+          },
+          {
+            "const": "INVITE_DELETE",
+            "description": "Invite to a channel was deleted",
+            "title": "INVITE_DELETE"
+          },
+          {
+            "const": "WEBHOOKS_UPDATE",
+            "description": "Guild channel webhook was created, updated, or deleted",
+            "title": "WEBHOOKS_UPDATE"
+          },
+          {
+            "const": "CHANNEL_CREATE",
+            "description": "New guild channel created",
+            "title": "CHANNEL_CREATE"
+          },
+          {
+            "const": "VOICE_CHANNEL_STATUS_UPDATE",
+            "description": "Voice channel status was updated",
+            "title": "VOICE_CHANNEL_STATUS_UPDATE"
+          },
+          {
+            "const": "CHANNEL_UPDATE",
+            "description": "Channel was updated",
+            "title": "CHANNEL_UPDATE"
+          },
+          {
+            "const": "CHANNEL_DELETE",
+            "description": "Channel was deleted",
+            "title": "CHANNEL_DELETE"
+          },
+          {
+            "const": "CHANNEL_PINS_UPDATE",
+            "description": "Message was pinned or unpinned",
+            "title": "CHANNEL_PINS_UPDATE"
+          },
+          {
+            "const": "THREAD_CREATE",
+            "description": "Thread created, also sent when being added to a private thread",
+            "title": "THREAD_CREATE"
+          },
+          {
+            "const": "THREAD_UPDATE",
+            "description": "Thread was updated",
+            "title": "THREAD_UPDATE"
+          },
+          {
+            "const": "THREAD_DELETE",
+            "description": "Thread was deleted",
+            "title": "THREAD_DELETE"
+          },
+          {
+            "const": "THREAD_LIST_SYNC",
+            "description": "Sent when gaining access to a channel, contains all active threads in that channel",
+            "title": "THREAD_LIST_SYNC"
+          },
+          {
+            "const": "THREAD_MEMBER_UPDATE",
+            "description": "Thread member for the current user was updated",
+            "title": "THREAD_MEMBER_UPDATE"
+          },
+          {
+            "const": "THREAD_MEMBERS_UPDATE",
+            "description": "Some user(s) were added to or removed from a thread",
+            "title": "THREAD_MEMBERS_UPDATE"
+          },
+          {
+            "const": "GUILD_CREATE",
+            "description": "Lazy-load for unavailable guild, guild became available, or user joined a new guild",
+            "title": "GUILD_CREATE"
+          },
+          {
+            "const": "GUILD_UPDATE",
+            "description": "Guild was updated",
+            "title": "GUILD_UPDATE"
+          },
+          {
+            "const": "GUILD_DELETE",
+            "description": "Guild became unavailable, or user left/was removed from a guild",
+            "title": "GUILD_DELETE"
+          },
+          {
+            "const": "GUILD_EMOJIS_UPDATE",
+            "description": "Guild emojis were updated",
+            "title": "GUILD_EMOJIS_UPDATE"
+          },
+          {
+            "const": "GUILD_STICKERS_UPDATE",
+            "description": "Guild stickers were updated",
+            "title": "GUILD_STICKERS_UPDATE"
+          },
+          {
+            "const": "GUILD_INTEGRATIONS_UPDATE",
+            "description": "Guild integration was updated",
+            "title": "GUILD_INTEGRATIONS_UPDATE"
+          },
+          {
+            "const": "GUILD_MEMBER_ADD",
+            "description": "New user joined a guild",
+            "title": "GUILD_MEMBER_ADD"
+          },
+          {
+            "const": "GUILD_MEMBER_UPDATE",
+            "description": "Guild member was updated",
+            "title": "GUILD_MEMBER_UPDATE"
+          },
+          {
+            "const": "GUILD_MEMBER_REMOVE",
+            "description": "User was removed from a guild",
+            "title": "GUILD_MEMBER_REMOVE"
+          },
+          {
+            "const": "GUILD_BAN_ADD",
+            "description": "User was banned from a guild",
+            "title": "GUILD_BAN_ADD"
+          },
+          {
+            "const": "GUILD_BAN_REMOVE",
+            "description": "User was unbanned from a guild",
+            "title": "GUILD_BAN_REMOVE"
+          },
+          {
+            "const": "GUILD_ROLE_CREATE",
+            "description": "Guild role was created",
+            "title": "GUILD_ROLE_CREATE"
+          },
+          {
+            "const": "GUILD_ROLE_UPDATE",
+            "description": "Guild role was updated",
+            "title": "GUILD_ROLE_UPDATE"
+          },
+          {
+            "const": "GUILD_ROLE_DELETE",
+            "description": "Guild role was deleted",
+            "title": "GUILD_ROLE_DELETE"
+          },
+          {
+            "const": "GUILD_MEMBERS_CHUNK",
+            "description": "Response to Request Guild Members",
+            "title": "GUILD_MEMBERS_CHUNK"
+          },
+          {
+            "const": "MESSAGE_CREATE",
+            "description": "Message was created",
+            "title": "MESSAGE_CREATE"
+          },
+          {
+            "const": "MESSAGE_UPDATE",
+            "description": "Message was edited",
+            "title": "MESSAGE_UPDATE"
+          },
+          {
+            "const": "MESSAGE_DELETE",
+            "description": "Message was deleted",
+            "title": "MESSAGE_DELETE"
+          },
+          {
+            "const": "MESSAGE_DELETE_BULK",
+            "description": "Multiple messages were deleted at once",
+            "title": "MESSAGE_DELETE_BULK"
+          },
+          {
+            "const": "MESSAGE_REACTION_ADD",
+            "description": "User reacted to a message",
+            "title": "MESSAGE_REACTION_ADD"
+          },
+          {
+            "const": "MESSAGE_REACTION_REMOVE",
+            "description": "User removed a reaction from a message",
+            "title": "MESSAGE_REACTION_REMOVE"
+          },
+          {
+            "const": "MESSAGE_REACTION_REMOVE_ALL",
+            "description": "All reactions were explicitly removed from a message",
+            "title": "MESSAGE_REACTION_REMOVE_ALL"
+          },
+          {
+            "const": "MESSAGE_REACTION_REMOVE_EMOJI",
+            "description": "All reactions for a given emoji were explicitly removed from a message",
+            "title": "MESSAGE_REACTION_REMOVE_EMOJI"
+          },
+          {
+            "const": "USER_UPDATE",
+            "description": "Properties about the user changed",
+            "title": "USER_UPDATE"
+          },
+          {
+            "const": "ENTITLEMENT_CREATE",
+            "description": "Entitlement was created",
+            "title": "ENTITLEMENT_CREATE"
+          },
+          {
+            "const": "ENTITLEMENT_UPDATE",
+            "description": "Entitlement was updated",
+            "title": "ENTITLEMENT_UPDATE"
+          },
+          {
+            "const": "ENTITLEMENT_DELETE",
+            "description": "Entitlement was deleted",
+            "title": "ENTITLEMENT_DELETE"
+          },
+          {
+            "const": "READY",
+            "description": "Contains the initial state information",
+            "title": "READY"
+          },
+          {
+            "const": "RESUMED",
+            "description": "Response to Resume",
+            "title": "RESUMED"
+          },
+          {
+            "const": "PRESENCE_UPDATE",
+            "description": "User was updated",
+            "title": "PRESENCE_UPDATE"
+          },
+          {
+            "const": "VOICE_STATE_UPDATE",
+            "description": "Someone joined, left, or moved a voice channel",
+            "title": "VOICE_STATE_UPDATE"
+          },
+          {
+            "const": "VOICE_SERVER_UPDATE",
+            "description": "Guild's voice server was updated",
+            "title": "VOICE_SERVER_UPDATE"
+          },
+          {
+            "const": "LOBBY_MESSAGE_CREATE",
+            "description": "Sent when a message is created in a lobby",
+            "title": "LOBBY_MESSAGE_CREATE"
+          },
+          {
+            "const": "LOBBY_MESSAGE_UPDATE",
+            "description": "Sent when a message is updated in a lobby",
+            "title": "LOBBY_MESSAGE_UPDATE"
+          },
+          {
+            "const": "LOBBY_MESSAGE_DELETE",
+            "description": "Sent when a message is deleted from a lobby",
+            "title": "LOBBY_MESSAGE_DELETE"
+          },
+          {
+            "const": "GAME_DIRECT_MESSAGE_CREATE",
+            "description": "Sent when a direct message is created during an active Social SDK session",
+            "title": "GAME_DIRECT_MESSAGE_CREATE"
+          },
+          {
+            "const": "GAME_DIRECT_MESSAGE_DELETE",
+            "description": "Sent when a direct message is deleted during an active Social SDK session",
+            "title": "GAME_DIRECT_MESSAGE_DELETE"
+          },
+          {
+            "const": "GAME_DIRECT_MESSAGE_UPDATE",
+            "description": "Sent when a direct message is updated during an active Social SDK session",
+            "title": "GAME_DIRECT_MESSAGE_UPDATE"
+          },
+          {
+            "const": "INTERACTION_CREATE",
+            "description": "User used an interaction, such as an Application Command",
+            "title": "INTERACTION_CREATE"
+          },
+          {
+            "const": "INTEGRATION_CREATE",
+            "description": "Guild integration was created",
+            "title": "INTEGRATION_CREATE"
+          },
+          {
+            "const": "INTEGRATION_UPDATE",
+            "description": "Guild integration was updated",
+            "title": "INTEGRATION_UPDATE"
+          },
+          {
+            "const": "INTEGRATION_DELETE",
+            "description": "Guild integration was deleted",
+            "title": "INTEGRATION_DELETE"
+          },
+          {
+            "const": "APPLICATION_COMMAND_PERMISSIONS_UPDATE",
+            "description": "Application command permission was updated",
+            "title": "APPLICATION_COMMAND_PERMISSIONS_UPDATE"
+          },
+          {
+            "const": "APPLICATION_AUTHORIZED",
+            "description": "Sent when an app was authorized by a user to a server or their account",
+            "title": "APPLICATION_AUTHORIZED"
+          },
+          {
+            "const": "APPLICATION_DEAUTHORIZED",
+            "description": "Sent when an app was deauthorized by a user",
+            "title": "APPLICATION_DEAUTHORIZED"
+          },
+          {
+            "const": "STAGE_INSTANCE_CREATE",
+            "description": "Stage instance was created",
+            "title": "STAGE_INSTANCE_CREATE"
+          },
+          {
+            "const": "STAGE_INSTANCE_UPDATE",
+            "description": "Stage instance was updated",
+            "title": "STAGE_INSTANCE_UPDATE"
+          },
+          {
+            "const": "STAGE_INSTANCE_DELETE",
+            "description": "Stage instance was deleted or closed",
+            "title": "STAGE_INSTANCE_DELETE"
+          },
+          {
+            "const": "GUILD_AUDIT_LOG_ENTRY_CREATE",
+            "description": "A guild audit log entry was created",
+            "title": "GUILD_AUDIT_LOG_ENTRY_CREATE"
+          },
+          {
+            "const": "GUILD_SCHEDULED_EVENT_CREATE",
+            "description": "Guild scheduled event was created",
+            "title": "GUILD_SCHEDULED_EVENT_CREATE"
+          },
+          {
+            "const": "GUILD_SCHEDULED_EVENT_UPDATE",
+            "description": "Guild scheduled event was updated",
+            "title": "GUILD_SCHEDULED_EVENT_UPDATE"
+          },
+          {
+            "const": "GUILD_SCHEDULED_EVENT_DELETE",
+            "description": "Guild scheduled event was deleted",
+            "title": "GUILD_SCHEDULED_EVENT_DELETE"
+          },
+          {
+            "const": "GUILD_SCHEDULED_EVENT_USER_ADD",
+            "description": "User subscribed to a guild scheduled event",
+            "title": "GUILD_SCHEDULED_EVENT_USER_ADD"
+          },
+          {
+            "const": "GUILD_SCHEDULED_EVENT_USER_REMOVE",
+            "description": "User unsubscribed from a guild scheduled event",
+            "title": "GUILD_SCHEDULED_EVENT_USER_REMOVE"
+          },
+          {
+            "const": "AUTO_MODERATION_RULE_CREATE",
+            "description": "Auto Moderation rule was created",
+            "title": "AUTO_MODERATION_RULE_CREATE"
+          },
+          {
+            "const": "AUTO_MODERATION_RULE_UPDATE",
+            "description": "Auto Moderation rule was updated",
+            "title": "AUTO_MODERATION_RULE_UPDATE"
+          },
+          {
+            "const": "AUTO_MODERATION_RULE_DELETE",
+            "description": "Auto Moderation rule was deleted",
+            "title": "AUTO_MODERATION_RULE_DELETE"
+          },
+          {
+            "const": "AUTO_MODERATION_ACTION_EXECUTION",
+            "description": "Auto Moderation rule was triggered and an action was executed (.e.g. a message was blocked)",
+            "title": "AUTO_MODERATION_ACTION_EXECUTION"
+          },
+          {
+            "const": "GUILD_SOUNDBOARD_SOUNDS_UPDATE",
+            "title": "GUILD_SOUNDBOARD_SOUNDS_UPDATE"
+          },
+          {
+            "const": "GUILD_SOUNDBOARD_SOUND_CREATE",
+            "title": "GUILD_SOUNDBOARD_SOUND_CREATE"
+          },
+          {
+            "const": "GUILD_SOUNDBOARD_SOUND_UPDATE",
+            "title": "GUILD_SOUNDBOARD_SOUND_UPDATE"
+          },
+          {
+            "const": "GUILD_SOUNDBOARD_SOUND_DELETE",
+            "title": "GUILD_SOUNDBOARD_SOUND_DELETE"
+          },
+          {
+            "const": "QUEST_USER_ENROLLMENT",
+            "description": "User was added to a Quest (currently unavailable)",
+            "title": "QUEST_USER_ENROLLMENT"
+          },
+          {
+            "const": "RATE_LIMITED",
+            "title": "RATE_LIMITED"
+          }
+        ],
+        "type": "string"
+      },
+      "ActivityActionTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "title": "JOIN"
+          },
+          {
+            "const": 2,
+            "title": "SPECTATE"
+          },
+          {
+            "const": 3,
+            "title": "LISTEN"
+          },
+          {
+            "const": 5,
+            "title": "JOIN_REQUEST"
+          },
+          {
+            "const": 6,
+            "title": "STREAM_REQUEST"
+          }
+        ],
+        "type": "integer"
+      },
       "AfkTimeouts": {
         "format": "int32",
         "oneOf": [
@@ -111,6 +586,247 @@
           {
             "const": 3600,
             "title": "ONE_HOUR"
+          }
+        ],
+        "type": "integer"
+      },
+      "ApplicationCommandInteractionMetadataResponse": {
+        "properties": {
+          "authorizing_integration_owners": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "object"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "original_response_message_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "target_message_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "target_user": {
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InteractionTypes"
+              }
+            ],
+            "enum": [
+              2
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "authorizing_integration_owners"
+        ],
+        "type": "object"
+      },
+      "ApplicationEventWebhooksStatus": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "Webhook events are disabled by developer",
+            "title": "DISABLED"
+          },
+          {
+            "const": 2,
+            "description": "Webhook events are enabled by developer",
+            "title": "ENABLED"
+          },
+          {
+            "const": 3,
+            "description": "Webhook events are disabled by Discord, usually due to inactivity",
+            "title": "DISABLED_BY_DISCORD"
+          }
+        ],
+        "type": "integer"
+      },
+      "ApplicationExplicitContentFilterTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "inherit guild content filter setting",
+            "title": "INHERIT"
+          },
+          {
+            "const": 1,
+            "description": "interactions will always be scanned",
+            "title": "ALWAYS"
+          }
+        ],
+        "type": "integer"
+      },
+      "ApplicationIntegrationTypeConfigurationResponse": {
+        "properties": {
+          "oauth2_install_params": {
+            "$ref": "#/components/schemas/ApplicationOAuth2InstallParamsResponse"
+          }
+        },
+        "type": "object"
+      },
+      "ApplicationOAuth2InstallParamsResponse": {
+        "properties": {
+          "permissions": {
+            "type": "string"
+          },
+          "scopes": {
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/OAuth2Scopes"
+                }
+              ],
+              "enum": [
+                "applications.commands",
+                "bot"
+              ],
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "scopes",
+          "permissions"
+        ],
+        "type": "object"
+      },
+      "ApplicationResponse": {
+        "properties": {
+          "bot": {
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "bot_public": {
+            "type": "boolean"
+          },
+          "bot_require_code_grant": {
+            "type": "boolean"
+          },
+          "cover_image": {
+            "type": "string"
+          },
+          "custom_install_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "flags_new": {
+            "type": "string"
+          },
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "install_params": {
+            "$ref": "#/components/schemas/ApplicationOAuth2InstallParamsResponse"
+          },
+          "integration_types_config": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ApplicationIntegrationTypeConfigurationResponse"
+            },
+            "type": "object"
+          },
+          "max_participants": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "primary_sku_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "privacy_policy_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "rpc_origins": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "terms_of_service_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "type": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ApplicationTypes"
+              }
+            ]
+          },
+          "verify_key": {
+            "type": "string"
+          },
+          "vibegrations_project_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "icon",
+          "description",
+          "type",
+          "flags",
+          "flags_new",
+          "verify_key"
+        ],
+        "type": "object"
+      },
+      "ApplicationTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 4,
+            "title": "GUILD_ROLE_SUBSCRIPTIONS"
           }
         ],
         "type": "integer"
@@ -290,6 +1006,777 @@
         ],
         "type": "string"
       },
+      "BasicApplicationResponseWithBot": {
+        "properties": {
+          "bot": {
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "cover_image": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "flags_new": {
+            "type": "string"
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "name": {
+            "type": "string"
+          },
+          "primary_sku_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ApplicationTypes"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "icon",
+          "description",
+          "type",
+          "flags",
+          "flags_new"
+        ],
+        "type": "object"
+      },
+      "BasicGuildMemberResponse": {
+        "properties": {
+          "avatar": {
+            "description": "the member's guild avatar hash",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "avatar_decoration_data": {
+            "description": "data for the member's guild avatar decoration",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserAvatarDecorationResponse"
+              }
+            ]
+          },
+          "banner": {
+            "description": "the member's guild banner hash",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "collectibles": {
+            "description": "data for the member's collectibles",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/UserCollectiblesResponse"
+              }
+            ]
+          },
+          "communication_disabled_until": {
+            "description": "when the user's timeout will expire and the user will be able to communicate in the guild again, null or a time in the past if the user is not timed out",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "flags": {
+            "description": "guild member flags represented as a bit set, defaults to 0",
+            "format": "int32",
+            "type": "integer"
+          },
+          "joined_at": {
+            "description": "when the user joined the guild",
+            "format": "date-time",
+            "type": "string"
+          },
+          "nick": {
+            "description": "this user's guild nickname",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "pending": {
+            "description": "whether the user has not yet passed the guild's Membership Screening requirements",
+            "type": "boolean"
+          },
+          "premium_since": {
+            "description": "when the user started boosting the guild",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "roles": {
+            "description": "array of role object ids",
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "avatar",
+          "banner",
+          "communication_disabled_until",
+          "flags",
+          "joined_at",
+          "nick",
+          "pending",
+          "premium_since",
+          "roles"
+        ],
+        "type": "object"
+      },
+      "BasicMessageResponse": {
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/MessageActivityResponse"
+          },
+          "application": {
+            "$ref": "#/components/schemas/BasicApplicationResponseWithBot"
+          },
+          "application_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "attachments": {
+            "items": {
+              "$ref": "#/components/schemas/MessageAttachmentResponse"
+            },
+            "type": "array"
+          },
+          "author": {
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "call": {
+            "$ref": "#/components/schemas/MessageCallResponse"
+          },
+          "channel_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "components": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActionRowComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/ContainerComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/FileComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/MediaGalleryComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/SeparatorComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/TextDisplayComponentResponse"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "content": {
+            "type": "string"
+          },
+          "edited_timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "embeds": {
+            "items": {
+              "$ref": "#/components/schemas/MessageEmbedResponse"
+            },
+            "type": "array"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "interaction": {
+            "$ref": "#/components/schemas/MessageInteractionResponse"
+          },
+          "interaction_metadata": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ApplicationCommandInteractionMetadataResponse"
+              },
+              {
+                "$ref": "#/components/schemas/MessageComponentInteractionMetadataResponse"
+              },
+              {
+                "$ref": "#/components/schemas/ModalSubmitInteractionMetadataResponse"
+              }
+            ]
+          },
+          "lobby_member": {
+            "$ref": "#/components/schemas/MessageLobbyMemberResponse"
+          },
+          "mention_channels": {
+            "items": {
+              "$ref": "#/components/schemas/MessageMentionChannelResponse"
+            },
+            "type": "array"
+          },
+          "mention_everyone": {
+            "type": "boolean"
+          },
+          "mention_roles": {
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "mentions": {
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "type": "array"
+          },
+          "message_reference": {
+            "$ref": "#/components/schemas/MessageReferenceResponse"
+          },
+          "message_snapshots": {
+            "items": {
+              "$ref": "#/components/schemas/MessageSnapshotResponse"
+            },
+            "type": "array"
+          },
+          "nonce": {
+            "oneOf": [
+              {
+                "format": "int64",
+                "maximum": 9223372036854776000,
+                "minimum": -9223372036854776000,
+                "type": "integer"
+              },
+              {
+                "format": "nonce",
+                "maxLength": 25,
+                "type": "string"
+              }
+            ]
+          },
+          "pinned": {
+            "type": "boolean"
+          },
+          "poll": {
+            "$ref": "#/components/schemas/PollResponse"
+          },
+          "position": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "purchase_notification": {
+            "$ref": "#/components/schemas/PurchaseNotificationResponse"
+          },
+          "resolved": {
+            "$ref": "#/components/schemas/ResolvedObjectsResponse"
+          },
+          "role_subscription_data": {
+            "$ref": "#/components/schemas/MessageRoleSubscriptionDataResponse"
+          },
+          "shared_client_theme": {
+            "$ref": "#/components/schemas/CustomClientThemeResponse"
+          },
+          "sticker_items": {
+            "items": {
+              "$ref": "#/components/schemas/MessageStickerItemResponse"
+            },
+            "type": "array"
+          },
+          "stickers": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/GuildStickerResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/StandardStickerResponse"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "thread": {
+            "$ref": "#/components/schemas/ThreadResponse"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "tts": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "webhook_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        "required": [
+          "type",
+          "content",
+          "mentions",
+          "mention_roles",
+          "attachments",
+          "embeds",
+          "timestamp",
+          "edited_timestamp",
+          "flags",
+          "components",
+          "id",
+          "channel_id",
+          "author",
+          "pinned",
+          "mention_everyone",
+          "tts"
+        ],
+        "type": "object"
+      },
+      "ButtonComponentResponse": {
+        "properties": {
+          "custom_id": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "emoji": {
+            "$ref": "#/components/schemas/ComponentEmojiResponse"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "label": {
+            "type": "string"
+          },
+          "sku_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "style": {
+            "$ref": "#/components/schemas/ButtonStyleTypes"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              2
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "style"
+        ],
+        "type": "object"
+      },
+      "ButtonStyleTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "title": "PRIMARY"
+          },
+          {
+            "const": 2,
+            "title": "SECONDARY"
+          },
+          {
+            "const": 3,
+            "title": "SUCCESS"
+          },
+          {
+            "const": 4,
+            "title": "DANGER"
+          },
+          {
+            "const": 5,
+            "title": "LINK"
+          },
+          {
+            "const": 6,
+            "title": "PREMIUM"
+          }
+        ],
+        "type": "integer"
+      },
+      "ChannelPermissionOverwriteResponse": {
+        "properties": {
+          "allow": {
+            "type": "string"
+          },
+          "deny": {
+            "type": "string"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ChannelPermissionOverwrites"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "allow",
+          "deny"
+        ],
+        "type": "object"
+      },
+      "ChannelPermissionOverwrites": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "title": "ROLE"
+          },
+          {
+            "const": 1,
+            "title": "MEMBER"
+          }
+        ],
+        "type": "integer"
+      },
+      "ChannelSelectComponentResponse": {
+        "properties": {
+          "channel_types": {
+            "items": {
+              "$ref": "#/components/schemas/ChannelTypes"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "custom_id": {
+            "type": "string"
+          },
+          "default_values": {
+            "items": {
+              "$ref": "#/components/schemas/ChannelSelectDefaultValueResponse"
+            },
+            "type": "array"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "max_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "min_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              8
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "custom_id",
+          "min_values",
+          "max_values"
+        ],
+        "type": "object"
+      },
+      "ChannelSelectDefaultValueResponse": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SnowflakeSelectDefaultValueTypes"
+              }
+            ],
+            "enum": [
+              "channel"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ],
+        "type": "object"
+      },
+      "ChannelTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "A direct message between users",
+            "title": "DM"
+          },
+          {
+            "const": 3,
+            "description": "A direct message between multiple users",
+            "title": "GROUP_DM"
+          },
+          {
+            "const": 0,
+            "description": "A text channel within a server",
+            "title": "GUILD_TEXT"
+          },
+          {
+            "const": 2,
+            "description": "A voice channel within a server",
+            "title": "GUILD_VOICE"
+          },
+          {
+            "const": 4,
+            "description": "An organizational category that contains up to 50 channels",
+            "title": "GUILD_CATEGORY"
+          },
+          {
+            "const": 5,
+            "description": "A channel that users can follow and crosspost into their own server (formerly news channels)",
+            "title": "GUILD_ANNOUNCEMENT"
+          },
+          {
+            "const": 10,
+            "description": "A temporary sub-channel within a GUILD_ANNOUNCEMENT channel",
+            "title": "ANNOUNCEMENT_THREAD"
+          },
+          {
+            "const": 11,
+            "description": "A temporary sub-channel within a GUILD_TEXT or GUILD_THREADS_ONLY channel type set",
+            "title": "PUBLIC_THREAD"
+          },
+          {
+            "const": 12,
+            "description": "A temporary sub-channel within a GUILD_TEXT channel that is only viewable by those invited and those with the MANAGE_THREADS permission",
+            "title": "PRIVATE_THREAD"
+          },
+          {
+            "const": 13,
+            "description": "A voice channel for hosting events with an audience",
+            "title": "GUILD_STAGE_VOICE"
+          },
+          {
+            "const": 14,
+            "description": "The channel in a hub containing the listed servers",
+            "title": "GUILD_DIRECTORY"
+          },
+          {
+            "const": 15,
+            "description": "Channel that can only contain threads",
+            "title": "GUILD_FORUM"
+          }
+        ],
+        "type": "integer"
+      },
+      "ComponentEmojiResponse": {
+        "properties": {
+          "animated": {
+            "type": "boolean"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "ContainerComponentResponse": {
+        "properties": {
+          "accent_color": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "components": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActionRowComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/FileComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/MediaGalleryComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/SeparatorComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/TextDisplayComponentResponse"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "spoiler": {
+            "type": "boolean"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              17
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "accent_color",
+          "components",
+          "spoiler"
+        ],
+        "type": "object"
+      },
+      "CustomClientThemeResponse": {
+        "properties": {
+          "base_mix": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "base_theme": {
+            "$ref": "#/components/schemas/MessageShareCustomUserThemeBaseTheme"
+          },
+          "colors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "gradient_angle": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "colors",
+          "gradient_angle",
+          "base_mix",
+          "base_theme"
+        ],
+        "type": "object"
+      },
+      "DefaultReactionEmojiResponse": {
+        "properties": {
+          "emoji_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "emoji_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "emoji_id",
+          "emoji_name"
+        ],
+        "type": "object"
+      },
       "EmojiResponse": {
         "properties": {
           "animated": {
@@ -377,6 +1864,272 @@
           }
         ],
         "description": "Errors object returned by the Discord API",
+        "type": "object"
+      },
+      "FileComponentResponse": {
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/UnfurledMediaResponse"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "size": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "spoiler": {
+            "type": "boolean"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              13
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "file",
+          "name",
+          "size",
+          "spoiler"
+        ],
+        "type": "object"
+      },
+      "ForumLayout": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "No default has been set for forum channel",
+            "title": "DEFAULT"
+          },
+          {
+            "const": 1,
+            "description": "Display posts as a list",
+            "title": "LIST"
+          },
+          {
+            "const": 2,
+            "description": "Display posts as a collection of tiles",
+            "title": "GRID"
+          }
+        ],
+        "type": "integer"
+      },
+      "ForumTagResponse": {
+        "properties": {
+          "emoji_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "emoji_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "moderated": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "moderated",
+          "emoji_id",
+          "emoji_name"
+        ],
+        "type": "object"
+      },
+      "GuildChannelResponse": {
+        "properties": {
+          "available_tags": {
+            "items": {
+              "$ref": "#/components/schemas/ForumTagResponse"
+            },
+            "type": "array"
+          },
+          "bitrate": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "default_auto_archive_duration": {
+            "$ref": "#/components/schemas/ThreadAutoArchiveDuration"
+          },
+          "default_forum_layout": {
+            "$ref": "#/components/schemas/ForumLayout"
+          },
+          "default_reaction_emoji": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/DefaultReactionEmojiResponse"
+              }
+            ]
+          },
+          "default_sort_order": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ThreadSortOrder"
+              }
+            ]
+          },
+          "default_tag_setting": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ThreadSearchTagSetting"
+              }
+            ]
+          },
+          "default_thread_rate_limit_per_user": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "last_message_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "last_pin_timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "nsfw": {
+            "type": "boolean"
+          },
+          "parent_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "permission_overwrites": {
+            "items": {
+              "$ref": "#/components/schemas/ChannelPermissionOverwriteResponse"
+            },
+            "type": "array"
+          },
+          "permissions": {
+            "type": "string"
+          },
+          "position": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "rate_limit_per_user": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "rtc_region": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "topic": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChannelTypes"
+              }
+            ],
+            "enum": [
+              0,
+              2,
+              4,
+              5,
+              13,
+              14,
+              15
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "user_limit": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "video_quality_mode": {
+            "$ref": "#/components/schemas/VideoQualityModes"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "flags",
+          "guild_id",
+          "name",
+          "position"
+        ],
         "type": "object"
       },
       "GuildExplicitContentFilterTypes": {
@@ -724,6 +2477,21 @@
           }
         ],
         "type": "integer"
+      },
+      "GuildProductPurchaseResponse": {
+        "properties": {
+          "listing_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "product_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "listing_id",
+          "product_name"
+        ],
+        "type": "object"
       },
       "GuildRoleColorsResponse": {
         "properties": {
@@ -1213,6 +2981,1483 @@
         "minimum": -9007199254740991,
         "type": "integer"
       },
+      "InteractionTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "Sent by Discord to validate your application's interaction handler",
+            "title": "PING"
+          },
+          {
+            "const": 2,
+            "description": "Sent when a user uses an application command",
+            "title": "APPLICATION_COMMAND"
+          },
+          {
+            "const": 3,
+            "description": "Sent when a user interacts with a message component previously sent by your application",
+            "title": "MESSAGE_COMPONENT"
+          },
+          {
+            "const": 4,
+            "description": "Sent when a user is filling in an autocomplete option in a chat command",
+            "title": "APPLICATION_COMMAND_AUTOCOMPLETE"
+          },
+          {
+            "const": 5,
+            "description": "Sent when a user submits a modal previously sent by your application",
+            "title": "MODAL_SUBMIT"
+          },
+          {
+            "const": 6,
+            "description": "Sent when Discord is checking if a user can purchase a Social Layer SKU",
+            "title": "SOCIAL_LAYER_SKU_PURCHASE_ELIGIBILITY"
+          }
+        ],
+        "type": "integer"
+      },
+      "MediaGalleryComponentResponse": {
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MediaGalleryItemResponse"
+            },
+            "type": "array"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              12
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "items"
+        ],
+        "type": "object"
+      },
+      "MediaGalleryItemResponse": {
+        "properties": {
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "media": {
+            "$ref": "#/components/schemas/UnfurledMediaResponse"
+          },
+          "spoiler": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "media",
+          "description",
+          "spoiler"
+        ],
+        "type": "object"
+      },
+      "MentionableSelectComponentResponse": {
+        "properties": {
+          "custom_id": {
+            "type": "string"
+          },
+          "default_values": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/RoleSelectDefaultValueResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/UserSelectDefaultValueResponse"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "max_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "min_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              7
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "custom_id",
+          "min_values",
+          "max_values"
+        ],
+        "type": "object"
+      },
+      "MessageActivityResponse": {
+        "properties": {
+          "party_id": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ActivityActionTypes"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "MessageAttachmentResponse": {
+        "properties": {
+          "application": {
+            "$ref": "#/components/schemas/ApplicationResponse"
+          },
+          "clip_created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "clip_participants": {
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "type": "array"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "duration_secs": {
+            "format": "double",
+            "type": "number"
+          },
+          "ephemeral": {
+            "type": "boolean"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "height": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "placeholder_version": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "proxy_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "size": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "waveform": {
+            "type": "string"
+          },
+          "width": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "filename",
+          "size",
+          "url",
+          "proxy_url"
+        ],
+        "type": "object"
+      },
+      "MessageCallResponse": {
+        "properties": {
+          "ended_timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "participants": {
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "participants"
+        ],
+        "type": "object"
+      },
+      "MessageComponentInteractionMetadataResponse": {
+        "properties": {
+          "authorizing_integration_owners": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "object"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "interacted_message_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "original_response_message_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InteractionTypes"
+              }
+            ],
+            "enum": [
+              3
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "authorizing_integration_owners",
+          "interacted_message_id"
+        ],
+        "type": "object"
+      },
+      "MessageComponentSeparatorSpacingSize": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "Small spacing",
+            "title": "SMALL"
+          },
+          {
+            "const": 2,
+            "description": "Large spacing",
+            "title": "LARGE"
+          }
+        ],
+        "type": "integer"
+      },
+      "MessageComponentTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "Container for other components",
+            "title": "ACTION_ROW"
+          },
+          {
+            "const": 2,
+            "description": "Button object",
+            "title": "BUTTON"
+          },
+          {
+            "const": 3,
+            "description": "Select menu for picking from defined text options",
+            "title": "STRING_SELECT"
+          },
+          {
+            "const": 4,
+            "description": "Text input object",
+            "title": "TEXT_INPUT"
+          },
+          {
+            "const": 5,
+            "description": "Select menu for users",
+            "title": "USER_SELECT"
+          },
+          {
+            "const": 6,
+            "description": "Select menu for roles",
+            "title": "ROLE_SELECT"
+          },
+          {
+            "const": 7,
+            "description": "Select menu for mentionables (users and roles)",
+            "title": "MENTIONABLE_SELECT"
+          },
+          {
+            "const": 8,
+            "description": "Select menu for channels",
+            "title": "CHANNEL_SELECT"
+          },
+          {
+            "const": 9,
+            "description": "Section component",
+            "title": "SECTION"
+          },
+          {
+            "const": 10,
+            "description": "Text component",
+            "title": "TEXT_DISPLAY"
+          },
+          {
+            "const": 11,
+            "description": "Thumbnail component",
+            "title": "THUMBNAIL"
+          },
+          {
+            "const": 12,
+            "description": "Media gallery component",
+            "title": "MEDIA_GALLERY"
+          },
+          {
+            "const": 13,
+            "description": "File component",
+            "title": "FILE"
+          },
+          {
+            "const": 14,
+            "description": "Separator component",
+            "title": "SEPARATOR"
+          },
+          {
+            "const": 17,
+            "description": "Container component",
+            "title": "CONTAINER"
+          },
+          {
+            "const": 18,
+            "description": "Label component",
+            "title": "LABEL"
+          },
+          {
+            "const": 19,
+            "description": "File upload component",
+            "title": "FILE_UPLOAD"
+          },
+          {
+            "const": 21,
+            "description": "Radio group component",
+            "title": "RADIO_GROUP"
+          },
+          {
+            "const": 22,
+            "description": "Checkbox group component",
+            "title": "CHECKBOX_GROUP"
+          },
+          {
+            "const": 23,
+            "description": "Checkbox component",
+            "title": "CHECKBOX"
+          }
+        ],
+        "type": "integer"
+      },
+      "MessageEmbedAuthorResponse": {
+        "properties": {
+          "icon_url": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "proxy_icon_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "MessageEmbedFieldResponse": {
+        "properties": {
+          "inline": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "inline"
+        ],
+        "type": "object"
+      },
+      "MessageEmbedFooterResponse": {
+        "properties": {
+          "icon_url": {
+            "type": "string"
+          },
+          "proxy_icon_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      },
+      "MessageEmbedImageResponse": {
+        "properties": {
+          "content_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "flags": {
+            "$ref": "#/components/schemas/UInt32Type"
+          },
+          "height": {
+            "$ref": "#/components/schemas/UInt32Type"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "placeholder_version": {
+            "$ref": "#/components/schemas/UInt32Type"
+          },
+          "proxy_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "width": {
+            "$ref": "#/components/schemas/UInt32Type"
+          }
+        },
+        "type": "object"
+      },
+      "MessageEmbedProviderResponse": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "MessageEmbedResponse": {
+        "properties": {
+          "author": {
+            "$ref": "#/components/schemas/MessageEmbedAuthorResponse"
+          },
+          "color": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/ContainerComponentResponse"
+            },
+            "type": "array"
+          },
+          "description": {
+            "type": "string"
+          },
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/MessageEmbedFieldResponse"
+            },
+            "type": "array"
+          },
+          "flags": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "footer": {
+            "$ref": "#/components/schemas/MessageEmbedFooterResponse"
+          },
+          "image": {
+            "$ref": "#/components/schemas/MessageEmbedImageResponse"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/MessageEmbedProviderResponse"
+          },
+          "thumbnail": {
+            "$ref": "#/components/schemas/MessageEmbedImageResponse"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "video": {
+            "$ref": "#/components/schemas/MessageEmbedVideoResponse"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "MessageEmbedVideoResponse": {
+        "properties": {
+          "content_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "flags": {
+            "$ref": "#/components/schemas/UInt32Type"
+          },
+          "height": {
+            "$ref": "#/components/schemas/UInt32Type"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "placeholder_version": {
+            "$ref": "#/components/schemas/UInt32Type"
+          },
+          "proxy_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "width": {
+            "$ref": "#/components/schemas/UInt32Type"
+          }
+        },
+        "type": "object"
+      },
+      "MessageInteractionResponse": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "name": {
+            "type": "string"
+          },
+          "name_localized": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/InteractionTypes"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name"
+        ],
+        "type": "object"
+      },
+      "MessageLobbyMemberResponse": {
+        "properties": {
+          "additional_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "additional_name"
+        ],
+        "type": "object"
+      },
+      "MessageMentionChannelResponse": {
+        "properties": {
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ChannelTypes"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "guild_id"
+        ],
+        "type": "object"
+      },
+      "MessageReactionCountDetailsResponse": {
+        "properties": {
+          "burst": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "normal": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "burst",
+          "normal"
+        ],
+        "type": "object"
+      },
+      "MessageReactionEmojiResponse": {
+        "properties": {
+          "animated": {
+            "type": "boolean"
+          },
+          "id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object"
+      },
+      "MessageReactionResponse": {
+        "properties": {
+          "burst_colors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "count": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "count_details": {
+            "$ref": "#/components/schemas/MessageReactionCountDetailsResponse"
+          },
+          "emoji": {
+            "$ref": "#/components/schemas/MessageReactionEmojiResponse"
+          },
+          "me": {
+            "type": "boolean"
+          },
+          "me_burst": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "emoji",
+          "count",
+          "count_details",
+          "burst_colors",
+          "me_burst",
+          "me"
+        ],
+        "type": "object"
+      },
+      "MessageReferenceResponse": {
+        "properties": {
+          "channel_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "message_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "$ref": "#/components/schemas/MessageReferenceType"
+          }
+        },
+        "required": [
+          "type",
+          "channel_id"
+        ],
+        "type": "object"
+      },
+      "MessageReferenceType": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "Reference to a message",
+            "title": "DEFAULT"
+          }
+        ],
+        "type": "integer"
+      },
+      "MessageResponse": {
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/MessageActivityResponse"
+          },
+          "application": {
+            "$ref": "#/components/schemas/BasicApplicationResponseWithBot"
+          },
+          "application_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "attachments": {
+            "items": {
+              "$ref": "#/components/schemas/MessageAttachmentResponse"
+            },
+            "type": "array"
+          },
+          "author": {
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "call": {
+            "$ref": "#/components/schemas/MessageCallResponse"
+          },
+          "channel_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "components": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActionRowComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/ContainerComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/FileComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/MediaGalleryComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/SeparatorComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/TextDisplayComponentResponse"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "content": {
+            "type": "string"
+          },
+          "edited_timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "embeds": {
+            "items": {
+              "$ref": "#/components/schemas/MessageEmbedResponse"
+            },
+            "type": "array"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "interaction": {
+            "$ref": "#/components/schemas/MessageInteractionResponse"
+          },
+          "interaction_metadata": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ApplicationCommandInteractionMetadataResponse"
+              },
+              {
+                "$ref": "#/components/schemas/MessageComponentInteractionMetadataResponse"
+              },
+              {
+                "$ref": "#/components/schemas/ModalSubmitInteractionMetadataResponse"
+              }
+            ]
+          },
+          "lobby_member": {
+            "$ref": "#/components/schemas/MessageLobbyMemberResponse"
+          },
+          "mention_channels": {
+            "items": {
+              "$ref": "#/components/schemas/MessageMentionChannelResponse"
+            },
+            "type": "array"
+          },
+          "mention_everyone": {
+            "type": "boolean"
+          },
+          "mention_roles": {
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "mentions": {
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "type": "array"
+          },
+          "message_reference": {
+            "$ref": "#/components/schemas/MessageReferenceResponse"
+          },
+          "message_snapshots": {
+            "items": {
+              "$ref": "#/components/schemas/MessageSnapshotResponse"
+            },
+            "type": "array"
+          },
+          "nonce": {
+            "oneOf": [
+              {
+                "format": "int64",
+                "maximum": 9223372036854776000,
+                "minimum": -9223372036854776000,
+                "type": "integer"
+              },
+              {
+                "format": "nonce",
+                "maxLength": 25,
+                "type": "string"
+              }
+            ]
+          },
+          "pinned": {
+            "type": "boolean"
+          },
+          "poll": {
+            "$ref": "#/components/schemas/PollResponse"
+          },
+          "position": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "purchase_notification": {
+            "$ref": "#/components/schemas/PurchaseNotificationResponse"
+          },
+          "reactions": {
+            "items": {
+              "$ref": "#/components/schemas/MessageReactionResponse"
+            },
+            "type": "array"
+          },
+          "referenced_message": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/BasicMessageResponse"
+              }
+            ]
+          },
+          "resolved": {
+            "$ref": "#/components/schemas/ResolvedObjectsResponse"
+          },
+          "role_subscription_data": {
+            "$ref": "#/components/schemas/MessageRoleSubscriptionDataResponse"
+          },
+          "shared_client_theme": {
+            "$ref": "#/components/schemas/CustomClientThemeResponse"
+          },
+          "sticker_items": {
+            "items": {
+              "$ref": "#/components/schemas/MessageStickerItemResponse"
+            },
+            "type": "array"
+          },
+          "stickers": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/GuildStickerResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/StandardStickerResponse"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "thread": {
+            "$ref": "#/components/schemas/ThreadResponse"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "tts": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "webhook_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        "required": [
+          "type",
+          "content",
+          "mentions",
+          "mention_roles",
+          "attachments",
+          "embeds",
+          "timestamp",
+          "edited_timestamp",
+          "flags",
+          "components",
+          "id",
+          "channel_id",
+          "author",
+          "pinned",
+          "mention_everyone",
+          "tts"
+        ],
+        "type": "object"
+      },
+      "MessageRoleSubscriptionDataResponse": {
+        "properties": {
+          "is_renewal": {
+            "type": "boolean"
+          },
+          "role_subscription_listing_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "tier_name": {
+            "type": "string"
+          },
+          "total_months_subscribed": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "role_subscription_listing_id",
+          "tier_name",
+          "total_months_subscribed",
+          "is_renewal"
+        ],
+        "type": "object"
+      },
+      "MessageShareCustomUserThemeBaseTheme": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "No base theme",
+            "title": "UNSET"
+          },
+          {
+            "const": 1,
+            "description": "Dark base theme",
+            "title": "DARK"
+          },
+          {
+            "const": 2,
+            "description": "Light base theme",
+            "title": "LIGHT"
+          },
+          {
+            "const": 3,
+            "description": "Darker base theme",
+            "title": "DARKER"
+          },
+          {
+            "const": 4,
+            "description": "Midnight base theme",
+            "title": "MIDNIGHT"
+          }
+        ],
+        "type": "integer"
+      },
+      "MessageSnapshotResponse": {
+        "properties": {
+          "message": {
+            "$ref": "#/components/schemas/MinimalContentMessageResponse"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "type": "object"
+      },
+      "MessageStickerItemResponse": {
+        "properties": {
+          "format_type": {
+            "$ref": "#/components/schemas/StickerFormatTypes"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "format_type"
+        ],
+        "type": "object"
+      },
+      "MessageType": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "",
+            "title": "DEFAULT"
+          },
+          {
+            "const": 1,
+            "description": "",
+            "title": "RECIPIENT_ADD"
+          },
+          {
+            "const": 2,
+            "description": "",
+            "title": "RECIPIENT_REMOVE"
+          },
+          {
+            "const": 3,
+            "description": "",
+            "title": "CALL"
+          },
+          {
+            "const": 4,
+            "description": "",
+            "title": "CHANNEL_NAME_CHANGE"
+          },
+          {
+            "const": 5,
+            "description": "",
+            "title": "CHANNEL_ICON_CHANGE"
+          },
+          {
+            "const": 6,
+            "description": "",
+            "title": "CHANNEL_PINNED_MESSAGE"
+          },
+          {
+            "const": 7,
+            "description": "",
+            "title": "USER_JOIN"
+          },
+          {
+            "const": 8,
+            "description": "",
+            "title": "GUILD_BOOST"
+          },
+          {
+            "const": 9,
+            "description": "",
+            "title": "GUILD_BOOST_TIER_1"
+          },
+          {
+            "const": 10,
+            "description": "",
+            "title": "GUILD_BOOST_TIER_2"
+          },
+          {
+            "const": 11,
+            "description": "",
+            "title": "GUILD_BOOST_TIER_3"
+          },
+          {
+            "const": 12,
+            "description": "",
+            "title": "CHANNEL_FOLLOW_ADD"
+          },
+          {
+            "const": 14,
+            "description": "",
+            "title": "GUILD_DISCOVERY_DISQUALIFIED"
+          },
+          {
+            "const": 15,
+            "description": "",
+            "title": "GUILD_DISCOVERY_REQUALIFIED"
+          },
+          {
+            "const": 16,
+            "description": "",
+            "title": "GUILD_DISCOVERY_GRACE_PERIOD_INITIAL_WARNING"
+          },
+          {
+            "const": 17,
+            "description": "",
+            "title": "GUILD_DISCOVERY_GRACE_PERIOD_FINAL_WARNING"
+          },
+          {
+            "const": 18,
+            "description": "",
+            "title": "THREAD_CREATED"
+          },
+          {
+            "const": 19,
+            "description": "",
+            "title": "REPLY"
+          },
+          {
+            "const": 20,
+            "description": "",
+            "title": "CHAT_INPUT_COMMAND"
+          },
+          {
+            "const": 21,
+            "description": "",
+            "title": "THREAD_STARTER_MESSAGE"
+          },
+          {
+            "const": 22,
+            "description": "",
+            "title": "GUILD_INVITE_REMINDER"
+          },
+          {
+            "const": 23,
+            "description": "",
+            "title": "CONTEXT_MENU_COMMAND"
+          },
+          {
+            "const": 24,
+            "description": "",
+            "title": "AUTO_MODERATION_ACTION"
+          },
+          {
+            "const": 25,
+            "description": "",
+            "title": "ROLE_SUBSCRIPTION_PURCHASE"
+          },
+          {
+            "const": 26,
+            "description": "",
+            "title": "INTERACTION_PREMIUM_UPSELL"
+          },
+          {
+            "const": 27,
+            "description": "",
+            "title": "STAGE_START"
+          },
+          {
+            "const": 28,
+            "description": "",
+            "title": "STAGE_END"
+          },
+          {
+            "const": 29,
+            "description": "",
+            "title": "STAGE_SPEAKER"
+          },
+          {
+            "const": 31,
+            "description": "",
+            "title": "STAGE_TOPIC"
+          },
+          {
+            "const": 32,
+            "description": "",
+            "title": "GUILD_APPLICATION_PREMIUM_SUBSCRIPTION"
+          },
+          {
+            "const": 36,
+            "description": "",
+            "title": "GUILD_INCIDENT_ALERT_MODE_ENABLED"
+          },
+          {
+            "const": 37,
+            "description": "",
+            "title": "GUILD_INCIDENT_ALERT_MODE_DISABLED"
+          },
+          {
+            "const": 38,
+            "description": "",
+            "title": "GUILD_INCIDENT_REPORT_RAID"
+          },
+          {
+            "const": 39,
+            "description": "",
+            "title": "GUILD_INCIDENT_REPORT_FALSE_ALARM"
+          },
+          {
+            "const": 46,
+            "description": "",
+            "title": "POLL_RESULT"
+          },
+          {
+            "const": 55,
+            "description": "",
+            "title": "HD_STREAMING_UPGRADED"
+          }
+        ],
+        "type": "integer"
+      },
+      "MinimalContentMessageResponse": {
+        "properties": {
+          "attachments": {
+            "items": {
+              "$ref": "#/components/schemas/MessageAttachmentResponse"
+            },
+            "type": "array"
+          },
+          "components": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActionRowComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/ContainerComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/FileComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/MediaGalleryComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/SeparatorComponentResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/TextDisplayComponentResponse"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "content": {
+            "type": "string"
+          },
+          "edited_timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "embeds": {
+            "items": {
+              "$ref": "#/components/schemas/MessageEmbedResponse"
+            },
+            "type": "array"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "mention_roles": {
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "mentions": {
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "type": "array"
+          },
+          "sticker_items": {
+            "items": {
+              "$ref": "#/components/schemas/MessageStickerItemResponse"
+            },
+            "type": "array"
+          },
+          "stickers": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/GuildStickerResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/StandardStickerResponse"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/MessageType"
+          }
+        },
+        "required": [
+          "type",
+          "content",
+          "mentions",
+          "mention_roles",
+          "attachments",
+          "embeds",
+          "timestamp",
+          "edited_timestamp",
+          "flags",
+          "components"
+        ],
+        "type": "object"
+      },
+      "ModalSubmitInteractionMetadataResponse": {
+        "properties": {
+          "authorizing_integration_owners": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "object"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "original_response_message_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "triggering_interaction_metadata": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ApplicationCommandInteractionMetadataResponse"
+              },
+              {
+                "$ref": "#/components/schemas/MessageComponentInteractionMetadataResponse"
+              }
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InteractionTypes"
+              }
+            ],
+            "enum": [
+              5
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "authorizing_integration_owners",
+          "triggering_interaction_metadata"
+        ],
+        "type": "object"
+      },
       "NameplatePalette": {
         "oneOf": [
           {
@@ -1278,6 +4523,308 @@
         ],
         "type": "string"
       },
+      "OAuth2Scopes": {
+        "oneOf": [
+          {
+            "const": "identify",
+            "description": "allows /users/@me without email",
+            "title": "IDENTIFY"
+          },
+          {
+            "const": "email",
+            "description": "enables /users/@me to return an email",
+            "title": "EMAIL"
+          },
+          {
+            "const": "connections",
+            "description": "allows /users/@me/connections to return linked third-party accounts",
+            "title": "CONNECTIONS"
+          },
+          {
+            "const": "guilds",
+            "description": "allows /users/@me/guilds to return basic information about all of a user's guilds",
+            "title": "GUILDS"
+          },
+          {
+            "const": "guilds.join",
+            "description": "allows /guilds/{guild.id}/members/{user.id} to be used for joining users to a guild",
+            "title": "GUILDS_JOIN"
+          },
+          {
+            "const": "guilds.members.read",
+            "description": "allows /users/@me/guilds/{guild.id}/member to return a user's member information in a guild",
+            "title": "GUILDS_MEMBERS_READ"
+          },
+          {
+            "const": "gdm.join",
+            "description": "allows your app to join users to a group dm",
+            "title": "GDM_JOIN"
+          },
+          {
+            "const": "bot",
+            "description": "for oauth2 bots, this puts the bot in the user's selected guild by default",
+            "title": "BOT"
+          },
+          {
+            "const": "rpc",
+            "description": "for local rpc server access, this allows you to control a user's local Discord client - requires Discord approval",
+            "title": "RPC"
+          },
+          {
+            "const": "rpc.notifications.read",
+            "description": "for local rpc server access, this allows you to receive notifications pushed out to the user - requires Discord approval",
+            "title": "RPC_NOTIFICATIONS_READ"
+          },
+          {
+            "const": "rpc.voice.read",
+            "description": "for local rpc server access, this allows you to read a user's voice settings and listen for voice events - requires Discord approval",
+            "title": "RPC_VOICE_READ"
+          },
+          {
+            "const": "rpc.voice.write",
+            "description": "for local rpc server access, this allows you to update a user's voice settings - requires Discord approval",
+            "title": "RPC_VOICE_WRITE"
+          },
+          {
+            "const": "rpc.video.read",
+            "description": "for local rpc server access, this allows you to read a user's video status - requires Discord approval",
+            "title": "RPC_VIDEO_READ"
+          },
+          {
+            "const": "rpc.video.write",
+            "description": "for local rpc server access, this allows you to update a user's video settings - requires Discord approval",
+            "title": "RPC_VIDEO_WRITE"
+          },
+          {
+            "const": "rpc.screenshare.read",
+            "description": "for local rpc server access, this allows you to read a user's screenshare status- requires Discord approval",
+            "title": "RPC_SCREENSHARE_READ"
+          },
+          {
+            "const": "rpc.screenshare.write",
+            "description": "for local rpc server access, this allows you to update a user's screenshare settings- requires Discord approval",
+            "title": "RPC_SCREENSHARE_WRITE"
+          },
+          {
+            "const": "rpc.activities.write",
+            "description": "for local rpc server access, this allows you to update a user's activity - requires Discord approval",
+            "title": "RPC_ACTIVITIES_WRITE"
+          },
+          {
+            "const": "webhook.incoming",
+            "description": "this generates a webhook that is returned in the oauth token response for authorization code grants",
+            "title": "WEBHOOK_INCOMING"
+          },
+          {
+            "const": "messages.read",
+            "description": "for local rpc server api access, this allows you to read messages from all client channels (otherwise restricted to channels/guilds your app creates)",
+            "title": "MESSAGES_READ"
+          },
+          {
+            "const": "applications.builds.upload",
+            "description": "allows your app to upload/update builds for a user's applications - requires Discord approval",
+            "title": "APPLICATIONS_BUILDS_UPLOAD"
+          },
+          {
+            "const": "applications.builds.read",
+            "description": "allows your app to read build data for a user's applications",
+            "title": "APPLICATIONS_BUILDS_READ"
+          },
+          {
+            "const": "applications.commands",
+            "description": "allows your app to use commands in a guild",
+            "title": "APPLICATIONS_COMMANDS"
+          },
+          {
+            "const": "applications.commands.permissions.update",
+            "description": "allows your app to update permissions for its commands in a guild a user has permissions to",
+            "title": "APPLICATIONS_COMMANDS_PERMISSIONS_UPDATE"
+          },
+          {
+            "const": "applications.commands.update",
+            "description": "allows your app to update its commands using a Bearer token - client credentials grant only",
+            "title": "APPLICATIONS_COMMANDS_UPDATE"
+          },
+          {
+            "const": "applications.store.update",
+            "description": "allows your app to read and update store data (SKUs, store listings, achievements, etc.) for a user's applications",
+            "title": "APPLICATIONS_STORE_UPDATE"
+          },
+          {
+            "const": "applications.entitlements",
+            "description": "allows your app to read entitlements for a user's applications",
+            "title": "APPLICATIONS_ENTITLEMENTS"
+          },
+          {
+            "const": "activities.read",
+            "description": "allows your app to fetch data from a user's \"Now Playing/Recently Played\" list - requires Discord approval",
+            "title": "ACTIVITIES_READ"
+          },
+          {
+            "const": "activities.write",
+            "description": "allows your app to update a user's activity - requires Discord approval (NOT REQUIRED FOR GAMESDK ACTIVITY MANAGER)",
+            "title": "ACTIVITIES_WRITE"
+          },
+          {
+            "const": "activities.invites.write",
+            "description": "allows your app to send activity invites - requires Discord approval (NOT REQUIRED FOR GAMESDK ACTIVITY MANAGER)",
+            "title": "ACTIVITIES_INVITES_WRITE"
+          },
+          {
+            "const": "relationships.read",
+            "description": "allows your app to know a user's friends and implicit relationships - requires Discord approval",
+            "title": "RELATIONSHIPS_READ"
+          },
+          {
+            "const": "voice",
+            "description": "allows your app to connect to voice on user's behalf and see all the voice members - requires Discord approval",
+            "title": "VOICE"
+          },
+          {
+            "const": "dm_channels.read",
+            "description": "allows your app to see information about the user's DMs and group DMs - requires Discord approval",
+            "title": "DM_CHANNELS_READ"
+          },
+          {
+            "const": "role_connections.write",
+            "description": "allows your app to update a user's connection and metadata for the app",
+            "title": "ROLE_CONNECTIONS_WRITE"
+          },
+          {
+            "const": "openid",
+            "description": "for OpenID Connect, this allows your app to receive user id and basic profile information",
+            "title": "OPENID"
+          }
+        ],
+        "type": "string"
+      },
+      "PollAnswerResponse": {
+        "properties": {
+          "answer_id": {
+            "description": "The ID of the answer",
+            "format": "int32",
+            "type": "integer"
+          },
+          "poll_media": {
+            "$ref": "#/components/schemas/PollMediaResponse",
+            "description": "The data of the answer"
+          }
+        },
+        "required": [
+          "answer_id",
+          "poll_media"
+        ],
+        "type": "object"
+      },
+      "PollLayoutTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "The, uhm, default layout type.",
+            "title": "DEFAULT"
+          }
+        ],
+        "type": "integer"
+      },
+      "PollMediaResponse": {
+        "properties": {
+          "emoji": {
+            "$ref": "#/components/schemas/MessageReactionEmojiResponse",
+            "description": "The emoji of the field"
+          },
+          "text": {
+            "description": "The text of the field",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "PollResponse": {
+        "properties": {
+          "allow_multiselect": {
+            "description": "Whether a user can select multiple answers",
+            "type": "boolean"
+          },
+          "answers": {
+            "description": "Each of the answers available in the poll",
+            "items": {
+              "$ref": "#/components/schemas/PollAnswerResponse"
+            },
+            "type": "array"
+          },
+          "expiry": {
+            "description": "The time when the poll ends",
+            "format": "date-time",
+            "type": "string"
+          },
+          "layout_type": {
+            "$ref": "#/components/schemas/PollLayoutTypes",
+            "description": "The layout type of the poll"
+          },
+          "question": {
+            "$ref": "#/components/schemas/PollMediaResponse",
+            "description": "The question of the poll. Only `text` is supported."
+          },
+          "results": {
+            "$ref": "#/components/schemas/PollResultsResponse",
+            "description": "The results of the poll"
+          }
+        },
+        "required": [
+          "question",
+          "answers",
+          "expiry",
+          "allow_multiselect",
+          "layout_type",
+          "results"
+        ],
+        "type": "object"
+      },
+      "PollResultsEntryResponse": {
+        "properties": {
+          "count": {
+            "description": "The number of votes for this answer",
+            "format": "int32",
+            "type": "integer"
+          },
+          "id": {
+            "description": "The answer_id",
+            "format": "int32",
+            "type": "integer"
+          },
+          "me_voted": {
+            "description": "Whether the current user voted for this answer",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "count",
+          "me_voted"
+        ],
+        "type": "object"
+      },
+      "PollResultsResponse": {
+        "properties": {
+          "answer_counts": {
+            "description": "The counts for each answer",
+            "items": {
+              "$ref": "#/components/schemas/PollResultsEntryResponse"
+            },
+            "type": "array"
+          },
+          "is_finalized": {
+            "description": "Whether the votes have been precisely counted",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "answer_counts",
+          "is_finalized"
+        ],
+        "type": "object"
+      },
       "PremiumGuildTiers": {
         "format": "int32",
         "oneOf": [
@@ -1330,6 +4877,376 @@
         ],
         "type": "integer"
       },
+      "PrivateApplicationResponse": {
+        "properties": {
+          "approximate_guild_count": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "approximate_user_authorization_count": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "approximate_user_install_count": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "bot": {
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "bot_public": {
+            "type": "boolean"
+          },
+          "bot_require_code_grant": {
+            "type": "boolean"
+          },
+          "cover_image": {
+            "type": "string"
+          },
+          "custom_install_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "eligible_oauth2_scopes": {
+            "items": {
+              "$ref": "#/components/schemas/OAuth2Scopes"
+            },
+            "type": "array"
+          },
+          "event_webhooks_status": {
+            "$ref": "#/components/schemas/ApplicationEventWebhooksStatus"
+          },
+          "event_webhooks_types": {
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ActionTypes"
+                }
+              ],
+              "enum": [
+                "APPLICATION_AUTHORIZED",
+                "APPLICATION_DEAUTHORIZED",
+                "ENTITLEMENT_CREATE",
+                "ENTITLEMENT_DELETE",
+                "ENTITLEMENT_UPDATE",
+                "GAME_DIRECT_MESSAGE_CREATE",
+                "GAME_DIRECT_MESSAGE_DELETE",
+                "GAME_DIRECT_MESSAGE_UPDATE",
+                "LOBBY_MESSAGE_CREATE",
+                "LOBBY_MESSAGE_DELETE",
+                "LOBBY_MESSAGE_UPDATE",
+                "QUEST_USER_ENROLLMENT"
+              ],
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "event_webhooks_url": {
+            "format": "uri",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "explicit_content_filter": {
+            "$ref": "#/components/schemas/ApplicationExplicitContentFilterTypes"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "flags_new": {
+            "type": "string"
+          },
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "install_params": {
+            "$ref": "#/components/schemas/ApplicationOAuth2InstallParamsResponse"
+          },
+          "integration_types_config": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ApplicationIntegrationTypeConfigurationResponse"
+            },
+            "type": "object"
+          },
+          "interactions_endpoint_url": {
+            "format": "uri",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "max_participants": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "primary_sku_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "privacy_policy_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "redirect_uris": {
+            "items": {
+              "format": "uri",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "role_connections_verification_url": {
+            "format": "uri",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "rpc_origins": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "team": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/TeamResponse"
+              }
+            ]
+          },
+          "terms_of_service_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "type": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ApplicationTypes"
+              }
+            ]
+          },
+          "verify_key": {
+            "type": "string"
+          },
+          "vibegrations_project_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "icon",
+          "description",
+          "type",
+          "flags",
+          "flags_new",
+          "verify_key",
+          "redirect_uris",
+          "interactions_endpoint_url",
+          "role_connections_verification_url",
+          "owner",
+          "approximate_guild_count",
+          "approximate_user_install_count",
+          "approximate_user_authorization_count",
+          "explicit_content_filter",
+          "team",
+          "eligible_oauth2_scopes"
+        ],
+        "type": "object"
+      },
+      "PrivateChannelResponse": {
+        "properties": {
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "last_message_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "last_pin_timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "recipients": {
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "type": "array"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChannelTypes"
+              }
+            ],
+            "enum": [
+              1
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "flags",
+          "recipients"
+        ],
+        "type": "object"
+      },
+      "PrivateGroupChannelResponse": {
+        "properties": {
+          "application_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "last_message_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "last_pin_timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "managed": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "owner_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "recipients": {
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "type": "array"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChannelTypes"
+              }
+            ],
+            "enum": [
+              3
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "flags",
+          "recipients",
+          "name",
+          "icon",
+          "owner_id"
+        ],
+        "type": "object"
+      },
+      "PurchaseNotificationResponse": {
+        "properties": {
+          "guild_product_purchase": {
+            "$ref": "#/components/schemas/GuildProductPurchaseResponse"
+          },
+          "type": {
+            "$ref": "#/components/schemas/PurchaseType"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "PurchaseType": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "title": "GUILD_PRODUCT"
+          }
+        ],
+        "type": "integer"
+      },
       "RatelimitedResponse": {
         "allOf": [
           {
@@ -1356,10 +5273,290 @@
         "description": "Ratelimit error object returned by the Discord API",
         "type": "object"
       },
+      "ResolvedObjectsResponse": {
+        "properties": {
+          "channels": {
+            "additionalProperties": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/GuildChannelResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/PrivateChannelResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/PrivateGroupChannelResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/ThreadResponse"
+                }
+              ]
+            },
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "members": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/BasicGuildMemberResponse"
+            },
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "roles": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/GuildRoleResponse"
+            },
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "users": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "RoleSelectComponentResponse": {
+        "properties": {
+          "custom_id": {
+            "type": "string"
+          },
+          "default_values": {
+            "items": {
+              "$ref": "#/components/schemas/RoleSelectDefaultValueResponse"
+            },
+            "type": "array"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "max_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "min_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              6
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "custom_id",
+          "min_values",
+          "max_values"
+        ],
+        "type": "object"
+      },
+      "RoleSelectDefaultValueResponse": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SnowflakeSelectDefaultValueTypes"
+              }
+            ],
+            "enum": [
+              "role"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ],
+        "type": "object"
+      },
+      "SectionComponentResponse": {
+        "properties": {
+          "accessory": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ButtonComponentResponse"
+              },
+              {
+                "$ref": "#/components/schemas/ThumbnailComponentResponse"
+              }
+            ]
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/TextDisplayComponentResponse"
+            },
+            "type": "array"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              9
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "components",
+          "accessory"
+        ],
+        "type": "object"
+      },
+      "SeparatorComponentResponse": {
+        "properties": {
+          "divider": {
+            "type": "boolean"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "spacing": {
+            "$ref": "#/components/schemas/MessageComponentSeparatorSpacingSize"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              14
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "spacing",
+          "divider"
+        ],
+        "type": "object"
+      },
+      "SnowflakeSelectDefaultValueTypes": {
+        "oneOf": [
+          {
+            "const": "user",
+            "title": "USER"
+          },
+          {
+            "const": "role",
+            "title": "ROLE"
+          },
+          {
+            "const": "channel",
+            "title": "CHANNEL"
+          }
+        ],
+        "type": "string"
+      },
       "SnowflakeType": {
         "format": "snowflake",
         "pattern": "^(0|[1-9][0-9]*)$",
         "type": "string"
+      },
+      "StandardStickerResponse": {
+        "properties": {
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "format_type": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StickerFormatTypes"
+              }
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "name": {
+            "type": "string"
+          },
+          "pack_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "sort_value": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "tags": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StickerTypes"
+              }
+            ],
+            "enum": [
+              1
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "tags",
+          "type",
+          "format_type",
+          "description",
+          "pack_id",
+          "sort_value"
+        ],
+        "type": "object"
       },
       "StickerFormatTypes": {
         "format": "int32",
@@ -1398,6 +5595,620 @@
           }
         ],
         "type": "integer"
+      },
+      "StringSelectComponentResponse": {
+        "properties": {
+          "custom_id": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "max_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "min_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/StringSelectOptionResponse"
+            },
+            "type": "array"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              3
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "custom_id",
+          "min_values",
+          "max_values",
+          "options"
+        ],
+        "type": "object"
+      },
+      "StringSelectOptionResponse": {
+        "properties": {
+          "default": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "emoji": {
+            "$ref": "#/components/schemas/ComponentEmojiResponse"
+          },
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "value"
+        ],
+        "type": "object"
+      },
+      "TeamMemberResponse": {
+        "properties": {
+          "membership_state": {
+            "$ref": "#/components/schemas/TeamMembershipStates"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "role": {
+            "$ref": "#/components/schemas/TeamMemberRoles"
+          },
+          "team_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        },
+        "required": [
+          "user",
+          "team_id",
+          "membership_state",
+          "role",
+          "permissions"
+        ],
+        "type": "object"
+      },
+      "TeamMemberRoles": {
+        "oneOf": [
+          {
+            "const": "admin",
+            "description": "Admins have similar access as owners, except they cannot take destructive actions on the team or team-owned apps.",
+            "title": "ADMIN"
+          },
+          {
+            "const": "developer",
+            "description": "Developers can access information about team-owned apps, like the client secret or public key. They can also take limited actions on team-owned apps, like configuring interaction endpoints or resetting the bot token. Members with the Developer role cannot manage the team or its members, or take destructive actions on team-owned apps.",
+            "title": "DEVELOPER"
+          },
+          {
+            "const": "read_only",
+            "description": "Read-only members can access information about a team and any team-owned apps. Some examples include getting the IDs of applications and exporting payout records. Members can also invite bots associated with team-owned apps that are marked private.",
+            "title": "READ_ONLY"
+          }
+        ],
+        "type": "string"
+      },
+      "TeamMembershipStates": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "User has been invited to the team.",
+            "title": "INVITED"
+          },
+          {
+            "const": 2,
+            "description": "User has accepted the team invitation.",
+            "title": "ACCEPTED"
+          }
+        ],
+        "type": "integer"
+      },
+      "TeamResponse": {
+        "properties": {
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "members": {
+            "items": {
+              "$ref": "#/components/schemas/TeamMemberResponse"
+            },
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          },
+          "owner_user_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        "required": [
+          "id",
+          "icon",
+          "name",
+          "owner_user_id",
+          "members"
+        ],
+        "type": "object"
+      },
+      "TextDisplayComponentResponse": {
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              10
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "content"
+        ],
+        "type": "object"
+      },
+      "TextInputComponentResponse": {
+        "properties": {
+          "custom_id": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "max_length": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "min_length": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "style": {
+            "$ref": "#/components/schemas/TextInputStyleTypes"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              4
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "custom_id",
+          "style",
+          "label",
+          "min_length",
+          "max_length"
+        ],
+        "type": "object"
+      },
+      "TextInputStyleTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "Single-line input",
+            "title": "SHORT"
+          },
+          {
+            "const": 2,
+            "description": "Multi-line input",
+            "title": "PARAGRAPH"
+          }
+        ],
+        "type": "integer"
+      },
+      "ThreadAutoArchiveDuration": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 60,
+            "description": "One hour",
+            "title": "ONE_HOUR"
+          },
+          {
+            "const": 1440,
+            "description": "One day",
+            "title": "ONE_DAY"
+          },
+          {
+            "const": 4320,
+            "description": "Three days",
+            "title": "THREE_DAY"
+          },
+          {
+            "const": 10080,
+            "description": "Seven days",
+            "title": "SEVEN_DAY"
+          }
+        ],
+        "type": "integer"
+      },
+      "ThreadMemberResponse": {
+        "properties": {
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "join_timestamp": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "member": {
+            "$ref": "#/components/schemas/GuildMemberResponse"
+          },
+          "user_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        "required": [
+          "id",
+          "user_id",
+          "join_timestamp",
+          "flags"
+        ],
+        "type": "object"
+      },
+      "ThreadMetadataResponse": {
+        "properties": {
+          "archive_timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "archived": {
+            "type": "boolean"
+          },
+          "auto_archive_duration": {
+            "$ref": "#/components/schemas/ThreadAutoArchiveDuration"
+          },
+          "create_timestamp": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "invitable": {
+            "type": "boolean"
+          },
+          "locked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "archived",
+          "archive_timestamp",
+          "auto_archive_duration",
+          "locked"
+        ],
+        "type": "object"
+      },
+      "ThreadResponse": {
+        "properties": {
+          "applied_tags": {
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "type": "array"
+          },
+          "bitrate": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "last_message_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "last_pin_timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "member": {
+            "$ref": "#/components/schemas/ThreadMemberResponse"
+          },
+          "member_count": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "message_count": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "owner_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "parent_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "permissions": {
+            "type": "string"
+          },
+          "rate_limit_per_user": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "rtc_region": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "thread_metadata": {
+            "$ref": "#/components/schemas/ThreadMetadataResponse"
+          },
+          "total_message_sent": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChannelTypes"
+              }
+            ],
+            "enum": [
+              10,
+              11,
+              12
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "user_limit": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "video_quality_mode": {
+            "$ref": "#/components/schemas/VideoQualityModes"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "flags",
+          "guild_id",
+          "name",
+          "owner_id",
+          "thread_metadata",
+          "message_count",
+          "member_count",
+          "total_message_sent"
+        ],
+        "type": "object"
+      },
+      "ThreadSearchTagSetting": {
+        "oneOf": [
+          {
+            "const": "match_all",
+            "description": "The thread tags must contain all tags in the search query",
+            "title": "MATCH_ALL"
+          },
+          {
+            "const": "match_some",
+            "description": "The thread tags must contain at least one of tags in the search query",
+            "title": "MATCH_SOME"
+          }
+        ],
+        "type": "string"
+      },
+      "ThreadSortOrder": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "Sort forum posts by activity",
+            "title": "LATEST_ACTIVITY"
+          },
+          {
+            "const": 1,
+            "description": "Sort forum posts by creation time (from most recent to oldest)",
+            "title": "CREATION_DATE"
+          }
+        ],
+        "type": "integer"
+      },
+      "ThumbnailComponentResponse": {
+        "properties": {
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "media": {
+            "$ref": "#/components/schemas/UnfurledMediaResponse"
+          },
+          "spoiler": {
+            "type": "boolean"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              11
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "media",
+          "description",
+          "spoiler"
+        ],
+        "type": "object"
+      },
+      "UInt32Type": {
+        "format": "int64",
+        "maximum": 4294967295,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "UnfurledMediaResponse": {
+        "properties": {
+          "attachment_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "content_type": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "height": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "proxy_url": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "width": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "proxy_url"
+        ],
+        "type": "object"
       },
       "UserAvatarDecorationResponse": {
         "properties": {
@@ -1765,6 +6576,80 @@
         ],
         "type": "object"
       },
+      "UserSelectComponentResponse": {
+        "properties": {
+          "custom_id": {
+            "type": "string"
+          },
+          "default_values": {
+            "items": {
+              "$ref": "#/components/schemas/UserSelectDefaultValueResponse"
+            },
+            "type": "array"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "max_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "min_values": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              5
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "custom_id",
+          "min_values",
+          "max_values"
+        ],
+        "type": "object"
+      },
+      "UserSelectDefaultValueResponse": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SnowflakeSelectDefaultValueTypes"
+              }
+            ],
+            "enum": [
+              "user"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ],
+        "type": "object"
+      },
       "VerificationLevels": {
         "format": "int32",
         "oneOf": [
@@ -1792,6 +6677,22 @@
             "const": 4,
             "description": "must have a verified phone number",
             "title": "VERY_HIGH"
+          }
+        ],
+        "type": "integer"
+      },
+      "VideoQualityModes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "description": "Discord chooses the quality for optimal performance",
+            "title": "AUTO"
+          },
+          {
+            "const": 2,
+            "description": "720p",
+            "title": "FULL"
           }
         ],
         "type": "integer"
@@ -2078,6 +6979,102 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/channels/{channel_id}/messages": {
+      "get": {
+        "operationId": "list_messages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "around",
+            "schema": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            }
+          },
+          {
+            "in": "query",
+            "name": "before",
+            "schema": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            }
+          },
+          {
+            "in": "query",
+            "name": "after",
+            "schema": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MessageResponse"
+                  },
+                  "type": [
+                    "array",
+                    "null"
+                  ]
+                }
+              }
+            },
+            "description": "200 response for list_messages",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "channel_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ]
+    },
     "/guilds/{guild_id}": {
       "get": {
         "operationId": "get_guild",
@@ -2128,6 +7125,86 @@
         "security": [
           {
             "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "guild_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ]
+    },
+    "/guilds/{guild_id}/channels": {
+      "get": {
+        "operationId": "list_guild_channels",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/GuildChannelResponse"
+                      },
+                      {
+                        "$ref": "#/components/schemas/PrivateChannelResponse"
+                      },
+                      {
+                        "$ref": "#/components/schemas/PrivateGroupChannelResponse"
+                      },
+                      {
+                        "$ref": "#/components/schemas/ThreadResponse"
+                      }
+                    ]
+                  },
+                  "type": [
+                    "array",
+                    "null"
+                  ]
+                }
+              }
+            },
+            "description": "200 response for list_guild_channels",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          },
+          {
+            "OAuth2": []
           }
         ],
         "tags": [
@@ -2629,6 +7706,54 @@
           }
         }
       ]
+    },
+    "/oauth2/applications/@me": {
+      "get": {
+        "operationId": "get_my_oauth2_application",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivateApplicationResponse"
+                }
+              }
+            },
+            "description": "200 response for get_my_oauth2_application",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      }
     },
     "/users/@me": {
       "get": {

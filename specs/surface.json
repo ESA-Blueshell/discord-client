@@ -28,6 +28,15 @@
     ],
     "/guilds/{guild_id}/widget.json": [
       "get"
+    ],
+    "/guilds/{guild_id}/channels": [
+      "get"
+    ],
+    "/channels/{channel_id}/messages": [
+      "get"
+    ],
+    "/oauth2/applications/@me": [
+      "get"
     ]
   }
 }
