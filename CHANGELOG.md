@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.2.0...v1.3.0) (2026-09-23)
+
+
+### Features
+
+* **spec:** expose users and posting, editing and deleting messages ([#51](https://github.com/ESA-Blueshell/discord-client/issues/51)) ([126fbde](https://github.com/ESA-Blueshell/discord-client/commit/126fbde88fe8f4641951d334c61a58f7286f061d))
+
 ## [1.2.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.1.3...v1.2.0) (2026-09-23)
 
 
