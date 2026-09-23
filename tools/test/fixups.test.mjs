@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { applyGeneratorFixups, collapseRedundantEnumAllOf, dropConstraintOnlyCompositions, rewriteNullTypes } from '../src/fixups.mjs'
+import { applyGeneratorFixups, collapseRedundantEnumAllOf, dropConstraintOnlyCompositions, keepJsonRequestBodies, rewriteNullTypes } from '../src/fixups.mjs'
 
 describe('rewriteNullTypes', () => {
   it('rewrites type: null to boolean at any depth', () => {
@@ -95,5 +95,45 @@ describe('dropConstraintOnlyCompositions', () => {
       components: { schemas: { X: { properties: { a: {} }, anyOf: [{ required: ['a'] }] } } },
     })
     expect(out.components.schemas.X.anyOf).toBeUndefined()
+  })
+})
+
+describe('keepJsonRequestBodies', () => {
+  const body = { $ref: '#/components/schemas/MessageCreateRequest' }
+
+  it('keeps only the JSON body where an operation also offers form encodings', () => {
+    const spec = {
+      paths: {
+        '/channels/{channel_id}/messages': {
+          post: {
+            requestBody: {
+              content: {
+                'application/json': { schema: body },
+                'application/x-www-form-urlencoded': { schema: body },
+                'multipart/form-data': { schema: { allOf: [body] } },
+              },
+            },
+          },
+        },
+      },
+    }
+
+    keepJsonRequestBodies(spec)
+
+    expect(Object.keys(spec.paths['/channels/{channel_id}/messages'].post.requestBody.content)).toEqual(['application/json'])
+  })
+
+  it('leaves a body with no JSON variant, and an operation with no body, alone', () => {
+    const spec = {
+      paths: {
+        '/upload': { post: { requestBody: { content: { 'multipart/form-data': { schema: {} } } } } },
+        '/users/@me': { get: { responses: {} } },
+      },
+    }
+
+    keepJsonRequestBodies(spec)
+
+    expect(Object.keys(spec.paths['/upload'].post.requestBody.content)).toEqual(['multipart/form-data'])
+    expect(spec.paths['/users/@me'].get).toEqual({ responses: {} })
   })
 })

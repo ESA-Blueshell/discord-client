@@ -4,6 +4,12 @@ export type ClientOptions = {
     baseURL: 'https://discord.com/api/v10' | (string & {});
 };
 
+export type ActionRowComponentForMessageRequest = {
+    components: Array<ButtonComponentForMessageRequest | ChannelSelectComponentForMessageRequest | MentionableSelectComponentForMessageRequest | RoleSelectComponentForMessageRequest | StringSelectComponentForMessageRequest | UserSelectComponentForMessageRequest>;
+    id?: number | null;
+    type: MessageComponentTypes;
+};
+
 export type ActionRowComponentResponse = {
     components: Array<ButtonComponentResponse | ChannelSelectComponentResponse | MentionableSelectComponentResponse | RoleSelectComponentResponse | StringSelectComponentResponse | TextInputComponentResponse | UserSelectComponentResponse>;
     id: number;
@@ -15,6 +21,8 @@ export type ActionTypes = 'TYPING_START' | 'INVITE_CREATE' | 'INVITE_DELETE' | '
 export type ActivityActionTypes = 1 | 2 | 3 | 5 | 6;
 
 export type AfkTimeouts = 60 | 300 | 900 | 1800 | 3600;
+
+export type AllowedMentionTypes = 'users' | 'roles' | 'everyone';
 
 export type ApplicationCommandInteractionMetadataResponse = {
     authorizing_integration_owners: {
@@ -177,6 +185,18 @@ export type BasicMessageResponse = {
     webhook_id?: SnowflakeType;
 };
 
+export type ButtonComponentForMessageRequest = {
+    custom_id?: string | null;
+    disabled?: boolean | null;
+    emoji?: boolean | ComponentEmojiForRequest;
+    id?: number | null;
+    label?: string | null;
+    sku_id?: boolean | SnowflakeType;
+    style: ButtonStyleTypes;
+    type: MessageComponentTypes;
+    url?: string | null;
+};
+
 export type ButtonComponentResponse = {
     custom_id?: string;
     disabled?: boolean;
@@ -200,6 +220,19 @@ export type ChannelPermissionOverwriteResponse = {
 
 export type ChannelPermissionOverwrites = 0 | 1;
 
+export type ChannelSelectComponentForMessageRequest = {
+    channel_types?: Array<ChannelTypes> | null;
+    custom_id: string;
+    default_values?: Array<ChannelSelectDefaultValue> | null;
+    disabled?: boolean | null;
+    id?: number | null;
+    max_values?: number | null;
+    min_values?: number | null;
+    placeholder?: string | null;
+    required?: boolean | null;
+    type: MessageComponentTypes;
+};
+
 export type ChannelSelectComponentResponse = {
     channel_types?: Array<ChannelTypes>;
     custom_id: string;
@@ -212,6 +245,11 @@ export type ChannelSelectComponentResponse = {
     type: MessageComponentTypes;
 };
 
+export type ChannelSelectDefaultValue = {
+    id: SnowflakeType;
+    type: SnowflakeSelectDefaultValueTypes;
+};
+
 export type ChannelSelectDefaultValueResponse = {
     id: SnowflakeType;
     type: SnowflakeSelectDefaultValueTypes;
@@ -219,10 +257,23 @@ export type ChannelSelectDefaultValueResponse = {
 
 export type ChannelTypes = 1 | 3 | 0 | 2 | 4 | 5 | 10 | 11 | 12 | 13 | 14 | 15;
 
+export type ComponentEmojiForRequest = {
+    id?: boolean | SnowflakeType;
+    name: string;
+};
+
 export type ComponentEmojiResponse = {
     animated?: boolean;
     id?: SnowflakeType;
     name: string;
+};
+
+export type ContainerComponentForMessageRequest = {
+    accent_color?: number | null;
+    components: Array<ActionRowComponentForMessageRequest | FileComponentForMessageRequest | MediaGalleryComponentForMessageRequest | SectionComponentForMessageRequest | SeparatorComponentForMessageRequest | TextDisplayComponentForMessageRequest>;
+    id?: number | null;
+    spoiler?: boolean | null;
+    type: MessageComponentTypes;
 };
 
 export type ContainerComponentResponse = {
@@ -236,6 +287,13 @@ export type ContainerComponentResponse = {
 export type CustomClientThemeResponse = {
     base_mix: number;
     base_theme: MessageShareCustomUserThemeBaseTheme;
+    colors: Array<string>;
+    gradient_angle: number;
+};
+
+export type CustomClientThemeShareRequest = {
+    base_mix: number;
+    base_theme?: boolean | MessageShareCustomUserThemeBaseTheme;
     colors: Array<string>;
     gradient_angle: number;
 };
@@ -279,6 +337,13 @@ export type ErrorDetails = {
  */
 export type ErrorResponse = Error & {
     errors?: ErrorDetails;
+};
+
+export type FileComponentForMessageRequest = {
+    file: UnfurledMediaRequestWithAttachmentReferenceRequired;
+    id?: number | null;
+    spoiler?: boolean | null;
+    type: MessageComponentTypes;
 };
 
 export type FileComponentResponse = {
@@ -511,16 +576,40 @@ export type Int53Type = number;
 
 export type InteractionTypes = 1 | 2 | 3 | 4 | 5 | 6;
 
+export type MediaGalleryComponentForMessageRequest = {
+    id?: number | null;
+    items: Array<MediaGalleryItemRequest>;
+    type: MessageComponentTypes;
+};
+
 export type MediaGalleryComponentResponse = {
     id: number;
     items: Array<MediaGalleryItemResponse>;
     type: MessageComponentTypes;
 };
 
+export type MediaGalleryItemRequest = {
+    description?: string | null;
+    media: UnfurledMediaRequest;
+    spoiler?: boolean | null;
+};
+
 export type MediaGalleryItemResponse = {
     description: string | null;
     media: UnfurledMediaResponse;
     spoiler: boolean;
+};
+
+export type MentionableSelectComponentForMessageRequest = {
+    custom_id: string;
+    default_values?: Array<RoleSelectDefaultValue | UserSelectDefaultValue> | null;
+    disabled?: boolean | null;
+    id?: number | null;
+    max_values?: number | null;
+    min_values?: number | null;
+    placeholder?: string | null;
+    required?: boolean | null;
+    type: MessageComponentTypes;
 };
 
 export type MentionableSelectComponentResponse = {
@@ -537,6 +626,23 @@ export type MentionableSelectComponentResponse = {
 export type MessageActivityResponse = {
     party_id?: string;
     type: ActivityActionTypes;
+};
+
+export type MessageAllowedMentionsRequest = {
+    parse?: Array<boolean | AllowedMentionTypes> | null;
+    replied_user?: boolean | null;
+    roles?: Array<boolean | SnowflakeType> | null;
+    users?: Array<boolean | SnowflakeType> | null;
+};
+
+export type MessageAttachmentRequest = {
+    description?: string | null;
+    duration_secs?: number | null;
+    filename?: string | null;
+    id: SnowflakeType;
+    is_spoiler?: boolean | null;
+    title?: string | null;
+    waveform?: string | null;
 };
 
 export type MessageAttachmentResponse = {
@@ -580,6 +686,32 @@ export type MessageComponentInteractionMetadataResponse = {
 export type MessageComponentSeparatorSpacingSize = 1 | 2;
 
 export type MessageComponentTypes = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 17 | 18 | 19 | 21 | 22 | 23;
+
+export type MessageCreateRequest = {
+    allowed_mentions?: boolean | MessageAllowedMentionsRequest;
+    attachments?: Array<MessageAttachmentRequest> | null;
+    components?: Array<ActionRowComponentForMessageRequest | ContainerComponentForMessageRequest | FileComponentForMessageRequest | MediaGalleryComponentForMessageRequest | SectionComponentForMessageRequest | SeparatorComponentForMessageRequest | TextDisplayComponentForMessageRequest> | null;
+    content?: string | null;
+    embeds?: Array<RichEmbed> | null;
+    enforce_nonce?: boolean | null;
+    flags?: number | null;
+    message_reference?: boolean | MessageReferenceRequest;
+    nonce?: number | string | boolean;
+    poll?: boolean | PollCreateRequest;
+    shared_client_theme?: boolean | CustomClientThemeShareRequest;
+    sticker_ids?: Array<SnowflakeType> | null;
+    tts?: boolean | null;
+};
+
+export type MessageEditRequestPartial = {
+    allowed_mentions?: boolean | MessageAllowedMentionsRequest;
+    attachments?: Array<MessageAttachmentRequest> | null;
+    components?: Array<ActionRowComponentForMessageRequest | ContainerComponentForMessageRequest | FileComponentForMessageRequest | MediaGalleryComponentForMessageRequest | SectionComponentForMessageRequest | SeparatorComponentForMessageRequest | TextDisplayComponentForMessageRequest> | null;
+    content?: string | null;
+    embeds?: Array<RichEmbed> | null;
+    flags?: number | null;
+    sticker_ids?: Array<SnowflakeType> | null;
+};
 
 export type MessageEmbedAuthorResponse = {
     icon_url?: string;
@@ -684,6 +816,14 @@ export type MessageReactionResponse = {
     emoji: MessageReactionEmojiResponse;
     me: boolean;
     me_burst: boolean;
+};
+
+export type MessageReferenceRequest = {
+    channel_id?: boolean | SnowflakeType;
+    fail_if_not_exists?: boolean | null;
+    guild_id?: boolean | SnowflakeType;
+    message_id: SnowflakeType;
+    type?: boolean | MessageReferenceType;
 };
 
 export type MessageReferenceResponse = {
@@ -793,6 +933,13 @@ export type NameplatePalette = 'crimson' | 'berry' | 'sky' | 'teal' | 'forest' |
 
 export type OAuth2Scopes = 'identify' | 'email' | 'connections' | 'guilds' | 'guilds.join' | 'guilds.members.read' | 'gdm.join' | 'bot' | 'rpc' | 'rpc.notifications.read' | 'rpc.voice.read' | 'rpc.voice.write' | 'rpc.video.read' | 'rpc.video.write' | 'rpc.screenshare.read' | 'rpc.screenshare.write' | 'rpc.activities.write' | 'webhook.incoming' | 'messages.read' | 'applications.builds.upload' | 'applications.builds.read' | 'applications.commands' | 'applications.commands.permissions.update' | 'applications.commands.update' | 'applications.store.update' | 'applications.entitlements' | 'activities.read' | 'activities.write' | 'activities.invites.write' | 'relationships.read' | 'voice' | 'dm_channels.read' | 'role_connections.write' | 'openid';
 
+export type PollAnswerCreateRequest = {
+    /**
+     * The data of the answer
+     */
+    poll_media: PollMediaCreateRequest;
+};
+
 export type PollAnswerResponse = {
     /**
      * The ID of the answer
@@ -804,12 +951,87 @@ export type PollAnswerResponse = {
     poll_media: PollMediaResponse;
 };
 
+export type PollCreateRequest = {
+    /**
+     * Whether a user can select multiple answers
+     */
+    allow_multiselect?: boolean | null;
+    /**
+     * Each of the answers available in the poll, up to 10
+     */
+    answers: Array<PollAnswerCreateRequest>;
+    /**
+     * Number of hours the poll should be open for, up to 32 days. Defaults to 24
+     */
+    duration?: number | null;
+    /**
+     * The layout type of the poll. Defaults to... DEFAULT!
+     */
+    layout_type?: boolean | PollLayoutTypes;
+    /**
+     * The question of the poll. Only `text` is supported.
+     */
+    question: PollMedia;
+};
+
+export type PollEmoji = {
+    /**
+     * Whether the emoji is animated
+     */
+    animated?: boolean | null;
+    /**
+     * The ID of the custom emoji
+     */
+    id?: boolean | SnowflakeType;
+    /**
+     * The name of the emoji, or the unicode emoji character
+     */
+    name?: string | null;
+};
+
+export type PollEmojiCreateRequest = {
+    /**
+     * Whether the emoji is animated
+     */
+    animated?: boolean | null;
+    /**
+     * The ID of the custom emoji
+     */
+    id?: boolean | SnowflakeType;
+    /**
+     * The name of the emoji, or the unicode emoji character
+     */
+    name?: string | null;
+};
+
 /**
  * DEFAULT
  *
  * The, uhm, default layout type.
  */
 export type PollLayoutTypes = 1;
+
+export type PollMedia = {
+    /**
+     * The emoji of the field
+     */
+    emoji?: boolean | PollEmoji;
+    /**
+     * The text of the field
+     */
+    text?: string | null;
+};
+
+export type PollMediaCreateRequest = {
+    /**
+     * The emoji of the field
+     */
+    emoji?: boolean | PollEmojiCreateRequest;
+    /**
+     * The text of the field
+     */
+    text?: string | null;
+};
 
 export type PollMediaResponse = {
     /**
@@ -983,6 +1205,86 @@ export type ResolvedObjectsResponse = {
     } | null;
 };
 
+export type RichEmbed = {
+    author?: boolean | RichEmbedAuthor;
+    color?: number | null;
+    description?: string | null;
+    fields?: Array<RichEmbedField> | null;
+    footer?: boolean | RichEmbedFooter;
+    image?: boolean | RichEmbedImage;
+    provider?: boolean | RichEmbedProvider;
+    thumbnail?: boolean | RichEmbedThumbnail;
+    timestamp?: string | null;
+    title?: string | null;
+    type?: string | null;
+    url?: string | null;
+    video?: boolean | RichEmbedVideo;
+};
+
+export type RichEmbedAuthor = {
+    icon_url?: string | null;
+    name?: string | null;
+    url?: string | null;
+};
+
+export type RichEmbedField = {
+    inline?: boolean | null;
+    name: string;
+    value: string;
+};
+
+export type RichEmbedFooter = {
+    icon_url?: string | null;
+    text?: string | null;
+};
+
+export type RichEmbedImage = {
+    description?: string | null;
+    height?: number | null;
+    is_animated?: boolean | null;
+    placeholder?: string | null;
+    placeholder_version?: number | null;
+    url?: string | null;
+    width?: number | null;
+};
+
+export type RichEmbedProvider = {
+    name?: string | null;
+    url?: string | null;
+};
+
+export type RichEmbedThumbnail = {
+    description?: string | null;
+    height?: number | null;
+    is_animated?: boolean | null;
+    placeholder?: string | null;
+    placeholder_version?: number | null;
+    url?: string | null;
+    width?: number | null;
+};
+
+export type RichEmbedVideo = {
+    description?: string | null;
+    height?: number | null;
+    is_animated?: boolean | null;
+    placeholder?: string | null;
+    placeholder_version?: number | null;
+    url?: string | null;
+    width?: number | null;
+};
+
+export type RoleSelectComponentForMessageRequest = {
+    custom_id: string;
+    default_values?: Array<RoleSelectDefaultValue> | null;
+    disabled?: boolean | null;
+    id?: number | null;
+    max_values?: number | null;
+    min_values?: number | null;
+    placeholder?: string | null;
+    required?: boolean | null;
+    type: MessageComponentTypes;
+};
+
 export type RoleSelectComponentResponse = {
     custom_id: string;
     default_values?: Array<RoleSelectDefaultValueResponse>;
@@ -994,15 +1296,34 @@ export type RoleSelectComponentResponse = {
     type: MessageComponentTypes;
 };
 
+export type RoleSelectDefaultValue = {
+    id: SnowflakeType;
+    type: SnowflakeSelectDefaultValueTypes;
+};
+
 export type RoleSelectDefaultValueResponse = {
     id: SnowflakeType;
     type: SnowflakeSelectDefaultValueTypes;
+};
+
+export type SectionComponentForMessageRequest = {
+    accessory: ButtonComponentForMessageRequest | ThumbnailComponentForMessageRequest;
+    components: Array<TextDisplayComponentForMessageRequest>;
+    id?: number | null;
+    type: MessageComponentTypes;
 };
 
 export type SectionComponentResponse = {
     accessory: ButtonComponentResponse | ThumbnailComponentResponse;
     components: Array<TextDisplayComponentResponse>;
     id: number;
+    type: MessageComponentTypes;
+};
+
+export type SeparatorComponentForMessageRequest = {
+    divider?: boolean | null;
+    id?: number | null;
+    spacing?: boolean | MessageComponentSeparatorSpacingSize;
     type: MessageComponentTypes;
 };
 
@@ -1032,6 +1353,18 @@ export type StickerFormatTypes = 1 | 2 | 3 | 4;
 
 export type StickerTypes = 1 | 2;
 
+export type StringSelectComponentForMessageRequest = {
+    custom_id: string;
+    disabled?: boolean | null;
+    id?: number | null;
+    max_values?: number | null;
+    min_values?: number | null;
+    options: Array<StringSelectOptionForRequest>;
+    placeholder?: string | null;
+    required?: boolean | null;
+    type: MessageComponentTypes;
+};
+
 export type StringSelectComponentResponse = {
     custom_id: string;
     disabled?: boolean;
@@ -1041,6 +1374,14 @@ export type StringSelectComponentResponse = {
     options: Array<StringSelectOptionResponse>;
     placeholder?: string;
     type: MessageComponentTypes;
+};
+
+export type StringSelectOptionForRequest = {
+    default?: boolean | null;
+    description?: string | null;
+    emoji?: boolean | ComponentEmojiForRequest;
+    label: string;
+    value: string;
 };
 
 export type StringSelectOptionResponse = {
@@ -1069,6 +1410,12 @@ export type TeamResponse = {
     members: Array<TeamMemberResponse>;
     name: string;
     owner_user_id: SnowflakeType;
+};
+
+export type TextDisplayComponentForMessageRequest = {
+    content: string;
+    id?: number | null;
+    type: MessageComponentTypes;
 };
 
 export type TextDisplayComponentResponse = {
@@ -1139,6 +1486,14 @@ export type ThreadSearchTagSetting = 'match_all' | 'match_some';
 
 export type ThreadSortOrder = 0 | 1;
 
+export type ThumbnailComponentForMessageRequest = {
+    description?: string | null;
+    id?: number | null;
+    media: UnfurledMediaRequest;
+    spoiler?: boolean | null;
+    type: MessageComponentTypes;
+};
+
 export type ThumbnailComponentResponse = {
     description: string | null;
     id: number;
@@ -1148,6 +1503,14 @@ export type ThumbnailComponentResponse = {
 };
 
 export type UInt32Type = number;
+
+export type UnfurledMediaRequest = {
+    url: string;
+};
+
+export type UnfurledMediaRequestWithAttachmentReferenceRequired = {
+    url: string;
+};
 
 export type UnfurledMediaResponse = {
     attachment_id?: SnowflakeType;
@@ -1337,6 +1700,18 @@ export type UserResponse = {
     username: string;
 };
 
+export type UserSelectComponentForMessageRequest = {
+    custom_id: string;
+    default_values?: Array<UserSelectDefaultValue> | null;
+    disabled?: boolean | null;
+    id?: number | null;
+    max_values?: number | null;
+    min_values?: number | null;
+    placeholder?: string | null;
+    required?: boolean | null;
+    type: MessageComponentTypes;
+};
+
 export type UserSelectComponentResponse = {
     custom_id: string;
     default_values?: Array<UserSelectDefaultValueResponse>;
@@ -1346,6 +1721,11 @@ export type UserSelectComponentResponse = {
     min_values: number;
     placeholder?: string;
     type: MessageComponentTypes;
+};
+
+export type UserSelectDefaultValue = {
+    id: SnowflakeType;
+    type: SnowflakeSelectDefaultValueTypes;
 };
 
 export type UserSelectDefaultValueResponse = {
@@ -1432,6 +1812,101 @@ export type ListMessagesResponses = {
 };
 
 export type ListMessagesResponse = ListMessagesResponses[keyof ListMessagesResponses];
+
+export type CreateMessageData = {
+    body: MessageCreateRequest;
+    path: {
+        channel_id: SnowflakeType;
+    };
+    query?: never;
+    url: '/channels/{channel_id}/messages';
+};
+
+export type CreateMessageErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type CreateMessageError = CreateMessageErrors[keyof CreateMessageErrors];
+
+export type CreateMessageResponses = {
+    /**
+     * 200 response for create_message
+     */
+    200: MessageResponse;
+};
+
+export type CreateMessageResponse = CreateMessageResponses[keyof CreateMessageResponses];
+
+export type DeleteMessageData = {
+    body?: never;
+    path: {
+        channel_id: SnowflakeType;
+        message_id: SnowflakeType;
+    };
+    query?: never;
+    url: '/channels/{channel_id}/messages/{message_id}';
+};
+
+export type DeleteMessageErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type DeleteMessageError = DeleteMessageErrors[keyof DeleteMessageErrors];
+
+export type DeleteMessageResponses = {
+    /**
+     * 204 response for delete_message
+     */
+    204: void;
+};
+
+export type DeleteMessageResponse = DeleteMessageResponses[keyof DeleteMessageResponses];
+
+export type UpdateMessageData = {
+    body: MessageEditRequestPartial;
+    path: {
+        channel_id: SnowflakeType;
+        message_id: SnowflakeType;
+    };
+    query?: never;
+    url: '/channels/{channel_id}/messages/{message_id}';
+};
+
+export type UpdateMessageErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type UpdateMessageError = UpdateMessageErrors[keyof UpdateMessageErrors];
+
+export type UpdateMessageResponses = {
+    /**
+     * 200 response for update_message
+     */
+    200: MessageResponse;
+};
+
+export type UpdateMessageResponse = UpdateMessageResponses[keyof UpdateMessageResponses];
 
 export type GetGuildData = {
     body?: never;
@@ -1760,3 +2235,34 @@ export type GetMyUserResponses = {
 };
 
 export type GetMyUserResponse = GetMyUserResponses[keyof GetMyUserResponses];
+
+export type GetUserData = {
+    body?: never;
+    path: {
+        user_id: SnowflakeType;
+    };
+    query?: never;
+    url: '/users/{user_id}';
+};
+
+export type GetUserErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type GetUserError = GetUserErrors[keyof GetUserErrors];
+
+export type GetUserResponses = {
+    /**
+     * 200 response for get_user
+     */
+    200: UserResponse;
+};
+
+export type GetUserResponse = GetUserResponses[keyof GetUserResponses];

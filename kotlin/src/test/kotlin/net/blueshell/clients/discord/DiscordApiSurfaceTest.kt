@@ -38,6 +38,10 @@ class DiscordApiSurfaceTest {
             "listGuildChannels",
             "listMessages",
             "getMyOauth2Application",
+            "getUser",
+            "createMessage",
+            "updateMessage",
+            "deleteMessage",
         )
     }
 

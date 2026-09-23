@@ -33,10 +33,18 @@
       "get"
     ],
     "/channels/{channel_id}/messages": [
-      "get"
+      "get",
+      "post"
     ],
     "/oauth2/applications/@me": [
       "get"
+    ],
+    "/users/{user_id}": [
+      "get"
+    ],
+    "/channels/{channel_id}/messages/{message_id}": [
+      "patch",
+      "delete"
     ]
   }
 }

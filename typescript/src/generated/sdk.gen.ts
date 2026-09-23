@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetGuildData, GetGuildErrors, GetGuildMemberData, GetGuildMemberErrors, GetGuildMemberResponses, GetGuildResponses, GetGuildWidgetData, GetGuildWidgetErrors, GetGuildWidgetResponses, GetMyOauth2ApplicationData, GetMyOauth2ApplicationErrors, GetMyOauth2ApplicationResponses, GetMyUserData, GetMyUserErrors, GetMyUserResponses, ListGuildChannelsData, ListGuildChannelsErrors, ListGuildChannelsResponses, ListGuildMembersData, ListGuildMembersErrors, ListGuildMembersResponses, ListGuildRolesData, ListGuildRolesErrors, ListGuildRolesResponses, ListMessagesData, ListMessagesErrors, ListMessagesResponses, SearchGuildMembersData, SearchGuildMembersErrors, SearchGuildMembersResponses, UpdateGuildMemberData, UpdateGuildMemberErrors, UpdateGuildMemberResponses } from './types.gen';
+import type { CreateMessageData, CreateMessageErrors, CreateMessageResponses, DeleteMessageData, DeleteMessageErrors, DeleteMessageResponses, GetGuildData, GetGuildErrors, GetGuildMemberData, GetGuildMemberErrors, GetGuildMemberResponses, GetGuildResponses, GetGuildWidgetData, GetGuildWidgetErrors, GetGuildWidgetResponses, GetMyOauth2ApplicationData, GetMyOauth2ApplicationErrors, GetMyOauth2ApplicationResponses, GetMyUserData, GetMyUserErrors, GetMyUserResponses, GetUserData, GetUserErrors, GetUserResponses, ListGuildChannelsData, ListGuildChannelsErrors, ListGuildChannelsResponses, ListGuildMembersData, ListGuildMembersErrors, ListGuildMembersResponses, ListGuildRolesData, ListGuildRolesErrors, ListGuildRolesResponses, ListMessagesData, ListMessagesErrors, ListMessagesResponses, SearchGuildMembersData, SearchGuildMembersErrors, SearchGuildMembersResponses, UpdateGuildMemberData, UpdateGuildMemberErrors, UpdateGuildMemberResponses, UpdateMessageData, UpdateMessageErrors, UpdateMessageResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -23,6 +23,34 @@ export const listMessages = <ThrowOnError extends boolean = false>(options: Opti
     security: [{ name: 'Authorization', type: 'apiKey' }],
     url: '/channels/{channel_id}/messages',
     ...options
+});
+
+export const createMessage = <ThrowOnError extends boolean = false>(options: Options<CreateMessageData, ThrowOnError>): RequestResult<CreateMessageResponses, CreateMessageErrors, ThrowOnError> => (options.client ?? client).post<CreateMessageResponses, CreateMessageErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/channels/{channel_id}/messages',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const deleteMessage = <ThrowOnError extends boolean = false>(options: Options<DeleteMessageData, ThrowOnError>): RequestResult<DeleteMessageResponses, DeleteMessageErrors, ThrowOnError> => (options.client ?? client).delete<DeleteMessageResponses, DeleteMessageErrors, ThrowOnError>({
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/channels/{channel_id}/messages/{message_id}',
+    ...options
+});
+
+export const updateMessage = <ThrowOnError extends boolean = false>(options: Options<UpdateMessageData, ThrowOnError>): RequestResult<UpdateMessageResponses, UpdateMessageErrors, ThrowOnError> => (options.client ?? client).patch<UpdateMessageResponses, UpdateMessageErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/channels/{channel_id}/messages/{message_id}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
 });
 
 export const getGuild = <ThrowOnError extends boolean = false>(options: Options<GetGuildData, ThrowOnError>): RequestResult<GetGuildResponses, GetGuildErrors, ThrowOnError> => (options.client ?? client).get<GetGuildResponses, GetGuildErrors, ThrowOnError>({
@@ -96,5 +124,12 @@ export const getMyUser = <ThrowOnError extends boolean = false>(options?: Option
     responseType: 'json',
     security: [{ name: 'Authorization', type: 'apiKey' }, { scheme: 'bearer', type: 'http' }],
     url: '/users/@me',
+    ...options
+});
+
+export const getUser = <ThrowOnError extends boolean = false>(options: Options<GetUserData, ThrowOnError>): RequestResult<GetUserResponses, GetUserErrors, ThrowOnError> => (options.client ?? client).get<GetUserResponses, GetUserErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/users/{user_id}',
     ...options
 });

@@ -9,9 +9,10 @@
  * committed spec lie and would hide the rewrite from the diff a reviewer reads.
  * Confining the hacks here keeps the contract honest and the workarounds visible.
  *
- * `rewriteNullTypes` and `collapseRedundantEnumAllOf` are the two Discord
- * needs. `dropConstraintOnlyCompositions` is carried from the Brevo client so
- * both repositories apply an identical set; it is a harmless no-op here.
+ * `rewriteNullTypes`, `collapseRedundantEnumAllOf` and `keepJsonRequestBodies`
+ * are the three Discord needs. `dropConstraintOnlyCompositions` is carried from
+ * the Brevo client so both repositories apply an identical set; it is a harmless
+ * no-op here.
  */
 
 /**
@@ -119,11 +120,37 @@ export function dropConstraintOnlyCompositions(node) {
   return node
 }
 
+/**
+ * Keeps only the `application/json` body of an operation that also offers form
+ * encodings.
+ *
+ * Discord's message endpoints take the same body as JSON, as a urlencoded form,
+ * or as `multipart/form-data` for file uploads, where it is an inline `allOf` of
+ * the JSON schema and numbered `files[n]` parts. openapi-generator picks the
+ * multipart variant, names an inline model for it (`CreateMessageRequest`) and
+ * never generates it, so the Kotlin client does not compile. The clients send
+ * JSON, so the JSON body is the one they need; uploading files is left out until
+ * something asks for it.
+ */
+export function keepJsonRequestBodies(spec) {
+  for (const operations of Object.values(spec.paths ?? {})) {
+    for (const operation of Object.values(operations ?? {})) {
+      const content = operation?.requestBody?.content
+      if (content === undefined || !('application/json' in content)) continue
+      for (const type of Object.keys(content)) {
+        if (type !== 'application/json') delete content[type]
+      }
+    }
+  }
+  return spec
+}
+
 /** Applies every generator workaround to a deep copy, leaving the input untouched. */
 export function applyGeneratorFixups(spec) {
   const copy = structuredClone(spec)
   rewriteNullTypes(copy)
   collapseRedundantEnumAllOf(copy)
   dropConstraintOnlyCompositions(copy)
+  keepJsonRequestBodies(copy)
   return copy
 }

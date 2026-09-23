@@ -89,6 +89,62 @@
       }
     },
     "schemas": {
+      "ActionRowComponentForMessageRequest": {
+        "properties": {
+          "components": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ButtonComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/ChannelSelectComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/MentionableSelectComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/RoleSelectComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/StringSelectComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/UserSelectComponentForMessageRequest"
+                }
+              ]
+            },
+            "maxItems": 5,
+            "minItems": 1,
+            "type": "array"
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              1
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "components"
+        ],
+        "type": "object"
+      },
       "ActionRowComponentResponse": {
         "properties": {
           "components": {
@@ -589,6 +645,26 @@
           }
         ],
         "type": "integer"
+      },
+      "AllowedMentionTypes": {
+        "oneOf": [
+          {
+            "const": "users",
+            "description": "Controls role mentions",
+            "title": "USERS"
+          },
+          {
+            "const": "roles",
+            "description": "Controls user mentions",
+            "title": "ROLES"
+          },
+          {
+            "const": "everyone",
+            "description": "Controls @everyone and @here mentions",
+            "title": "EVERYONE"
+          }
+        ],
+        "type": "string"
       },
       "ApplicationCommandInteractionMetadataResponse": {
         "properties": {
@@ -1378,6 +1454,87 @@
         ],
         "type": "object"
       },
+      "ButtonComponentForMessageRequest": {
+        "properties": {
+          "custom_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "disabled": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "emoji": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ComponentEmojiForRequest"
+              }
+            ]
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "label": {
+            "maxLength": 80,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sku_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "style": {
+            "$ref": "#/components/schemas/ButtonStyleTypes"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              2
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 512,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "style"
+        ],
+        "type": "object"
+      },
       "ButtonComponentResponse": {
         "properties": {
           "custom_id": {
@@ -1497,6 +1654,95 @@
         ],
         "type": "integer"
       },
+      "ChannelSelectComponentForMessageRequest": {
+        "properties": {
+          "channel_types": {
+            "items": {
+              "$ref": "#/components/schemas/ChannelTypes"
+            },
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "custom_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "default_values": {
+            "items": {
+              "$ref": "#/components/schemas/ChannelSelectDefaultValue"
+            },
+            "maxItems": 25,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "disabled": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "max_values": {
+            "maximum": 25,
+            "minimum": 1,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "min_values": {
+            "maximum": 25,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "placeholder": {
+            "maxLength": 150,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "required": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              8
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "custom_id"
+        ],
+        "type": "object"
+      },
       "ChannelSelectComponentResponse": {
         "properties": {
           "channel_types": {
@@ -1552,6 +1798,29 @@
           "custom_id",
           "min_values",
           "max_values"
+        ],
+        "type": "object"
+      },
+      "ChannelSelectDefaultValue": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SnowflakeSelectDefaultValueTypes"
+              }
+            ],
+            "enum": [
+              "channel"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "id"
         ],
         "type": "object"
       },
@@ -1644,6 +1913,28 @@
         ],
         "type": "integer"
       },
+      "ComponentEmojiForRequest": {
+        "properties": {
+          "id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "name": {
+            "maxLength": 32,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
       "ComponentEmojiResponse": {
         "properties": {
           "animated": {
@@ -1658,6 +1949,76 @@
         },
         "required": [
           "name"
+        ],
+        "type": "object"
+      },
+      "ContainerComponentForMessageRequest": {
+        "properties": {
+          "accent_color": {
+            "maximum": 16777215,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "components": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActionRowComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/FileComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/MediaGalleryComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/SeparatorComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/TextDisplayComponentForMessageRequest"
+                }
+              ]
+            },
+            "maxItems": 40,
+            "minItems": 1,
+            "type": "array"
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "spoiler": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              17
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "components"
         ],
         "type": "object"
       },
@@ -1749,6 +2110,48 @@
           "gradient_angle",
           "base_mix",
           "base_theme"
+        ],
+        "type": "object"
+      },
+      "CustomClientThemeShareRequest": {
+        "properties": {
+          "base_mix": {
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "base_theme": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/MessageShareCustomUserThemeBaseTheme"
+              }
+            ]
+          },
+          "colors": {
+            "items": {
+              "maxLength": 6,
+              "minLength": 6,
+              "type": "string"
+            },
+            "maxItems": 5,
+            "minItems": 1,
+            "type": "array"
+          },
+          "gradient_angle": {
+            "format": "int32",
+            "maximum": 360,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "colors",
+          "gradient_angle",
+          "base_mix"
         ],
         "type": "object"
       },
@@ -1864,6 +2267,44 @@
           }
         ],
         "description": "Errors object returned by the Discord API",
+        "type": "object"
+      },
+      "FileComponentForMessageRequest": {
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/UnfurledMediaRequestWithAttachmentReferenceRequired"
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "spoiler": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              13
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "file"
+        ],
         "type": "object"
       },
       "FileComponentResponse": {
@@ -3017,6 +3458,43 @@
         ],
         "type": "integer"
       },
+      "MediaGalleryComponentForMessageRequest": {
+        "properties": {
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MediaGalleryItemRequest"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "type": "array"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              12
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "items"
+        ],
+        "type": "object"
+      },
       "MediaGalleryComponentResponse": {
         "properties": {
           "id": {
@@ -3049,6 +3527,31 @@
         ],
         "type": "object"
       },
+      "MediaGalleryItemRequest": {
+        "properties": {
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "media": {
+            "$ref": "#/components/schemas/UnfurledMediaRequest"
+          },
+          "spoiler": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "media"
+        ],
+        "type": "object"
+      },
       "MediaGalleryItemResponse": {
         "properties": {
           "description": {
@@ -3068,6 +3571,92 @@
           "media",
           "description",
           "spoiler"
+        ],
+        "type": "object"
+      },
+      "MentionableSelectComponentForMessageRequest": {
+        "properties": {
+          "custom_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "default_values": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/RoleSelectDefaultValue"
+                },
+                {
+                  "$ref": "#/components/schemas/UserSelectDefaultValue"
+                }
+              ]
+            },
+            "maxItems": 25,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "disabled": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "max_values": {
+            "maximum": 25,
+            "minimum": 1,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "min_values": {
+            "maximum": 25,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "placeholder": {
+            "maxLength": 150,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "required": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              7
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "custom_id"
         ],
         "type": "object"
       },
@@ -3140,6 +3729,126 @@
         },
         "required": [
           "type"
+        ],
+        "type": "object"
+      },
+      "MessageAllowedMentionsRequest": {
+        "properties": {
+          "parse": {
+            "items": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/components/schemas/AllowedMentionTypes"
+                }
+              ]
+            },
+            "maxItems": 1521,
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "replied_user": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "roles": {
+            "items": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/components/schemas/SnowflakeType"
+                }
+              ]
+            },
+            "maxItems": 100,
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "users": {
+            "items": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/components/schemas/SnowflakeType"
+                }
+              ]
+            },
+            "maxItems": 100,
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          }
+        },
+        "type": "object"
+      },
+      "MessageAttachmentRequest": {
+        "properties": {
+          "description": {
+            "maxLength": 1024,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "duration_secs": {
+            "format": "double",
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "filename": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "is_spoiler": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "title": {
+            "maxLength": 1024,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "waveform": {
+            "maxLength": 400,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id"
         ],
         "type": "object"
       },
@@ -3411,6 +4120,246 @@
           }
         ],
         "type": "integer"
+      },
+      "MessageCreateRequest": {
+        "properties": {
+          "allowed_mentions": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/MessageAllowedMentionsRequest"
+              }
+            ]
+          },
+          "attachments": {
+            "items": {
+              "$ref": "#/components/schemas/MessageAttachmentRequest"
+            },
+            "maxItems": 10,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "components": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActionRowComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/ContainerComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/FileComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/MediaGalleryComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/SeparatorComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/TextDisplayComponentForMessageRequest"
+                }
+              ]
+            },
+            "maxItems": 40,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "content": {
+            "maxLength": 4000,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "embeds": {
+            "items": {
+              "$ref": "#/components/schemas/RichEmbed"
+            },
+            "maxItems": 10,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "enforce_nonce": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "flags": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "message_reference": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/MessageReferenceRequest"
+              }
+            ]
+          },
+          "nonce": {
+            "oneOf": [
+              {
+                "format": "int64",
+                "maximum": 9223372036854776000,
+                "minimum": -9223372036854776000,
+                "type": "integer"
+              },
+              {
+                "format": "nonce",
+                "maxLength": 25,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "poll": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PollCreateRequest"
+              }
+            ]
+          },
+          "shared_client_theme": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/CustomClientThemeShareRequest"
+              }
+            ]
+          },
+          "sticker_ids": {
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "maxItems": 3,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "tts": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "MessageEditRequestPartial": {
+        "properties": {
+          "allowed_mentions": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/MessageAllowedMentionsRequest"
+              }
+            ]
+          },
+          "attachments": {
+            "items": {
+              "$ref": "#/components/schemas/MessageAttachmentRequest"
+            },
+            "maxItems": 10,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "components": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ActionRowComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/ContainerComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/FileComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/MediaGalleryComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/SeparatorComponentForMessageRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/TextDisplayComponentForMessageRequest"
+                }
+              ]
+            },
+            "maxItems": 40,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "content": {
+            "maxLength": 4000,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "embeds": {
+            "items": {
+              "$ref": "#/components/schemas/RichEmbed"
+            },
+            "maxItems": 10,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "flags": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "sticker_ids": {
+            "items": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "maxItems": 1521,
+            "type": [
+              "array",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
       },
       "MessageEmbedAuthorResponse": {
         "properties": {
@@ -3753,6 +4702,53 @@
           "burst_colors",
           "me_burst",
           "me"
+        ],
+        "type": "object"
+      },
+      "MessageReferenceRequest": {
+        "properties": {
+          "channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "fail_if_not_exists": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "guild_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "message_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/MessageReferenceType"
+              }
+            ]
+          }
+        },
+        "required": [
+          "message_id"
         ],
         "type": "object"
       },
@@ -4698,6 +5694,18 @@
         ],
         "type": "string"
       },
+      "PollAnswerCreateRequest": {
+        "properties": {
+          "poll_media": {
+            "$ref": "#/components/schemas/PollMediaCreateRequest",
+            "description": "The data of the answer"
+          }
+        },
+        "required": [
+          "poll_media"
+        ],
+        "type": "object"
+      },
       "PollAnswerResponse": {
         "properties": {
           "answer_id": {
@@ -4716,6 +5724,118 @@
         ],
         "type": "object"
       },
+      "PollCreateRequest": {
+        "properties": {
+          "allow_multiselect": {
+            "description": "Whether a user can select multiple answers",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "answers": {
+            "description": "Each of the answers available in the poll, up to 10",
+            "items": {
+              "$ref": "#/components/schemas/PollAnswerCreateRequest"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "type": "array"
+          },
+          "duration": {
+            "description": "Number of hours the poll should be open for, up to 32 days. Defaults to 24",
+            "format": "int32",
+            "maximum": 768,
+            "minimum": 1,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "layout_type": {
+            "description": "The layout type of the poll. Defaults to... DEFAULT!",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PollLayoutTypes"
+              }
+            ]
+          },
+          "question": {
+            "$ref": "#/components/schemas/PollMedia",
+            "description": "The question of the poll. Only `text` is supported."
+          }
+        },
+        "required": [
+          "question",
+          "answers"
+        ],
+        "type": "object"
+      },
+      "PollEmoji": {
+        "properties": {
+          "animated": {
+            "description": "Whether the emoji is animated",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "id": {
+            "description": "The ID of the custom emoji",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "name": {
+            "description": "The name of the emoji, or the unicode emoji character",
+            "maxLength": 32,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "PollEmojiCreateRequest": {
+        "properties": {
+          "animated": {
+            "description": "Whether the emoji is animated",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "id": {
+            "description": "The ID of the custom emoji",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "name": {
+            "description": "The name of the emoji, or the unicode emoji character",
+            "maxLength": 32,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
       "PollLayoutTypes": {
         "format": "int32",
         "oneOf": [
@@ -4726,6 +5846,56 @@
           }
         ],
         "type": "integer"
+      },
+      "PollMedia": {
+        "properties": {
+          "emoji": {
+            "description": "The emoji of the field",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PollEmoji"
+              }
+            ]
+          },
+          "text": {
+            "description": "The text of the field",
+            "maxLength": 300,
+            "minLength": 1,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "PollMediaCreateRequest": {
+        "properties": {
+          "emoji": {
+            "description": "The emoji of the field",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PollEmojiCreateRequest"
+              }
+            ]
+          },
+          "text": {
+            "description": "The text of the field",
+            "maxLength": 300,
+            "minLength": 1,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
       },
       "PollMediaResponse": {
         "properties": {
@@ -5327,6 +6497,454 @@
         },
         "type": "object"
       },
+      "RichEmbed": {
+        "properties": {
+          "author": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RichEmbedAuthor"
+              }
+            ]
+          },
+          "color": {
+            "maximum": 16777215,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "description": {
+            "maxLength": 4096,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/RichEmbedField"
+            },
+            "maxItems": 25,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "footer": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RichEmbedFooter"
+              }
+            ]
+          },
+          "image": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RichEmbedImage"
+              }
+            ]
+          },
+          "provider": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RichEmbedProvider"
+              }
+            ]
+          },
+          "thumbnail": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RichEmbedThumbnail"
+              }
+            ]
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "title": {
+            "maxLength": 256,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "type": {
+            "maxLength": 152133,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "video": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RichEmbedVideo"
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "RichEmbedAuthor": {
+        "properties": {
+          "icon_url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "maxLength": 256,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "RichEmbedField": {
+        "properties": {
+          "inline": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "name": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "value": {
+            "maxLength": 1024,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ],
+        "type": "object"
+      },
+      "RichEmbedFooter": {
+        "properties": {
+          "icon_url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "text": {
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "RichEmbedImage": {
+        "properties": {
+          "description": {
+            "maxLength": 4096,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "height": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "is_animated": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "placeholder": {
+            "maxLength": 64,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "placeholder_version": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "width": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "RichEmbedProvider": {
+        "properties": {
+          "name": {
+            "maxLength": 256,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "RichEmbedThumbnail": {
+        "properties": {
+          "description": {
+            "maxLength": 4096,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "height": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "is_animated": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "placeholder": {
+            "maxLength": 64,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "placeholder_version": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "width": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "RichEmbedVideo": {
+        "properties": {
+          "description": {
+            "maxLength": 4096,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "height": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "is_animated": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "placeholder": {
+            "maxLength": 64,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "placeholder_version": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "width": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "RoleSelectComponentForMessageRequest": {
+        "properties": {
+          "custom_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "default_values": {
+            "items": {
+              "$ref": "#/components/schemas/RoleSelectDefaultValue"
+            },
+            "maxItems": 25,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "disabled": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "max_values": {
+            "maximum": 25,
+            "minimum": 1,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "min_values": {
+            "maximum": 25,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "placeholder": {
+            "maxLength": 150,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "required": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              6
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "custom_id"
+        ],
+        "type": "object"
+      },
       "RoleSelectComponentResponse": {
         "properties": {
           "custom_id": {
@@ -5378,6 +6996,29 @@
         ],
         "type": "object"
       },
+      "RoleSelectDefaultValue": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SnowflakeSelectDefaultValueTypes"
+              }
+            ],
+            "enum": [
+              "role"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ],
+        "type": "object"
+      },
       "RoleSelectDefaultValueResponse": {
         "properties": {
           "id": {
@@ -5398,6 +7039,54 @@
         "required": [
           "type",
           "id"
+        ],
+        "type": "object"
+      },
+      "SectionComponentForMessageRequest": {
+        "properties": {
+          "accessory": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ButtonComponentForMessageRequest"
+              },
+              {
+                "$ref": "#/components/schemas/ThumbnailComponentForMessageRequest"
+              }
+            ]
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/TextDisplayComponentForMessageRequest"
+            },
+            "maxItems": 3,
+            "minItems": 1,
+            "type": "array"
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              9
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "components",
+          "accessory"
         ],
         "type": "object"
       },
@@ -5441,6 +7130,50 @@
           "id",
           "components",
           "accessory"
+        ],
+        "type": "object"
+      },
+      "SeparatorComponentForMessageRequest": {
+        "properties": {
+          "divider": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "spacing": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/MessageComponentSeparatorSpacingSize"
+              }
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              14
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type"
         ],
         "type": "object"
       },
@@ -5596,6 +7329,84 @@
         ],
         "type": "integer"
       },
+      "StringSelectComponentForMessageRequest": {
+        "properties": {
+          "custom_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "disabled": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "max_values": {
+            "maximum": 25,
+            "minimum": 1,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "min_values": {
+            "maximum": 25,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/StringSelectOptionForRequest"
+            },
+            "maxItems": 25,
+            "minItems": 1,
+            "type": "array"
+          },
+          "placeholder": {
+            "maxLength": 150,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "required": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              3
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "custom_id",
+          "options"
+        ],
+        "type": "object"
+      },
       "StringSelectComponentResponse": {
         "properties": {
           "custom_id": {
@@ -5645,6 +7456,48 @@
           "min_values",
           "max_values",
           "options"
+        ],
+        "type": "object"
+      },
+      "StringSelectOptionForRequest": {
+        "properties": {
+          "default": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "description": {
+            "maxLength": 100,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "emoji": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ComponentEmojiForRequest"
+              }
+            ]
+          },
+          "label": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "value": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "value"
         ],
         "type": "object"
       },
@@ -5768,6 +7621,40 @@
           "name",
           "owner_user_id",
           "members"
+        ],
+        "type": "object"
+      },
+      "TextDisplayComponentForMessageRequest": {
+        "properties": {
+          "content": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              10
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "content"
         ],
         "type": "object"
       },
@@ -6122,6 +8009,52 @@
         ],
         "type": "integer"
       },
+      "ThumbnailComponentForMessageRequest": {
+        "properties": {
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "media": {
+            "$ref": "#/components/schemas/UnfurledMediaRequest"
+          },
+          "spoiler": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              11
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "media"
+        ],
+        "type": "object"
+      },
       "ThumbnailComponentResponse": {
         "properties": {
           "description": {
@@ -6167,6 +8100,32 @@
         "maximum": 4294967295,
         "minimum": 0,
         "type": "integer"
+      },
+      "UnfurledMediaRequest": {
+        "properties": {
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "UnfurledMediaRequestWithAttachmentReferenceRequired": {
+        "properties": {
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
       },
       "UnfurledMediaResponse": {
         "properties": {
@@ -6576,6 +8535,85 @@
         ],
         "type": "object"
       },
+      "UserSelectComponentForMessageRequest": {
+        "properties": {
+          "custom_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "default_values": {
+            "items": {
+              "$ref": "#/components/schemas/UserSelectDefaultValue"
+            },
+            "maxItems": 25,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "disabled": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "id": {
+            "format": "int32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "max_values": {
+            "maximum": 25,
+            "minimum": 1,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "min_values": {
+            "maximum": 25,
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "placeholder": {
+            "maxLength": 150,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "required": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageComponentTypes"
+              }
+            ],
+            "enum": [
+              5
+            ],
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "custom_id"
+        ],
+        "type": "object"
+      },
       "UserSelectComponentResponse": {
         "properties": {
           "custom_id": {
@@ -6624,6 +8662,29 @@
           "custom_id",
           "min_values",
           "max_values"
+        ],
+        "type": "object"
+      },
+      "UserSelectDefaultValue": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SnowflakeSelectDefaultValueTypes"
+              }
+            ],
+            "enum": [
+              "user"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "id"
         ],
         "type": "object"
       },
@@ -7073,7 +9134,296 @@
             "$ref": "#/components/schemas/SnowflakeType"
           }
         }
-      ]
+      ],
+      "post": {
+        "operationId": "create_message",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageCreateRequest"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageCreateRequest"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MessageCreateRequest"
+                  },
+                  {
+                    "properties": {
+                      "files[0]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[1]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[2]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[3]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[4]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[5]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[6]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[7]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[8]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[9]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            },
+            "description": "200 response for create_message",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      }
+    },
+    "/channels/{channel_id}/messages/{message_id}": {
+      "delete": {
+        "operationId": "delete_message",
+        "responses": {
+          "204": {
+            "description": "204 response for delete_message",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "channel_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        {
+          "in": "path",
+          "name": "message_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ],
+      "patch": {
+        "operationId": "update_message",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageEditRequestPartial"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageEditRequestPartial"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MessageEditRequestPartial"
+                  },
+                  {
+                    "properties": {
+                      "files[0]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[1]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[2]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[3]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[4]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[5]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[6]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[7]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[8]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      },
+                      "files[9]": {
+                        "contentEncoding": "binary",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            },
+            "description": "200 response for update_message",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      }
     },
     "/guilds/{guild_id}": {
       "get": {
@@ -7807,6 +10157,64 @@
           "Discord"
         ]
       }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "operationId": "get_user",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            },
+            "description": "200 response for get_user",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "user_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ]
     }
   },
   "servers": [
