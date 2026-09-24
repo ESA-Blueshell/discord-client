@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.3.1...v1.4.0) (2026-09-24)
+
+
+### Features
+
+* **spec:** expose Discord scheduled events ([#56](https://github.com/ESA-Blueshell/discord-client/issues/56)) ([2ab5625](https://github.com/ESA-Blueshell/discord-client/commit/2ab5625bcfab6de99787ebbfb461b510d19bc88b))
+
 ## [1.3.1](https://github.com/ESA-Blueshell/discord-client/compare/v1.3.0...v1.3.1) (2026-09-23)
 
 
