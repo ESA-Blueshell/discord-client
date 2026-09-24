@@ -45,6 +45,14 @@
     "/channels/{channel_id}/messages/{message_id}": [
       "patch",
       "delete"
+    ],
+    "/guilds/{guild_id}/scheduled-events": [
+      "post"
+    ],
+    "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}": [
+      "get",
+      "patch",
+      "delete"
     ]
   }
 }

@@ -13,7 +13,7 @@ here is written by hand except the small amount of wiring in
 | --- | --- |
 | Maven | `net.blueshell.clients:discord-client` |
 | npm | `@esa-blueshell/discord-client` |
-| Operations exposed | 15 ([`specs/surface.json`](specs/surface.json)) |
+| Operations exposed | 19 ([`specs/surface.json`](specs/surface.json)) |
 | Upstream | [discord/discord-api-spec](https://github.com/discord/discord-api-spec) |
 | Spec refreshed | nightly, 00:00 UTC |
 

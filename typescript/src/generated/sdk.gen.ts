@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreateMessageData, CreateMessageErrors, CreateMessageResponses, DeleteMessageData, DeleteMessageErrors, DeleteMessageResponses, GetGuildData, GetGuildErrors, GetGuildMemberData, GetGuildMemberErrors, GetGuildMemberResponses, GetGuildResponses, GetGuildWidgetData, GetGuildWidgetErrors, GetGuildWidgetResponses, GetMyOauth2ApplicationData, GetMyOauth2ApplicationErrors, GetMyOauth2ApplicationResponses, GetMyUserData, GetMyUserErrors, GetMyUserResponses, GetUserData, GetUserErrors, GetUserResponses, ListGuildChannelsData, ListGuildChannelsErrors, ListGuildChannelsResponses, ListGuildMembersData, ListGuildMembersErrors, ListGuildMembersResponses, ListGuildRolesData, ListGuildRolesErrors, ListGuildRolesResponses, ListMessagesData, ListMessagesErrors, ListMessagesResponses, SearchGuildMembersData, SearchGuildMembersErrors, SearchGuildMembersResponses, UpdateGuildMemberData, UpdateGuildMemberErrors, UpdateGuildMemberResponses, UpdateMessageData, UpdateMessageErrors, UpdateMessageResponses } from './types.gen';
+import type { CreateGuildScheduledEventData, CreateGuildScheduledEventErrors, CreateGuildScheduledEventResponses, CreateMessageData, CreateMessageErrors, CreateMessageResponses, DeleteGuildScheduledEventData, DeleteGuildScheduledEventErrors, DeleteGuildScheduledEventResponses, DeleteMessageData, DeleteMessageErrors, DeleteMessageResponses, GetGuildData, GetGuildErrors, GetGuildMemberData, GetGuildMemberErrors, GetGuildMemberResponses, GetGuildResponses, GetGuildScheduledEventData, GetGuildScheduledEventErrors, GetGuildScheduledEventResponses, GetGuildWidgetData, GetGuildWidgetErrors, GetGuildWidgetResponses, GetMyOauth2ApplicationData, GetMyOauth2ApplicationErrors, GetMyOauth2ApplicationResponses, GetMyUserData, GetMyUserErrors, GetMyUserResponses, GetUserData, GetUserErrors, GetUserResponses, ListGuildChannelsData, ListGuildChannelsErrors, ListGuildChannelsResponses, ListGuildMembersData, ListGuildMembersErrors, ListGuildMembersResponses, ListGuildRolesData, ListGuildRolesErrors, ListGuildRolesResponses, ListMessagesData, ListMessagesErrors, ListMessagesResponses, SearchGuildMembersData, SearchGuildMembersErrors, SearchGuildMembersResponses, UpdateGuildMemberData, UpdateGuildMemberErrors, UpdateGuildMemberResponses, UpdateGuildScheduledEventData, UpdateGuildScheduledEventErrors, UpdateGuildScheduledEventResponses, UpdateMessageData, UpdateMessageErrors, UpdateMessageResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -104,6 +104,41 @@ export const listGuildRoles = <ThrowOnError extends boolean = false>(options: Op
     security: [{ name: 'Authorization', type: 'apiKey' }],
     url: '/guilds/{guild_id}/roles',
     ...options
+});
+
+export const createGuildScheduledEvent = <ThrowOnError extends boolean = false>(options: Options<CreateGuildScheduledEventData, ThrowOnError>): RequestResult<CreateGuildScheduledEventResponses, CreateGuildScheduledEventErrors, ThrowOnError> => (options.client ?? client).post<CreateGuildScheduledEventResponses, CreateGuildScheduledEventErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/guilds/{guild_id}/scheduled-events',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const deleteGuildScheduledEvent = <ThrowOnError extends boolean = false>(options: Options<DeleteGuildScheduledEventData, ThrowOnError>): RequestResult<DeleteGuildScheduledEventResponses, DeleteGuildScheduledEventErrors, ThrowOnError> => (options.client ?? client).delete<DeleteGuildScheduledEventResponses, DeleteGuildScheduledEventErrors, ThrowOnError>({
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}',
+    ...options
+});
+
+export const getGuildScheduledEvent = <ThrowOnError extends boolean = false>(options: Options<GetGuildScheduledEventData, ThrowOnError>): RequestResult<GetGuildScheduledEventResponses, GetGuildScheduledEventErrors, ThrowOnError> => (options.client ?? client).get<GetGuildScheduledEventResponses, GetGuildScheduledEventErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}',
+    ...options
+});
+
+export const updateGuildScheduledEvent = <ThrowOnError extends boolean = false>(options: Options<UpdateGuildScheduledEventData, ThrowOnError>): RequestResult<UpdateGuildScheduledEventResponses, UpdateGuildScheduledEventErrors, ThrowOnError> => (options.client ?? client).patch<UpdateGuildScheduledEventResponses, UpdateGuildScheduledEventErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
 });
 
 export const getGuildWidget = <ThrowOnError extends boolean = false>(options: Options<GetGuildWidgetData, ThrowOnError>): RequestResult<GetGuildWidgetResponses, GetGuildWidgetErrors, ThrowOnError> => (options.client ?? client).get<GetGuildWidgetResponses, GetGuildWidgetErrors, ThrowOnError>({
