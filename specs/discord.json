@@ -1617,6 +1617,44 @@
         ],
         "type": "integer"
       },
+      "ByNWeekday": {
+        "properties": {
+          "day": {
+            "$ref": "#/components/schemas/RecurrenceRuleWeekdays",
+            "description": "The day within the week to reoccur on"
+          },
+          "n": {
+            "description": "The week to reoccur on (1-5, where 5 represents the last week)",
+            "format": "int32",
+            "maximum": 5,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "n",
+          "day"
+        ],
+        "type": "object"
+      },
+      "ByNWeekdayResponse": {
+        "properties": {
+          "day": {
+            "$ref": "#/components/schemas/RecurrenceRuleWeekdays",
+            "description": "The day within the week to reoccur on"
+          },
+          "n": {
+            "description": "The week to reoccur on (1-5, where 5 represents the last week)",
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "n",
+          "day"
+        ],
+        "type": "object"
+      },
       "ChannelPermissionOverwriteResponse": {
         "properties": {
           "allow": {
@@ -2221,6 +2259,46 @@
         ],
         "type": "object"
       },
+      "EntityMetadataExternal": {
+        "properties": {
+          "location": {
+            "maxLength": 100,
+            "type": "string"
+          }
+        },
+        "required": [
+          "location"
+        ],
+        "type": "object"
+      },
+      "EntityMetadataExternalResponse": {
+        "properties": {
+          "location": {
+            "description": "Location of the external event",
+            "type": "string"
+          }
+        },
+        "required": [
+          "location"
+        ],
+        "type": "object"
+      },
+      "EntityMetadataStageInstance": {
+        "properties": {},
+        "type": "object"
+      },
+      "EntityMetadataStageInstanceResponse": {
+        "properties": {},
+        "type": "object"
+      },
+      "EntityMetadataVoice": {
+        "properties": {},
+        "type": "object"
+      },
+      "EntityMetadataVoiceResponse": {
+        "properties": {},
+        "type": "object"
+      },
       "Error": {
         "description": "A single error, either for an API response or a specific field.",
         "properties": {
@@ -2267,6 +2345,331 @@
           }
         ],
         "description": "Errors object returned by the Discord API",
+        "type": "object"
+      },
+      "ExternalScheduledEventCreateRequest": {
+        "properties": {
+          "channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entity_metadata": {
+            "$ref": "#/components/schemas/EntityMetadataExternal"
+          },
+          "entity_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GuildScheduledEventEntityTypes"
+              }
+            ],
+            "enum": [
+              3
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "image": {
+            "contentEncoding": "base64",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "privacy_level": {
+            "$ref": "#/components/schemas/GuildScheduledEventPrivacyLevels"
+          },
+          "recurrence_rule": {
+            "description": "Recurrence rule for the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RecurrenceRule"
+              }
+            ]
+          },
+          "scheduled_end_time": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "scheduled_start_time",
+          "privacy_level",
+          "entity_type",
+          "entity_metadata"
+        ],
+        "type": "object"
+      },
+      "ExternalScheduledEventPatchRequestPartial": {
+        "properties": {
+          "channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entity_metadata": {
+            "$ref": "#/components/schemas/EntityMetadataExternal"
+          },
+          "entity_type": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GuildScheduledEventEntityTypes"
+                  }
+                ],
+                "enum": [
+                  3
+                ],
+                "format": "int32",
+                "type": "integer"
+              }
+            ]
+          },
+          "image": {
+            "contentEncoding": "base64",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "privacy_level": {
+            "$ref": "#/components/schemas/GuildScheduledEventPrivacyLevels"
+          },
+          "recurrence_rule": {
+            "description": "Recurrence rule for the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RecurrenceRule"
+              }
+            ]
+          },
+          "scheduled_end_time": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/GuildScheduledEventStatuses"
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "ExternalScheduledEventResponse": {
+        "properties": {
+          "channel_id": {
+            "description": "Channel ID in which the scheduled event will be hosted, or null if entity type is EXTERNAL",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "creator": {
+            "$ref": "#/components/schemas/UserResponse",
+            "description": "User that created the scheduled event"
+          },
+          "creator_id": {
+            "description": "ID of the user that created the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "description": {
+            "description": "Description of the scheduled event",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entity_id": {
+            "description": "ID of the hosting entity associated with the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "entity_metadata": {
+            "$ref": "#/components/schemas/EntityMetadataExternalResponse"
+          },
+          "entity_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GuildScheduledEventEntityTypes"
+              }
+            ],
+            "description": "Type of hosting entity associated with the scheduled event",
+            "enum": [
+              3
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the guild the scheduled event belongs to"
+          },
+          "guild_scheduled_event_exceptions": {
+            "items": {
+              "$ref": "#/components/schemas/GuildScheduledEventExceptionResponse"
+            },
+            "type": "array"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the scheduled event"
+          },
+          "image": {
+            "description": "Cover image hash of the scheduled event",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "description": "Name of the scheduled event",
+            "type": "string"
+          },
+          "privacy_level": {
+            "$ref": "#/components/schemas/GuildScheduledEventPrivacyLevels",
+            "description": "Privacy level of the scheduled event"
+          },
+          "recurrence_rule": {
+            "description": "Recurrence rule for the scheduled event, or null if not recurring",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleResponse"
+              }
+            ]
+          },
+          "scheduled_end_time": {
+            "description": "When the scheduled event will end, or null if no end time",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "description": "When the scheduled event will start",
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/GuildScheduledEventStatuses",
+            "description": "Status of the scheduled event"
+          },
+          "user_count": {
+            "description": "Number of users subscribed to the scheduled event",
+            "format": "int32",
+            "type": "integer"
+          },
+          "user_rsvp": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ScheduledEventUserResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "guild_id",
+          "name",
+          "description",
+          "channel_id",
+          "creator_id",
+          "image",
+          "scheduled_start_time",
+          "scheduled_end_time",
+          "status",
+          "entity_type",
+          "entity_id",
+          "recurrence_rule",
+          "privacy_level",
+          "guild_scheduled_event_exceptions",
+          "entity_metadata"
+        ],
         "type": "object"
       },
       "FileComponentForMessageRequest": {
@@ -3051,6 +3454,117 @@
           }
         },
         "type": "object"
+      },
+      "GuildScheduledEventEntityTypes": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "title": "NONE"
+          },
+          {
+            "const": 1,
+            "title": "STAGE_INSTANCE"
+          },
+          {
+            "const": 2,
+            "title": "VOICE"
+          },
+          {
+            "const": 3,
+            "title": "EXTERNAL"
+          }
+        ],
+        "type": "integer"
+      },
+      "GuildScheduledEventExceptionResponse": {
+        "properties": {
+          "event_exception_id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the event exception"
+          },
+          "event_id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the scheduled event this exception belongs to"
+          },
+          "is_canceled": {
+            "description": "Whether this occurrence is canceled",
+            "type": "boolean"
+          },
+          "scheduled_end_time": {
+            "description": "Overridden end time of this occurrence",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "description": "Overridden start time of this occurrence",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "event_id",
+          "event_exception_id",
+          "scheduled_start_time",
+          "scheduled_end_time",
+          "is_canceled"
+        ],
+        "type": "object"
+      },
+      "GuildScheduledEventPrivacyLevels": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 2,
+            "description": "the scheduled event is only accessible to guild members",
+            "title": "GUILD_ONLY"
+          }
+        ],
+        "type": "integer"
+      },
+      "GuildScheduledEventStatuses": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "title": "SCHEDULED"
+          },
+          {
+            "const": 2,
+            "title": "ACTIVE"
+          },
+          {
+            "const": 3,
+            "title": "COMPLETED"
+          },
+          {
+            "const": 4,
+            "title": "CANCELED"
+          }
+        ],
+        "type": "integer"
+      },
+      "GuildScheduledEventUserResponses": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "description": "User is not interested in the event",
+            "title": "UNINTERESTED"
+          },
+          {
+            "const": 1,
+            "description": "User is interested in the event",
+            "title": "INTERESTED"
+          }
+        ],
+        "type": "integer"
       },
       "GuildStickerResponse": {
         "properties": {
@@ -6443,6 +6957,323 @@
         "description": "Ratelimit error object returned by the Discord API",
         "type": "object"
       },
+      "RecurrenceRule": {
+        "properties": {
+          "by_month": {
+            "description": "Set of specific months to recur on",
+            "items": {
+              "$ref": "#/components/schemas/RecurrenceRuleMonths"
+            },
+            "maxItems": 12,
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "by_month_day": {
+            "description": "Set of specific dates within a month to recur on",
+            "items": {
+              "format": "int32",
+              "maximum": 31,
+              "minimum": -1,
+              "type": "integer"
+            },
+            "maxItems": 33,
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "by_n_weekday": {
+            "description": "List of specific days within a specific week to recur on",
+            "items": {
+              "$ref": "#/components/schemas/ByNWeekday"
+            },
+            "maxItems": 7,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "by_weekday": {
+            "description": "Set of specific days within a week for the event to recur on",
+            "items": {
+              "$ref": "#/components/schemas/RecurrenceRuleWeekdays"
+            },
+            "maxItems": 7,
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "by_year_day": {
+            "description": "Set of days within a year to recur on (1-364)",
+            "items": {
+              "format": "int32",
+              "maximum": 365,
+              "minimum": -1,
+              "type": "integer"
+            },
+            "maxItems": 367,
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "count": {
+            "description": "Total number of times the event is allowed to recur",
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "end": {
+            "description": "Ending time of the recurrence interval",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "frequency": {
+            "$ref": "#/components/schemas/RecurrenceRuleFrequencies",
+            "description": "How often the event occurs"
+          },
+          "interval": {
+            "description": "The spacing between events, defined by frequency",
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "start": {
+            "description": "Starting time of the recurrence interval",
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "frequency"
+        ],
+        "type": "object"
+      },
+      "RecurrenceRuleFrequencies": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 3,
+            "title": "DAILY"
+          },
+          {
+            "const": 2,
+            "title": "WEEKLY"
+          },
+          {
+            "const": 1,
+            "title": "MONTHLY"
+          },
+          {
+            "const": 0,
+            "title": "YEARLY"
+          }
+        ],
+        "type": "integer"
+      },
+      "RecurrenceRuleMonths": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 1,
+            "title": "JANUARY"
+          },
+          {
+            "const": 2,
+            "title": "FEBRUARY"
+          },
+          {
+            "const": 3,
+            "title": "MARCH"
+          },
+          {
+            "const": 4,
+            "title": "APRIL"
+          },
+          {
+            "const": 5,
+            "title": "MAY"
+          },
+          {
+            "const": 6,
+            "title": "JUNE"
+          },
+          {
+            "const": 7,
+            "title": "JULY"
+          },
+          {
+            "const": 8,
+            "title": "AUGUST"
+          },
+          {
+            "const": 9,
+            "title": "SEPTEMBER"
+          },
+          {
+            "const": 10,
+            "title": "OCTOBER"
+          },
+          {
+            "const": 11,
+            "title": "NOVEMBER"
+          },
+          {
+            "const": 12,
+            "title": "DECEMBER"
+          }
+        ],
+        "type": "integer"
+      },
+      "RecurrenceRuleResponse": {
+        "properties": {
+          "by_month": {
+            "description": "Set of specific months to recur on",
+            "items": {
+              "$ref": "#/components/schemas/RecurrenceRuleMonths"
+            },
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "by_month_day": {
+            "description": "Set of specific dates within a month to recur on",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "by_n_weekday": {
+            "description": "List of specific days within a specific week to recur on",
+            "items": {
+              "$ref": "#/components/schemas/ByNWeekdayResponse"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "by_weekday": {
+            "description": "Set of specific days within a week for the event to recur on",
+            "items": {
+              "$ref": "#/components/schemas/RecurrenceRuleWeekdays"
+            },
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "by_year_day": {
+            "description": "Set of days within a year to recur on (1-364)",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "type": [
+              "array",
+              "null"
+            ],
+            "uniqueItems": true
+          },
+          "count": {
+            "description": "Total number of times the event is allowed to recur",
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "end": {
+            "description": "Ending time of the recurrence interval",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "frequency": {
+            "$ref": "#/components/schemas/RecurrenceRuleFrequencies",
+            "description": "How often the event occurs"
+          },
+          "interval": {
+            "description": "The spacing between events, defined by frequency",
+            "format": "int32",
+            "type": "integer"
+          },
+          "start": {
+            "description": "Starting time of the recurrence interval",
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "frequency",
+          "interval",
+          "by_weekday",
+          "by_n_weekday",
+          "by_month",
+          "by_month_day"
+        ],
+        "type": "object"
+      },
+      "RecurrenceRuleWeekdays": {
+        "format": "int32",
+        "oneOf": [
+          {
+            "const": 0,
+            "title": "MONDAY"
+          },
+          {
+            "const": 1,
+            "title": "TUESDAY"
+          },
+          {
+            "const": 2,
+            "title": "WEDNESDAY"
+          },
+          {
+            "const": 3,
+            "title": "THURSDAY"
+          },
+          {
+            "const": 4,
+            "title": "FRIDAY"
+          },
+          {
+            "const": 5,
+            "title": "SATURDAY"
+          },
+          {
+            "const": 6,
+            "title": "SUNDAY"
+          }
+        ],
+        "type": "integer"
+      },
       "ResolvedObjectsResponse": {
         "properties": {
           "channels": {
@@ -7042,6 +7873,47 @@
         ],
         "type": "object"
       },
+      "ScheduledEventUserResponse": {
+        "properties": {
+          "guild_scheduled_event_exception_id": {
+            "description": "ID of the scheduled event exception",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "guild_scheduled_event_id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the scheduled event"
+          },
+          "member": {
+            "$ref": "#/components/schemas/GuildMemberResponse",
+            "description": "Guild member object for the RSVP user"
+          },
+          "response": {
+            "$ref": "#/components/schemas/GuildScheduledEventUserResponses",
+            "description": "User's RSVP status for the event"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse",
+            "description": "User object for the RSVP user"
+          },
+          "user_id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the user"
+          }
+        },
+        "required": [
+          "guild_scheduled_event_id",
+          "user_id",
+          "response"
+        ],
+        "type": "object"
+      },
       "SectionComponentForMessageRequest": {
         "properties": {
           "accessory": {
@@ -7231,6 +8103,351 @@
         "format": "snowflake",
         "pattern": "^(0|[1-9][0-9]*)$",
         "type": "string"
+      },
+      "StageScheduledEventCreateRequest": {
+        "properties": {
+          "channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entity_metadata": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/EntityMetadataStageInstance"
+              }
+            ]
+          },
+          "entity_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GuildScheduledEventEntityTypes"
+              }
+            ],
+            "enum": [
+              1
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "image": {
+            "contentEncoding": "base64",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "privacy_level": {
+            "$ref": "#/components/schemas/GuildScheduledEventPrivacyLevels"
+          },
+          "recurrence_rule": {
+            "description": "Recurrence rule for the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RecurrenceRule"
+              }
+            ]
+          },
+          "scheduled_end_time": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "scheduled_start_time",
+          "privacy_level",
+          "entity_type"
+        ],
+        "type": "object"
+      },
+      "StageScheduledEventPatchRequestPartial": {
+        "properties": {
+          "channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entity_metadata": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/EntityMetadataStageInstance"
+              }
+            ]
+          },
+          "entity_type": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GuildScheduledEventEntityTypes"
+                  }
+                ],
+                "enum": [
+                  1
+                ],
+                "format": "int32",
+                "type": "integer"
+              }
+            ]
+          },
+          "image": {
+            "contentEncoding": "base64",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "privacy_level": {
+            "$ref": "#/components/schemas/GuildScheduledEventPrivacyLevels"
+          },
+          "recurrence_rule": {
+            "description": "Recurrence rule for the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RecurrenceRule"
+              }
+            ]
+          },
+          "scheduled_end_time": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/GuildScheduledEventStatuses"
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "StageScheduledEventResponse": {
+        "properties": {
+          "channel_id": {
+            "description": "Channel ID in which the scheduled event will be hosted, or null if entity type is EXTERNAL",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "creator": {
+            "$ref": "#/components/schemas/UserResponse",
+            "description": "User that created the scheduled event"
+          },
+          "creator_id": {
+            "description": "ID of the user that created the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "description": {
+            "description": "Description of the scheduled event",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entity_id": {
+            "description": "ID of the hosting entity associated with the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "entity_metadata": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/EntityMetadataStageInstanceResponse"
+              }
+            ]
+          },
+          "entity_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GuildScheduledEventEntityTypes"
+              }
+            ],
+            "description": "Type of hosting entity associated with the scheduled event",
+            "enum": [
+              1
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the guild the scheduled event belongs to"
+          },
+          "guild_scheduled_event_exceptions": {
+            "items": {
+              "$ref": "#/components/schemas/GuildScheduledEventExceptionResponse"
+            },
+            "type": "array"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the scheduled event"
+          },
+          "image": {
+            "description": "Cover image hash of the scheduled event",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "description": "Name of the scheduled event",
+            "type": "string"
+          },
+          "privacy_level": {
+            "$ref": "#/components/schemas/GuildScheduledEventPrivacyLevels",
+            "description": "Privacy level of the scheduled event"
+          },
+          "recurrence_rule": {
+            "description": "Recurrence rule for the scheduled event, or null if not recurring",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleResponse"
+              }
+            ]
+          },
+          "scheduled_end_time": {
+            "description": "When the scheduled event will end, or null if no end time",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "description": "When the scheduled event will start",
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/GuildScheduledEventStatuses",
+            "description": "Status of the scheduled event"
+          },
+          "user_count": {
+            "description": "Number of users subscribed to the scheduled event",
+            "format": "int32",
+            "type": "integer"
+          },
+          "user_rsvp": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ScheduledEventUserResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "guild_id",
+          "name",
+          "description",
+          "channel_id",
+          "creator_id",
+          "image",
+          "scheduled_start_time",
+          "scheduled_end_time",
+          "status",
+          "entity_type",
+          "entity_id",
+          "recurrence_rule",
+          "privacy_level",
+          "guild_scheduled_event_exceptions",
+          "entity_metadata"
+        ],
+        "type": "object"
       },
       "StandardStickerResponse": {
         "properties": {
@@ -8758,6 +9975,351 @@
         ],
         "type": "integer"
       },
+      "VoiceScheduledEventCreateRequest": {
+        "properties": {
+          "channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entity_metadata": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/EntityMetadataVoice"
+              }
+            ]
+          },
+          "entity_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GuildScheduledEventEntityTypes"
+              }
+            ],
+            "enum": [
+              2
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "image": {
+            "contentEncoding": "base64",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "privacy_level": {
+            "$ref": "#/components/schemas/GuildScheduledEventPrivacyLevels"
+          },
+          "recurrence_rule": {
+            "description": "Recurrence rule for the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RecurrenceRule"
+              }
+            ]
+          },
+          "scheduled_end_time": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "scheduled_start_time",
+          "privacy_level",
+          "entity_type"
+        ],
+        "type": "object"
+      },
+      "VoiceScheduledEventPatchRequestPartial": {
+        "properties": {
+          "channel_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entity_metadata": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/EntityMetadataVoice"
+              }
+            ]
+          },
+          "entity_type": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GuildScheduledEventEntityTypes"
+                  }
+                ],
+                "enum": [
+                  2
+                ],
+                "format": "int32",
+                "type": "integer"
+              }
+            ]
+          },
+          "image": {
+            "contentEncoding": "base64",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "privacy_level": {
+            "$ref": "#/components/schemas/GuildScheduledEventPrivacyLevels"
+          },
+          "recurrence_rule": {
+            "description": "Recurrence rule for the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RecurrenceRule"
+              }
+            ]
+          },
+          "scheduled_end_time": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/GuildScheduledEventStatuses"
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "VoiceScheduledEventResponse": {
+        "properties": {
+          "channel_id": {
+            "description": "Channel ID in which the scheduled event will be hosted, or null if entity type is EXTERNAL",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "creator": {
+            "$ref": "#/components/schemas/UserResponse",
+            "description": "User that created the scheduled event"
+          },
+          "creator_id": {
+            "description": "ID of the user that created the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "description": {
+            "description": "Description of the scheduled event",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entity_id": {
+            "description": "ID of the hosting entity associated with the scheduled event",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SnowflakeType"
+              }
+            ]
+          },
+          "entity_metadata": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/EntityMetadataVoiceResponse"
+              }
+            ]
+          },
+          "entity_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GuildScheduledEventEntityTypes"
+              }
+            ],
+            "description": "Type of hosting entity associated with the scheduled event",
+            "enum": [
+              2
+            ],
+            "format": "int32",
+            "type": "integer"
+          },
+          "guild_id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the guild the scheduled event belongs to"
+          },
+          "guild_scheduled_event_exceptions": {
+            "items": {
+              "$ref": "#/components/schemas/GuildScheduledEventExceptionResponse"
+            },
+            "type": "array"
+          },
+          "id": {
+            "$ref": "#/components/schemas/SnowflakeType",
+            "description": "ID of the scheduled event"
+          },
+          "image": {
+            "description": "Cover image hash of the scheduled event",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "description": "Name of the scheduled event",
+            "type": "string"
+          },
+          "privacy_level": {
+            "$ref": "#/components/schemas/GuildScheduledEventPrivacyLevels",
+            "description": "Privacy level of the scheduled event"
+          },
+          "recurrence_rule": {
+            "description": "Recurrence rule for the scheduled event, or null if not recurring",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RecurrenceRuleResponse"
+              }
+            ]
+          },
+          "scheduled_end_time": {
+            "description": "When the scheduled event will end, or null if no end time",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduled_start_time": {
+            "description": "When the scheduled event will start",
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/GuildScheduledEventStatuses",
+            "description": "Status of the scheduled event"
+          },
+          "user_count": {
+            "description": "Number of users subscribed to the scheduled event",
+            "format": "int32",
+            "type": "integer"
+          },
+          "user_rsvp": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ScheduledEventUserResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "guild_id",
+          "name",
+          "description",
+          "channel_id",
+          "creator_id",
+          "image",
+          "scheduled_start_time",
+          "scheduled_end_time",
+          "status",
+          "entity_type",
+          "entity_id",
+          "recurrence_rule",
+          "privacy_level",
+          "guild_scheduled_event_exceptions",
+          "entity_metadata"
+        ],
+        "type": "object"
+      },
       "WidgetActivity": {
         "properties": {
           "name": {
@@ -9997,6 +11559,295 @@
           }
         }
       ]
+    },
+    "/guilds/{guild_id}/scheduled-events": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "guild_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "create_guild_scheduled_event",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ExternalScheduledEventCreateRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/StageScheduledEventCreateRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VoiceScheduledEventCreateRequest"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ExternalScheduledEventResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StageScheduledEventResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/VoiceScheduledEventResponse"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "200 response for create_guild_scheduled_event",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      }
+    },
+    "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}": {
+      "delete": {
+        "operationId": "delete_guild_scheduled_event",
+        "responses": {
+          "204": {
+            "description": "204 response for delete_guild_scheduled_event",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "get": {
+        "operationId": "get_guild_scheduled_event",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "with_user_count",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ExternalScheduledEventResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StageScheduledEventResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/VoiceScheduledEventResponse"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "200 response for get_guild_scheduled_event",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "guild_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        {
+          "in": "path",
+          "name": "guild_scheduled_event_id",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        }
+      ],
+      "patch": {
+        "operationId": "update_guild_scheduled_event",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/ExternalScheduledEventPatchRequestPartial"
+                  },
+                  {
+                    "$ref": "#/components/schemas/StageScheduledEventPatchRequestPartial"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VoiceScheduledEventPatchRequestPartial"
+                  }
+                ],
+                "x-discord-union": "oneOf"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ExternalScheduledEventResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/StageScheduledEventResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/VoiceScheduledEventResponse"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "200 response for update_guild_scheduled_event",
+            "headers": {
+              "X-RateLimit-Bucket": {
+                "$ref": "#/components/headers/X-RateLimit-Bucket"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Reset-After": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-After"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ClientRatelimitedResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "BotToken": []
+          }
+        ],
+        "tags": [
+          "Discord"
+        ]
+      }
     },
     "/guilds/{guild_id}/widget.json": {
       "get": {

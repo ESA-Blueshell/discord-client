@@ -211,6 +211,28 @@ export type ButtonComponentResponse = {
 
 export type ButtonStyleTypes = 1 | 2 | 3 | 4 | 5 | 6;
 
+export type ByNWeekday = {
+    /**
+     * The day within the week to reoccur on
+     */
+    day: RecurrenceRuleWeekdays;
+    /**
+     * The week to reoccur on (1-5, where 5 represents the last week)
+     */
+    n: number;
+};
+
+export type ByNWeekdayResponse = {
+    /**
+     * The day within the week to reoccur on
+     */
+    day: RecurrenceRuleWeekdays;
+    /**
+     * The week to reoccur on (1-5, where 5 represents the last week)
+     */
+    n: number;
+};
+
 export type ChannelPermissionOverwriteResponse = {
     allow: string;
     deny: string;
@@ -314,6 +336,33 @@ export type EmojiResponse = {
     user?: UserResponse;
 };
 
+export type EntityMetadataExternal = {
+    location: string;
+};
+
+export type EntityMetadataExternalResponse = {
+    /**
+     * Location of the external event
+     */
+    location: string;
+};
+
+export type EntityMetadataStageInstance = {
+    [key: string]: unknown;
+};
+
+export type EntityMetadataStageInstanceResponse = {
+    [key: string]: unknown;
+};
+
+export type EntityMetadataVoice = {
+    [key: string]: unknown;
+};
+
+export type EntityMetadataVoiceResponse = {
+    [key: string]: unknown;
+};
+
 /**
  * A single error, either for an API response or a specific field.
  */
@@ -337,6 +386,106 @@ export type ErrorDetails = {
  */
 export type ErrorResponse = Error & {
     errors?: ErrorDetails;
+};
+
+export type ExternalScheduledEventCreateRequest = {
+    channel_id?: SnowflakeType;
+    description?: string | null;
+    entity_metadata: EntityMetadataExternal;
+    entity_type: GuildScheduledEventEntityTypes;
+    image?: string | null;
+    name: string;
+    privacy_level: GuildScheduledEventPrivacyLevels;
+    /**
+     * Recurrence rule for the scheduled event
+     */
+    recurrence_rule?: RecurrenceRule;
+    scheduled_end_time?: string | null;
+    scheduled_start_time: string;
+};
+
+export type ExternalScheduledEventPatchRequestPartial = {
+    channel_id?: SnowflakeType;
+    description?: string | null;
+    entity_metadata?: EntityMetadataExternal;
+    entity_type?: GuildScheduledEventEntityTypes;
+    image?: string | null;
+    name?: string;
+    privacy_level?: GuildScheduledEventPrivacyLevels;
+    /**
+     * Recurrence rule for the scheduled event
+     */
+    recurrence_rule?: RecurrenceRule;
+    scheduled_end_time?: string | null;
+    scheduled_start_time?: string;
+    status?: GuildScheduledEventStatuses;
+};
+
+export type ExternalScheduledEventResponse = {
+    /**
+     * Channel ID in which the scheduled event will be hosted, or null if entity type is EXTERNAL
+     */
+    channel_id?: SnowflakeType;
+    /**
+     * User that created the scheduled event
+     */
+    creator?: UserResponse;
+    /**
+     * ID of the user that created the scheduled event
+     */
+    creator_id?: SnowflakeType;
+    /**
+     * Description of the scheduled event
+     */
+    description: string | null;
+    /**
+     * ID of the hosting entity associated with the scheduled event
+     */
+    entity_id?: SnowflakeType;
+    entity_metadata: EntityMetadataExternalResponse;
+    entity_type: GuildScheduledEventEntityTypes;
+    /**
+     * ID of the guild the scheduled event belongs to
+     */
+    guild_id: SnowflakeType;
+    guild_scheduled_event_exceptions: Array<GuildScheduledEventExceptionResponse>;
+    /**
+     * ID of the scheduled event
+     */
+    id: SnowflakeType;
+    /**
+     * Cover image hash of the scheduled event
+     */
+    image: string | null;
+    /**
+     * Name of the scheduled event
+     */
+    name: string;
+    /**
+     * Privacy level of the scheduled event
+     */
+    privacy_level: GuildScheduledEventPrivacyLevels;
+    /**
+     * Recurrence rule for the scheduled event, or null if not recurring
+     */
+    recurrence_rule?: RecurrenceRuleResponse;
+    /**
+     * When the scheduled event will end, or null if no end time
+     */
+    scheduled_end_time: string | null;
+    /**
+     * When the scheduled event will start
+     */
+    scheduled_start_time: string;
+    /**
+     * Status of the scheduled event
+     */
+    status: GuildScheduledEventStatuses;
+    /**
+     * Number of users subscribed to the scheduled event
+     */
+    user_count?: number;
+    user_rsvp?: ScheduledEventUserResponse;
 };
 
 export type FileComponentForMessageRequest = {
@@ -506,6 +655,42 @@ export type GuildRoleTagsResponse = {
     premium_subscriber?: boolean;
     subscription_listing_id?: SnowflakeType;
 };
+
+export type GuildScheduledEventEntityTypes = 0 | 1 | 2 | 3;
+
+export type GuildScheduledEventExceptionResponse = {
+    /**
+     * ID of the event exception
+     */
+    event_exception_id: SnowflakeType;
+    /**
+     * ID of the scheduled event this exception belongs to
+     */
+    event_id: SnowflakeType;
+    /**
+     * Whether this occurrence is canceled
+     */
+    is_canceled: boolean;
+    /**
+     * Overridden end time of this occurrence
+     */
+    scheduled_end_time: string | null;
+    /**
+     * Overridden start time of this occurrence
+     */
+    scheduled_start_time: string | null;
+};
+
+/**
+ * GUILD_ONLY
+ *
+ * the scheduled event is only accessible to guild members
+ */
+export type GuildScheduledEventPrivacyLevels = 2;
+
+export type GuildScheduledEventStatuses = 1 | 2 | 3 | 4;
+
+export type GuildScheduledEventUserResponses = 0 | 1;
 
 export type GuildStickerResponse = {
     available: boolean;
@@ -1190,6 +1375,98 @@ export type RatelimitedResponse = Error & {
     retry_after: number;
 };
 
+export type RecurrenceRule = {
+    /**
+     * Set of specific months to recur on
+     */
+    by_month?: Array<RecurrenceRuleMonths> | null;
+    /**
+     * Set of specific dates within a month to recur on
+     */
+    by_month_day?: Array<number> | null;
+    /**
+     * List of specific days within a specific week to recur on
+     */
+    by_n_weekday?: Array<ByNWeekday> | null;
+    /**
+     * Set of specific days within a week for the event to recur on
+     */
+    by_weekday?: Array<RecurrenceRuleWeekdays> | null;
+    /**
+     * Set of days within a year to recur on (1-364)
+     */
+    by_year_day?: Array<number> | null;
+    /**
+     * Total number of times the event is allowed to recur
+     */
+    count?: number | null;
+    /**
+     * Ending time of the recurrence interval
+     */
+    end?: string | null;
+    /**
+     * How often the event occurs
+     */
+    frequency: RecurrenceRuleFrequencies;
+    /**
+     * The spacing between events, defined by frequency
+     */
+    interval?: number | null;
+    /**
+     * Starting time of the recurrence interval
+     */
+    start: string;
+};
+
+export type RecurrenceRuleFrequencies = 3 | 2 | 1 | 0;
+
+export type RecurrenceRuleMonths = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+export type RecurrenceRuleResponse = {
+    /**
+     * Set of specific months to recur on
+     */
+    by_month: Array<RecurrenceRuleMonths> | null;
+    /**
+     * Set of specific dates within a month to recur on
+     */
+    by_month_day: Array<number> | null;
+    /**
+     * List of specific days within a specific week to recur on
+     */
+    by_n_weekday: Array<ByNWeekdayResponse> | null;
+    /**
+     * Set of specific days within a week for the event to recur on
+     */
+    by_weekday: Array<RecurrenceRuleWeekdays> | null;
+    /**
+     * Set of days within a year to recur on (1-364)
+     */
+    by_year_day?: Array<number> | null;
+    /**
+     * Total number of times the event is allowed to recur
+     */
+    count?: number | null;
+    /**
+     * Ending time of the recurrence interval
+     */
+    end?: string | null;
+    /**
+     * How often the event occurs
+     */
+    frequency: RecurrenceRuleFrequencies;
+    /**
+     * The spacing between events, defined by frequency
+     */
+    interval: number;
+    /**
+     * Starting time of the recurrence interval
+     */
+    start: string;
+};
+
+export type RecurrenceRuleWeekdays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
 export type ResolvedObjectsResponse = {
     channels?: {
         [key: string]: GuildChannelResponse | PrivateChannelResponse | PrivateGroupChannelResponse | ThreadResponse;
@@ -1306,6 +1583,33 @@ export type RoleSelectDefaultValueResponse = {
     type: SnowflakeSelectDefaultValueTypes;
 };
 
+export type ScheduledEventUserResponse = {
+    /**
+     * ID of the scheduled event exception
+     */
+    guild_scheduled_event_exception_id?: SnowflakeType;
+    /**
+     * ID of the scheduled event
+     */
+    guild_scheduled_event_id: SnowflakeType;
+    /**
+     * Guild member object for the RSVP user
+     */
+    member?: GuildMemberResponse;
+    /**
+     * User's RSVP status for the event
+     */
+    response: GuildScheduledEventUserResponses;
+    /**
+     * User object for the RSVP user
+     */
+    user?: UserResponse;
+    /**
+     * ID of the user
+     */
+    user_id: SnowflakeType;
+};
+
 export type SectionComponentForMessageRequest = {
     accessory: ButtonComponentForMessageRequest | ThumbnailComponentForMessageRequest;
     components: Array<TextDisplayComponentForMessageRequest>;
@@ -1337,6 +1641,106 @@ export type SeparatorComponentResponse = {
 export type SnowflakeSelectDefaultValueTypes = 'user' | 'role' | 'channel';
 
 export type SnowflakeType = string;
+
+export type StageScheduledEventCreateRequest = {
+    channel_id?: SnowflakeType;
+    description?: string | null;
+    entity_metadata?: EntityMetadataStageInstance;
+    entity_type: GuildScheduledEventEntityTypes;
+    image?: string | null;
+    name: string;
+    privacy_level: GuildScheduledEventPrivacyLevels;
+    /**
+     * Recurrence rule for the scheduled event
+     */
+    recurrence_rule?: RecurrenceRule;
+    scheduled_end_time?: string | null;
+    scheduled_start_time: string;
+};
+
+export type StageScheduledEventPatchRequestPartial = {
+    channel_id?: SnowflakeType;
+    description?: string | null;
+    entity_metadata?: EntityMetadataStageInstance;
+    entity_type?: GuildScheduledEventEntityTypes;
+    image?: string | null;
+    name?: string;
+    privacy_level?: GuildScheduledEventPrivacyLevels;
+    /**
+     * Recurrence rule for the scheduled event
+     */
+    recurrence_rule?: RecurrenceRule;
+    scheduled_end_time?: string | null;
+    scheduled_start_time?: string;
+    status?: GuildScheduledEventStatuses;
+};
+
+export type StageScheduledEventResponse = {
+    /**
+     * Channel ID in which the scheduled event will be hosted, or null if entity type is EXTERNAL
+     */
+    channel_id?: SnowflakeType;
+    /**
+     * User that created the scheduled event
+     */
+    creator?: UserResponse;
+    /**
+     * ID of the user that created the scheduled event
+     */
+    creator_id?: SnowflakeType;
+    /**
+     * Description of the scheduled event
+     */
+    description: string | null;
+    /**
+     * ID of the hosting entity associated with the scheduled event
+     */
+    entity_id?: SnowflakeType;
+    entity_metadata?: EntityMetadataStageInstanceResponse;
+    entity_type: GuildScheduledEventEntityTypes;
+    /**
+     * ID of the guild the scheduled event belongs to
+     */
+    guild_id: SnowflakeType;
+    guild_scheduled_event_exceptions: Array<GuildScheduledEventExceptionResponse>;
+    /**
+     * ID of the scheduled event
+     */
+    id: SnowflakeType;
+    /**
+     * Cover image hash of the scheduled event
+     */
+    image: string | null;
+    /**
+     * Name of the scheduled event
+     */
+    name: string;
+    /**
+     * Privacy level of the scheduled event
+     */
+    privacy_level: GuildScheduledEventPrivacyLevels;
+    /**
+     * Recurrence rule for the scheduled event, or null if not recurring
+     */
+    recurrence_rule?: RecurrenceRuleResponse;
+    /**
+     * When the scheduled event will end, or null if no end time
+     */
+    scheduled_end_time: string | null;
+    /**
+     * When the scheduled event will start
+     */
+    scheduled_start_time: string;
+    /**
+     * Status of the scheduled event
+     */
+    status: GuildScheduledEventStatuses;
+    /**
+     * Number of users subscribed to the scheduled event
+     */
+    user_count?: number;
+    user_rsvp?: ScheduledEventUserResponse;
+};
 
 export type StandardStickerResponse = {
     description: string | null;
@@ -1736,6 +2140,106 @@ export type UserSelectDefaultValueResponse = {
 export type VerificationLevels = 0 | 1 | 2 | 3 | 4;
 
 export type VideoQualityModes = 1 | 2;
+
+export type VoiceScheduledEventCreateRequest = {
+    channel_id?: SnowflakeType;
+    description?: string | null;
+    entity_metadata?: EntityMetadataVoice;
+    entity_type: GuildScheduledEventEntityTypes;
+    image?: string | null;
+    name: string;
+    privacy_level: GuildScheduledEventPrivacyLevels;
+    /**
+     * Recurrence rule for the scheduled event
+     */
+    recurrence_rule?: RecurrenceRule;
+    scheduled_end_time?: string | null;
+    scheduled_start_time: string;
+};
+
+export type VoiceScheduledEventPatchRequestPartial = {
+    channel_id?: SnowflakeType;
+    description?: string | null;
+    entity_metadata?: EntityMetadataVoice;
+    entity_type?: GuildScheduledEventEntityTypes;
+    image?: string | null;
+    name?: string;
+    privacy_level?: GuildScheduledEventPrivacyLevels;
+    /**
+     * Recurrence rule for the scheduled event
+     */
+    recurrence_rule?: RecurrenceRule;
+    scheduled_end_time?: string | null;
+    scheduled_start_time?: string;
+    status?: GuildScheduledEventStatuses;
+};
+
+export type VoiceScheduledEventResponse = {
+    /**
+     * Channel ID in which the scheduled event will be hosted, or null if entity type is EXTERNAL
+     */
+    channel_id?: SnowflakeType;
+    /**
+     * User that created the scheduled event
+     */
+    creator?: UserResponse;
+    /**
+     * ID of the user that created the scheduled event
+     */
+    creator_id?: SnowflakeType;
+    /**
+     * Description of the scheduled event
+     */
+    description: string | null;
+    /**
+     * ID of the hosting entity associated with the scheduled event
+     */
+    entity_id?: SnowflakeType;
+    entity_metadata?: EntityMetadataVoiceResponse;
+    entity_type: GuildScheduledEventEntityTypes;
+    /**
+     * ID of the guild the scheduled event belongs to
+     */
+    guild_id: SnowflakeType;
+    guild_scheduled_event_exceptions: Array<GuildScheduledEventExceptionResponse>;
+    /**
+     * ID of the scheduled event
+     */
+    id: SnowflakeType;
+    /**
+     * Cover image hash of the scheduled event
+     */
+    image: string | null;
+    /**
+     * Name of the scheduled event
+     */
+    name: string;
+    /**
+     * Privacy level of the scheduled event
+     */
+    privacy_level: GuildScheduledEventPrivacyLevels;
+    /**
+     * Recurrence rule for the scheduled event, or null if not recurring
+     */
+    recurrence_rule?: RecurrenceRuleResponse;
+    /**
+     * When the scheduled event will end, or null if no end time
+     */
+    scheduled_end_time: string | null;
+    /**
+     * When the scheduled event will start
+     */
+    scheduled_start_time: string;
+    /**
+     * Status of the scheduled event
+     */
+    status: GuildScheduledEventStatuses;
+    /**
+     * Number of users subscribed to the scheduled event
+     */
+    user_count?: number;
+    user_rsvp?: ScheduledEventUserResponse;
+};
 
 export type WidgetActivity = {
     name: string;
@@ -2146,6 +2650,135 @@ export type ListGuildRolesResponses = {
 };
 
 export type ListGuildRolesResponse = ListGuildRolesResponses[keyof ListGuildRolesResponses];
+
+export type CreateGuildScheduledEventData = {
+    body: ExternalScheduledEventCreateRequest | StageScheduledEventCreateRequest | VoiceScheduledEventCreateRequest;
+    path: {
+        guild_id: SnowflakeType;
+    };
+    query?: never;
+    url: '/guilds/{guild_id}/scheduled-events';
+};
+
+export type CreateGuildScheduledEventErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type CreateGuildScheduledEventError = CreateGuildScheduledEventErrors[keyof CreateGuildScheduledEventErrors];
+
+export type CreateGuildScheduledEventResponses = {
+    /**
+     * 200 response for create_guild_scheduled_event
+     */
+    200: ExternalScheduledEventResponse | StageScheduledEventResponse | VoiceScheduledEventResponse;
+};
+
+export type CreateGuildScheduledEventResponse = CreateGuildScheduledEventResponses[keyof CreateGuildScheduledEventResponses];
+
+export type DeleteGuildScheduledEventData = {
+    body?: never;
+    path: {
+        guild_id: SnowflakeType;
+        guild_scheduled_event_id: SnowflakeType;
+    };
+    query?: never;
+    url: '/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}';
+};
+
+export type DeleteGuildScheduledEventErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type DeleteGuildScheduledEventError = DeleteGuildScheduledEventErrors[keyof DeleteGuildScheduledEventErrors];
+
+export type DeleteGuildScheduledEventResponses = {
+    /**
+     * 204 response for delete_guild_scheduled_event
+     */
+    204: void;
+};
+
+export type DeleteGuildScheduledEventResponse = DeleteGuildScheduledEventResponses[keyof DeleteGuildScheduledEventResponses];
+
+export type GetGuildScheduledEventData = {
+    body?: never;
+    path: {
+        guild_id: SnowflakeType;
+        guild_scheduled_event_id: SnowflakeType;
+    };
+    query?: {
+        with_user_count?: boolean;
+    };
+    url: '/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}';
+};
+
+export type GetGuildScheduledEventErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type GetGuildScheduledEventError = GetGuildScheduledEventErrors[keyof GetGuildScheduledEventErrors];
+
+export type GetGuildScheduledEventResponses = {
+    /**
+     * 200 response for get_guild_scheduled_event
+     */
+    200: ExternalScheduledEventResponse | StageScheduledEventResponse | VoiceScheduledEventResponse;
+};
+
+export type GetGuildScheduledEventResponse = GetGuildScheduledEventResponses[keyof GetGuildScheduledEventResponses];
+
+export type UpdateGuildScheduledEventData = {
+    body: ExternalScheduledEventPatchRequestPartial | StageScheduledEventPatchRequestPartial | VoiceScheduledEventPatchRequestPartial;
+    path: {
+        guild_id: SnowflakeType;
+        guild_scheduled_event_id: SnowflakeType;
+    };
+    query?: never;
+    url: '/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}';
+};
+
+export type UpdateGuildScheduledEventErrors = {
+    /**
+     * Client ratelimited response
+     */
+    429: RatelimitedResponse;
+    /**
+     * Client error response
+     */
+    '4XX': ErrorResponse;
+};
+
+export type UpdateGuildScheduledEventError = UpdateGuildScheduledEventErrors[keyof UpdateGuildScheduledEventErrors];
+
+export type UpdateGuildScheduledEventResponses = {
+    /**
+     * 200 response for update_guild_scheduled_event
+     */
+    200: ExternalScheduledEventResponse | StageScheduledEventResponse | VoiceScheduledEventResponse;
+};
+
+export type UpdateGuildScheduledEventResponse = UpdateGuildScheduledEventResponses[keyof UpdateGuildScheduledEventResponses];
 
 export type GetGuildWidgetData = {
     body?: never;

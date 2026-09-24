@@ -8,9 +8,13 @@ import com.github.tomakehurst.wiremock.client.WireMock.get
 import com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.patch
 import com.github.tomakehurst.wiremock.client.WireMock.patchRequestedFor
+import com.github.tomakehurst.wiremock.client.WireMock.post
+import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import net.blueshell.clients.discord.api.DiscordApi
+import net.blueshell.clients.discord.model.CreateGuildScheduledEventRequest
+import net.blueshell.clients.discord.model.GuildScheduledEventEntityTypes
 import net.blueshell.clients.discord.model.UpdateGuildMemberRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -19,6 +23,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.web.client.RestClientResponseException
+import java.time.OffsetDateTime
 
 /**
  * Exercises the generated client against a stubbed Discord.
@@ -103,6 +108,7 @@ class DiscordApiRoundTripTest {
         when (method) {
             "GET" -> server.stubFor(get(urlPathEqualTo(path)).willReturn(response))
             "PATCH" -> server.stubFor(patch(urlPathEqualTo(path)).willReturn(response))
+            "POST" -> server.stubFor(post(urlPathEqualTo(path)).willReturn(response))
             else -> error("Unsupported stub method $method")
         }
     }
@@ -238,6 +244,39 @@ class DiscordApiRoundTripTest {
         )
         assertThat(server.allServeEvents.single().request.bodyAsString)
             .isEqualTo("""{"nick":"Chair"}""")
+    }
+
+    @Test
+    fun `createGuildScheduledEvent POSTs an external event with its place and times`() {
+        stubJson("POST", "/guilds/123/scheduled-events", """{"code":0,"message":"nope"}""", status = 500)
+
+        assertThatThrownBy {
+            api.createGuildScheduledEvent(
+                guildId = "123",
+                createGuildScheduledEventRequest =
+                    CreateGuildScheduledEventRequest(
+                        entityMetadata = mapOf("location" to "Pakhuis"),
+                        entityType = GuildScheduledEventEntityTypes._3,
+                        name = "LAN party",
+                        privacyLevel = 2,
+                        scheduledStartTime = OffsetDateTime.parse("2026-10-10T18:00:00Z"),
+                        scheduledEndTime = OffsetDateTime.parse("2026-10-10T23:00:00Z"),
+                    ),
+            )
+        }.isInstanceOf(RestClientResponseException::class.java)
+
+        server.verify(
+            postRequestedFor(urlPathEqualTo("/guilds/123/scheduled-events"))
+                .withRequestBody(
+                    equalToJson(
+                        """
+                        {"entity_metadata": {"location": "Pakhuis"}, "entity_type": 3, "name": "LAN party",
+                         "privacy_level": 2, "scheduled_start_time": "2026-10-10T18:00:00Z",
+                         "scheduled_end_time": "2026-10-10T23:00:00Z"}
+                        """.trimIndent(),
+                    ),
+                ),
+        )
     }
 
     @Test

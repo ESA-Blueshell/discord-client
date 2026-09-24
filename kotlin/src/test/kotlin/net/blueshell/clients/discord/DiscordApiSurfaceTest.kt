@@ -42,6 +42,10 @@ class DiscordApiSurfaceTest {
             "createMessage",
             "updateMessage",
             "deleteMessage",
+            "createGuildScheduledEvent",
+            "getGuildScheduledEvent",
+            "updateGuildScheduledEvent",
+            "deleteGuildScheduledEvent",
         )
     }
 
