@@ -20,7 +20,7 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 
 export const listMessages = <ThrowOnError extends boolean = false>(options: Options<ListMessagesData, ThrowOnError>): RequestResult<ListMessagesResponses, ListMessagesErrors, ThrowOnError> => (options.client ?? client).get<ListMessagesResponses, ListMessagesErrors, ThrowOnError>({
     responseType: 'json',
-    security: [{ name: 'Authorization', type: 'apiKey' }],
+    security: [{ name: 'Authorization', type: 'apiKey' }, { scheme: 'bearer', type: 'http' }],
     url: '/channels/{channel_id}/messages',
     ...options
 });
