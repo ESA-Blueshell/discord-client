@@ -1239,6 +1239,9 @@
           "activity": {
             "$ref": "#/components/schemas/MessageActivityResponse"
           },
+          "actor": {
+            "$ref": "#/components/schemas/UserResponse"
+          },
           "application": {
             "$ref": "#/components/schemas/BasicApplicationResponseWithBot"
           },
@@ -3984,7 +3987,7 @@
           },
           "items": {
             "items": {
-              "$ref": "#/components/schemas/MediaGalleryItemRequest"
+              "$ref": "#/components/schemas/MediaGalleryItemForMessageRequest"
             },
             "maxItems": 10,
             "minItems": 1,
@@ -4041,7 +4044,7 @@
         ],
         "type": "object"
       },
-      "MediaGalleryItemRequest": {
+      "MediaGalleryItemForMessageRequest": {
         "properties": {
           "description": {
             "maxLength": 1024,
@@ -5302,6 +5305,9 @@
         "properties": {
           "activity": {
             "$ref": "#/components/schemas/MessageActivityResponse"
+          },
+          "actor": {
+            "$ref": "#/components/schemas/UserResponse"
           },
           "application": {
             "$ref": "#/components/schemas/BasicApplicationResponseWithBot"
