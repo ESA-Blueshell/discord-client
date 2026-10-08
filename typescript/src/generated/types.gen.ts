@@ -147,6 +147,7 @@ export type BasicGuildMemberResponse = {
 
 export type BasicMessageResponse = {
     activity?: MessageActivityResponse;
+    actor?: UserResponse;
     application?: BasicApplicationResponseWithBot;
     application_id?: SnowflakeType;
     attachments: Array<MessageAttachmentResponse>;
@@ -763,7 +764,7 @@ export type InteractionTypes = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type MediaGalleryComponentForMessageRequest = {
     id?: number | null;
-    items: Array<MediaGalleryItemRequest>;
+    items: Array<MediaGalleryItemForMessageRequest>;
     type: MessageComponentTypes;
 };
 
@@ -773,7 +774,7 @@ export type MediaGalleryComponentResponse = {
     type: MessageComponentTypes;
 };
 
-export type MediaGalleryItemRequest = {
+export type MediaGalleryItemForMessageRequest = {
     description?: string | null;
     media: UnfurledMediaRequest;
     spoiler?: boolean | null;
@@ -1027,6 +1028,7 @@ export type MessageReferenceType = 0;
 
 export type MessageResponse = {
     activity?: MessageActivityResponse;
+    actor?: UserResponse;
     application?: BasicApplicationResponseWithBot;
     application_id?: SnowflakeType;
     attachments: Array<MessageAttachmentResponse>;
