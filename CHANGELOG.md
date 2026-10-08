@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.5.0...v1.6.0) (2026-10-08)
+
+
+### Features
+
+* **spec:** regenerate Discord client for new upstream spec surface ([#63](https://github.com/ESA-Blueshell/discord-client/issues/63)) ([82ad82a](https://github.com/ESA-Blueshell/discord-client/commit/82ad82a64a49bf06bb228f9e54bfbc7f9a71e629))
+
 ## [1.5.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.4.0...v1.5.0) (2026-10-03)
 
 
