@@ -793,6 +793,9 @@
           "bot_require_code_grant": {
             "type": "boolean"
           },
+          "conjure_project_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
           "cover_image": {
             "type": "string"
           },
@@ -6589,6 +6592,9 @@
           },
           "bot_require_code_grant": {
             "type": "boolean"
+          },
+          "conjure_project_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
           },
           "cover_image": {
             "type": "string"

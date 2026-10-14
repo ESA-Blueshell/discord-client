@@ -53,6 +53,7 @@ export type ApplicationResponse = {
     bot?: UserResponse;
     bot_public?: boolean;
     bot_require_code_grant?: boolean;
+    conjure_project_id?: SnowflakeType;
     cover_image?: string;
     custom_install_url?: string;
     description: string;
@@ -1295,6 +1296,7 @@ export type PrivateApplicationResponse = {
     bot?: UserResponse;
     bot_public?: boolean;
     bot_require_code_grant?: boolean;
+    conjure_project_id?: SnowflakeType;
     cover_image?: string;
     custom_install_url?: string;
     description: string;
