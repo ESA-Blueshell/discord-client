@@ -900,6 +900,13 @@ export type MessageEditRequestPartial = {
     sticker_ids?: Array<SnowflakeType> | null;
 };
 
+export type MessageEmbedAudioResponse = {
+    content_type?: string;
+    description?: string;
+    proxy_url?: string;
+    url?: string;
+};
+
 export type MessageEmbedAuthorResponse = {
     icon_url?: string;
     name: string;
@@ -937,6 +944,7 @@ export type MessageEmbedProviderResponse = {
 };
 
 export type MessageEmbedResponse = {
+    audio?: MessageEmbedAudioResponse;
     author?: MessageEmbedAuthorResponse;
     color?: number;
     components?: Array<ContainerComponentResponse>;
@@ -1487,6 +1495,7 @@ export type ResolvedObjectsResponse = {
 };
 
 export type RichEmbed = {
+    audio?: RichEmbedAudio;
     author?: RichEmbedAuthor;
     color?: number | null;
     description?: string | null;
@@ -1500,6 +1509,11 @@ export type RichEmbed = {
     type?: string | null;
     url?: string | null;
     video?: RichEmbedVideo;
+};
+
+export type RichEmbedAudio = {
+    description?: string | null;
+    url?: string | null;
 };
 
 export type RichEmbedAuthor = {
