@@ -4881,6 +4881,24 @@
         },
         "type": "object"
       },
+      "MessageEmbedAudioResponse": {
+        "properties": {
+          "content_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "proxy_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "MessageEmbedAuthorResponse": {
         "properties": {
           "icon_url": {
@@ -4989,6 +5007,9 @@
       },
       "MessageEmbedResponse": {
         "properties": {
+          "audio": {
+            "$ref": "#/components/schemas/MessageEmbedAudioResponse"
+          },
           "author": {
             "$ref": "#/components/schemas/MessageEmbedAuthorResponse"
           },
@@ -7342,6 +7363,16 @@
       },
       "RichEmbed": {
         "properties": {
+          "audio": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RichEmbedAudio"
+              }
+            ]
+          },
           "author": {
             "oneOf": [
               {
@@ -7454,6 +7485,26 @@
               {
                 "$ref": "#/components/schemas/RichEmbedVideo"
               }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "RichEmbedAudio": {
+        "properties": {
+          "description": {
+            "maxLength": 4096,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": [
+              "string",
+              "null"
             ]
           }
         },
