@@ -117,6 +117,10 @@ val generateClient = tasks.register<GenerateTask>("generateClient") {
         ),
     )
 
+    // Discord adds enum values without a new API version; each enum gets a
+    // fallback case so a value added later reads instead of failing.
+    additionalProperties.set(mapOf("enumUnknownDefaultCase" to "true"))
+
     generateModelTests.set(false)
     generateApiTests.set(false)
     generateModelDocumentation.set(true)

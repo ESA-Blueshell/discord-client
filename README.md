@@ -112,6 +112,21 @@ Jackson 3 left them; their version comes from the Jackson 3 BOM.
 A consumer on Jackson 3 can therefore share one mapper stack with this client
 instead of carrying two Jackson majors on the classpath.
 
+### Enum values Discord adds later
+
+Discord adds values to its enums (a server feature, an activity type) without a
+new API version. Every generated Kotlin enum therefore has a fallback case,
+`UNKNOWN_DEFAULT_OPEN_API`, and reads a value it does not know as that case
+instead of failing the whole read. A value inside a set or list reads the same
+way, so the rest of the collection is kept.
+
+The fallback sits in each enum's `@JsonCreator`, so it works with any mapper,
+the Kotlin module's strict null checks included. A consumer enables no reader
+setting for it. The case is also marked `@JsonEnumDefaultValue`, so a mapper
+that enables `EnumFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE` reads
+the same. Do not enable `READ_UNKNOWN_ENUM_VALUES_AS_NULL` for this client: a
+null in a non-null collection fails under the Kotlin module's strict null checks.
+
 ## How it stays current
 
 A nightly workflow fetches the upstream spec, reduces it to the operations
