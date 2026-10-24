@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.8.0...v1.9.0) (2026-10-24)
+
+
+### Features
+
+* **kotlin:** every generated enum reads a value Discord adds later as an unknown case ([#74](https://github.com/ESA-Blueshell/discord-client/issues/74)) ([01b4cbe](https://github.com/ESA-Blueshell/discord-client/commit/01b4cbe5ac3ee6b50e793216e3d33f1aa7a23a13))
+
 ## [1.8.0](https://github.com/ESA-Blueshell/discord-client/compare/v1.7.0...v1.8.0) (2026-10-21)
 
 
