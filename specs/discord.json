@@ -2129,6 +2129,18 @@
         ],
         "type": "object"
       },
+      "ContentScanMetadataResponse": {
+        "properties": {
+          "flags": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "flags"
+        ],
+        "type": "object"
+      },
       "CustomClientThemeResponse": {
         "properties": {
           "base_mix": {
@@ -9412,11 +9424,18 @@
           "attachment_id": {
             "$ref": "#/components/schemas/SnowflakeType"
           },
+          "content_scan_metadata": {
+            "$ref": "#/components/schemas/ContentScanMetadataResponse"
+          },
           "content_type": {
             "type": [
               "string",
               "null"
             ]
+          },
+          "flags": {
+            "format": "int32",
+            "type": "integer"
           },
           "height": {
             "format": "int32",
@@ -9427,6 +9446,19 @@
           },
           "id": {
             "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "placeholder": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "placeholder_version": {
+            "format": "int32",
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "proxy_url": {
             "type": "string"
@@ -9444,8 +9476,7 @@
         },
         "required": [
           "id",
-          "url",
-          "proxy_url"
+          "url"
         ],
         "type": "object"
       },
