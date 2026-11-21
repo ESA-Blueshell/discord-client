@@ -308,6 +308,10 @@ export type ContainerComponentResponse = {
     type: MessageComponentTypes;
 };
 
+export type ContentScanMetadataResponse = {
+    flags: number;
+};
+
 export type CustomClientThemeResponse = {
     base_mix: number;
     base_theme: MessageShareCustomUserThemeBaseTheme;
@@ -1936,10 +1940,14 @@ export type UnfurledMediaRequestWithAttachmentReferenceRequired = {
 
 export type UnfurledMediaResponse = {
     attachment_id?: SnowflakeType;
+    content_scan_metadata?: ContentScanMetadataResponse;
     content_type?: string | null;
+    flags?: number;
     height?: number | null;
     id: SnowflakeType;
-    proxy_url: string;
+    placeholder?: string | null;
+    placeholder_version?: number | null;
+    proxy_url?: string;
     url: string;
     width?: number | null;
 };
